@@ -1,7 +1,10 @@
 {
     "name": "0725-frontend",
-    "version": "0.1.0",
+    "version": "0.0.1",
+    "description": "",
+    "author": "yulmwu",
     "private": true,
+    "license": "MIT",
     "scripts": {
         "dev": "next dev --turbopack --port 4000",
         "build": "next build",
