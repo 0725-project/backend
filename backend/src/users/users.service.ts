@@ -14,6 +14,10 @@ export class UsersService {
         return this.repo.save(user)
     }
 
+    findAll() {
+        return this.repo.find()
+    }
+
     findByUsername(username: string) {
         return this.repo.findOne({ where: { username } })
     }

@@ -1,18 +1,26 @@
 import { Controller, Get, Body, Param, Delete, Put, Request, UseGuards, Post } from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard'
-import { ApiBearerAuth } from '@nestjs/swagger/dist/decorators/api-bearer.decorator'
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { CreatePostDto } from './dto/create-post.dto'
+import { UpdatePostDto } from './dto/update-post.dto'
 
+@ApiTags('Posts')
 @Controller('posts')
 export class PostsController {
     constructor(private postsService: PostsService) {}
 
     @Get()
+    @ApiOperation({ summary: 'Get all posts' })
+    @ApiResponse({ status: 200, description: 'Return all posts.' })
     findAll() {
         return this.postsService.findAll()
     }
 
     @Get(':id')
+    @ApiOperation({ summary: 'Get a single post by id' })
+    @ApiResponse({ status: 200, description: 'Return a single post.' })
+    @ApiResponse({ status: 404, description: 'Post not found.' })
     findOne(@Param('id') id: string) {
         return this.postsService.findOne(+id)
     }
@@ -20,18 +28,31 @@ export class PostsController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @Post()
-    create(@Body() body: { title: string; content: string }, @Request() req) {
-        return this.postsService.create(body.title, body.content, req.user.userId)
+    @ApiOperation({ summary: 'Create a new post' })
+    @ApiResponse({ status: 201, description: 'The post has been successfully created.' })
+    @ApiResponse({ status: 401, description: 'Unauthorized.' })
+    create(@Body() createPostDto: CreatePostDto, @Request() req) {
+        return this.postsService.create(createPostDto.title, createPostDto.content, req.user.userId)
     }
 
     @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     @Put(':id')
-    update(@Param('id') id: string, @Body() body: { title: string; content: string }) {
-        return this.postsService.update(+id, body.title, body.content)
+    @ApiOperation({ summary: 'Update a post' })
+    @ApiResponse({ status: 200, description: 'The post has been successfully updated.' })
+    @ApiResponse({ status: 401, description: 'Unauthorized.' })
+    @ApiResponse({ status: 404, description: 'Post not found.' })
+    update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
+        return this.postsService.update(+id, updatePostDto)
     }
 
     @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     @Delete(':id')
+    @ApiOperation({ summary: 'Delete a post' })
+    @ApiResponse({ status: 200, description: 'The post has been successfully deleted.' })
+    @ApiResponse({ status: 401, description: 'Unauthorized.' })
+    @ApiResponse({ status: 404, description: 'Post not found.' })
     remove(@Param('id') id: string) {
         return this.postsService.remove(+id)
     }

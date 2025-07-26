@@ -1,7 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { RegisterDto } from './dto/register.dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { RegisterDto } from './dto/register.dto'
+import { LoginDto } from './dto/login.dto'
 
 @ApiTags('Authorization')
 @Controller('auth')
@@ -9,15 +10,18 @@ export class AuthController {
     constructor(private authService: AuthService) {}
 
     @Post('login')
-    login(@Body() body: { username: string; password: string }) {
-        return this.authService.login(body.username, body.password)
+    @ApiOperation({ summary: 'User login' })
+    @ApiResponse({ status: 200, description: 'Login successful, returns JWT token.' })
+    @ApiResponse({ status: 401, description: 'Unauthorized.' })
+    login(@Body() loginDto: LoginDto) {
+        return this.authService.login(loginDto.username, loginDto.password)
     }
 
     @Post('register')
-    @ApiOperation({ summary: '회원가입' })
-    @ApiResponse({ status: 201, description: '회원가입 성공' })
-    @ApiResponse({ status: 400, description: '입력값 오류' })
-    register(@Body() body: RegisterDto) {
-        return this.authService.register(body.username, body.password)
+    @ApiOperation({ summary: 'Register a new user' })
+    @ApiResponse({ status: 201, description: 'User registration successful.' })
+    @ApiResponse({ status: 400, description: 'Bad request.' })
+    register(@Body() registerDto: RegisterDto) {
+        return this.authService.register(registerDto.username, registerDto.password)
     }
 }
