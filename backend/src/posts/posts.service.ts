@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { CreatePostInput } from './dto/create-post.input'
-import { UpdatePostInput } from './dto/update-post.input'
+import { CreatePostDto } from './dto/create-post.dto'
+import { UpdatePostDto } from './dto/update-post.dto'
 
 @Injectable()
 export class PostsService {
-    create(createPostInput: CreatePostInput) {
+    create(createPostDto: CreatePostDto) {
         return 'This action adds a new post'
     }
 
@@ -16,7 +16,7 @@ export class PostsService {
         return `This action returns a #${id} post`
     }
 
-    update(id: number, updatePostInput: UpdatePostInput) {
+    update(id: number, updatePostDto: UpdatePostDto) {
         return `This action updates a #${id} post`
     }
 
