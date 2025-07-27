@@ -7,16 +7,16 @@ import { ApiOperation, ApiResponse, ApiTags, ApiNotFoundResponse } from '@nestjs
 export class UsersController {
     constructor(private usersService: UsersService) {}
 
-    @Get()
-    @ApiOperation({ summary: 'Get all users' })
-    @ApiResponse({ status: 200, description: 'Return all users.' })
-    async findAll() {
-        const users = await this.usersService.findAll()
-        return users.map((user) => {
-            const { password: _, ...userWithoutPassword } = user
-            return userWithoutPassword
-        })
-    }
+    // @Get()
+    // @ApiOperation({ summary: 'Get all users' })
+    // @ApiResponse({ status: 200, description: 'Return all users.' })
+    // async findAll() {
+    //     const users = await this.usersService.findAll()
+    //     return users.map((user) => {
+    //         const { password: _, ...userWithoutPassword } = user
+    //         return userWithoutPassword
+    //     })
+    // }
 
     @Get(':id')
     @ApiOperation({ summary: 'Get a single user by id' })
