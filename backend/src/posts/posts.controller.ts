@@ -14,7 +14,7 @@ import {
 } from '@nestjs/swagger'
 import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
-import { AuthenticatedRequest } from 'src/common/guards/express-request.interface'
+import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
 @ApiTags('Posts')
 @Controller('posts')

@@ -12,7 +12,7 @@ export class Post {
     @Column('text')
     content: string
 
-    @CreateDateColumn()
+    @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date
 
     @ManyToOne(() => User, (user) => user.posts)
