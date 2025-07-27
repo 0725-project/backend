@@ -21,4 +21,12 @@ export class UsersController {
     findOne(@Param('id') id: string) {
         return this.usersService.findById(+id)
     }
+
+    @Get('username/:username')
+    @ApiOperation({ summary: 'Get a user by username' })
+    @ApiResponse({ status: 200, description: 'Return a user by username.' })
+    @ApiResponse({ status: 404, description: 'User not found.' })
+    findByUsername(@Param('username') username: string) {
+        return this.usersService.findByUsername(username)
+    }
 }
