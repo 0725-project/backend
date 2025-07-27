@@ -1,9 +1,11 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { setupSwagger } from '../utils/setupSwagger'
-import { ValidationPipe } from '@nestjs/common'
+import { Logger, ValidationPipe } from '@nestjs/common'
 
-async function bootstrap() {
+const PORT = process.env.PORT ?? 3000
+
+const bootstrap = async () => {
     const app = await NestFactory.create(AppModule)
     app.setGlobalPrefix('api')
     app.useGlobalPipes(new ValidationPipe({ whitelist: true }))
@@ -12,6 +14,11 @@ async function bootstrap() {
         setupSwagger(app)
     }
 
-    await app.listen(process.env.PORT ?? 3000)
+    await app.listen(PORT)
+
+    const logger = new Logger('Bootstrap')
+    logger.log(`Application is running on: ${await app.getUrl()}`)
+    logger.log(`Swagger is available at: ${await app.getUrl()}/api-docs`)
 }
+
 bootstrap()

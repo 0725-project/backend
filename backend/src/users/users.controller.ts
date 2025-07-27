@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common'
 import { UsersService } from './users.service'
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiOperation, ApiResponse, ApiTags, ApiNotFoundResponse } from '@nestjs/swagger'
 
 @ApiTags('Users')
 @Controller('users')
@@ -17,7 +17,7 @@ export class UsersController {
     @Get(':id')
     @ApiOperation({ summary: 'Get a single user by id' })
     @ApiResponse({ status: 200, description: 'Return a single user.' })
-    @ApiResponse({ status: 404, description: 'User not found.' })
+    @ApiNotFoundResponse({ description: 'User not found.' })
     findOne(@Param('id') id: string) {
         return this.usersService.findById(+id)
     }
@@ -25,7 +25,7 @@ export class UsersController {
     @Get('username/:username')
     @ApiOperation({ summary: 'Get a user by username' })
     @ApiResponse({ status: 200, description: 'Return a user by username.' })
-    @ApiResponse({ status: 404, description: 'User not found.' })
+    @ApiNotFoundResponse({ description: 'User not found.' })
     findByUsername(@Param('username') username: string) {
         return this.usersService.findByUsername(username)
     }

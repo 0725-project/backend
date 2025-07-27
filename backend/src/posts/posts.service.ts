@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Post } from './post.entity'
 import { Repository } from 'typeorm'
@@ -9,17 +9,25 @@ import { CreatePostDto } from './dto/create-post.dto'
 export class PostsService {
     constructor(@InjectRepository(Post) private repo: Repository<Post>) {}
 
-    create(createPostDto: CreatePostDto, userId: number) {
+    async create(createPostDto: CreatePostDto, userId: number) {
+        if (!createPostDto.title || !createPostDto.content) {
+            throw new NotFoundException('Title and content are required')
+        }
+
         const post = this.repo.create({ ...createPostDto, author: { id: userId } })
         return this.repo.save(post)
     }
 
-    findAll() {
+    async findAll() {
         return this.repo.find({ relations: ['author'] })
     }
 
-    findOne(id: number) {
-        return this.repo.findOne({ where: { id }, relations: ['author'] })
+    async findOne(id: number) {
+        const post = await this.repo.findOne({ where: { id }, relations: ['author'] })
+        if (!post) {
+            throw new NotFoundException('Post not found')
+        }
+        return post
     }
 
     async update(id: number, updatePostDto: UpdatePostDto, userId: number) {
@@ -28,7 +36,7 @@ export class PostsService {
             throw new NotFoundException('Post not found')
         }
         if (post.author.id !== userId) {
-            throw new NotFoundException('You are not authorized to update this post')
+            throw new ForbiddenException('You are not authorized to update this post')
         }
 
         Object.assign(post, updatePostDto)
@@ -41,8 +49,9 @@ export class PostsService {
             throw new NotFoundException('Post not found')
         }
         if (post.author.id !== userId) {
-            throw new NotFoundException('You are not authorized to delete this post')
+            throw new ForbiddenException('You are not authorized to delete this post')
         }
+
         return this.repo.remove(post)
     }
 }
