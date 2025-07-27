@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module'
 import { AuthModule } from './auth/auth.module'
 import { PostsModule } from './posts/posts.module'
 import { SearchModule } from './search/search.module'
+import { RedisModule } from './common/redis/redis.module'
 
 @Module({
     imports: [
@@ -19,6 +20,7 @@ import { SearchModule } from './search/search.module'
             autoLoadEntities: true,
             // synchronize: true,
         }),
+        RedisModule,
         UsersModule,
         AuthModule,
         PostsModule,

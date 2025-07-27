@@ -6,6 +6,8 @@ import { AuthController } from './auth.controller'
 import { UsersModule } from '../users/users.module'
 import { JwtStrategy } from './jwt.strategy'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { RedisModule } from '../common/redis/redis.module'
+import { JWT_EXPIRES_IN } from '../common/constants'
 
 @Module({
     imports: [
@@ -17,10 +19,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
             useFactory: (configService: ConfigService) => ({
                 secret: configService.get<string>('JWT_SECRET'),
                 signOptions: {
-                    expiresIn: configService.get<string>('JWT_EXPIRES_IN') || '1d',
+                    expiresIn: JWT_EXPIRES_IN,
                 },
             }),
         }),
+        RedisModule,
     ],
     providers: [AuthService, JwtStrategy],
     controllers: [AuthController],

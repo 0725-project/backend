@@ -32,6 +32,11 @@ export class UsersService {
         return user
     }
 
+    async isExistUsername(username: string) {
+        const user = await this.repo.findOne({ where: { username } })
+        return !!user
+    }
+
     async findById(id: number) {
         const user = await this.repo.findOne({ where: { id } })
         if (!user) {

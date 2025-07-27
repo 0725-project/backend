@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@nestjs-modules/ioredis": "^2.0.2",
+    "@types/cookie-parser": "^1.4.9",
+    "cookie-parser": "^1.4.7",
+    "ioredis": "^5.6.1"
+  }
+}
