@@ -15,18 +15,6 @@ import { LoginDto } from './dto/login.dto'
 import { Request, Response } from 'express'
 import { JwtService } from '@nestjs/jwt'
 
-// 응답 DTO 정의 (파일 분리 권장, 여기선 간단히 내부에 정의)
-class LoginResponseDto {
-    access_token: string
-    user_id: number
-}
-class RefreshResponseDto {
-    access_token: string
-}
-class LogoutResponseDto {
-    message: string
-}
-
 @ApiTags('Authorization')
 @Controller('auth')
 export class AuthController {
@@ -38,10 +26,10 @@ export class AuthController {
     @Post('login')
     @ApiOperation({ summary: 'User login' })
     @ApiBody({ type: LoginDto })
-    @ApiResponse({ status: 201, description: 'Login successful, returns JWT token.', type: LoginResponseDto })
-    @ApiUnauthorizedResponse({ description: 'Invalid username or password.', schema: { example: { statusCode: 401, message: 'Invalid username or password.', error: 'Unauthorized' } } })
-    @ApiBadRequestResponse({ description: 'Request payload is invalid.', schema: { example: { statusCode: 400, message: 'Username and password are required', error: 'Bad Request' } } })
-    async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response): Promise<LoginResponseDto> {
+    @ApiResponse({ status: 201, description: 'Login successful, returns JWT token.' })
+    @ApiUnauthorizedResponse({ description: 'Invalid username or password.' })
+    @ApiBadRequestResponse({ description: 'Request payload is invalid.' })
+    async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
         const result = await this.authService.login(loginDto.username, loginDto.password)
         res.cookie('refresh_token', result.refresh_token, {
             httpOnly: true,
@@ -56,18 +44,18 @@ export class AuthController {
     @ApiOperation({ summary: 'Register a new user' })
     @ApiBody({ type: RegisterDto })
     @ApiResponse({ status: 201, description: 'User registration successful.' })
-    @ApiBadRequestResponse({ description: 'Username or password is missing or invalid.', schema: { example: { statusCode: 400, message: 'Username and password are required', error: 'Bad Request' } } })
-    @ApiConflictResponse({ description: 'Username already exists.', schema: { example: { statusCode: 409, message: 'Username already exists', error: 'Conflict' } } })
+    @ApiBadRequestResponse({ description: 'Username or password is missing or invalid.' })
+    @ApiConflictResponse({ description: 'Username already exists.' })
     register(@Body() registerDto: RegisterDto) {
         return this.authService.register(registerDto.username, registerDto.password)
     }
 
     @Post('refresh')
     @ApiOperation({ summary: 'Re-issue access token using refresh token' })
-    @ApiResponse({ status: 200, description: 'Returns new access token.', type: RefreshResponseDto })
-    @ApiBadRequestResponse({ description: 'Refresh token is required', schema: { example: { statusCode: 400, message: 'Refresh token is required', error: 'Bad Request' } } })
-    @ApiUnauthorizedResponse({ description: 'Invalid refresh token', schema: { example: { statusCode: 401, message: 'Invalid refresh token', error: 'Unauthorized' } } })
-    async refresh(@Req() req: Request): Promise<RefreshResponseDto> {
+    @ApiResponse({ status: 200, description: 'Returns new access token.' })
+    @ApiBadRequestResponse({ description: 'Refresh token is required' })
+    @ApiUnauthorizedResponse({ description: 'Invalid refresh token' })
+    async refresh(@Req() req: Request) {
         const userId = this.extractUserIdFromRefreshToken(req)
         if (typeof userId !== 'number') {
             throw new UnauthorizedException('Invalid refresh token')
@@ -78,9 +66,9 @@ export class AuthController {
 
     @Post('logout')
     @ApiOperation({ summary: 'Logout and remove refresh token' })
-    @ApiResponse({ status: 200, description: 'Logout successful.', type: LogoutResponseDto })
-    @ApiBadRequestResponse({ description: 'Refresh token is required', schema: { example: { statusCode: 400, message: 'Refresh token is required', error: 'Bad Request' } } })
-    async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response): Promise<LogoutResponseDto> {
+    @ApiResponse({ status: 200, description: 'Logout successful.' })
+    @ApiBadRequestResponse({ description: 'Refresh token is required' })
+    async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
         const userId = this.extractUserIdFromRefreshToken(req, false)
         if (typeof userId === 'number') {
             await this.authService.logout(userId)
