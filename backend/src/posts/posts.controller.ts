@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Param, Delete, Put, Request, UseGuards, Post as HttpPost } from '@nestjs/common'
+import { Controller, Get, Body, Param, Delete, Put, Request, UseGuards, Post as HttpPost, Query } from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard'
 import {
@@ -10,6 +10,7 @@ import {
     ApiNotFoundResponse,
     ApiForbiddenResponse,
     ApiBadRequestResponse,
+    ApiQuery,
 } from '@nestjs/swagger'
 import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
@@ -21,10 +22,26 @@ export class PostsController {
     constructor(private postsService: PostsService) {}
 
     @Get()
-    @ApiOperation({ summary: 'Get all posts' })
-    @ApiResponse({ status: 200, description: 'Return all posts.' })
-    findAll() {
-        return this.postsService.findAll()
+    @ApiOperation({ summary: 'Get posts with page id cursor based pagination' })
+    @ApiResponse({ status: 200, description: 'Return paginated posts.' })
+    @ApiQuery({
+        name: 'cursor',
+        required: false,
+        type: Number,
+        description: 'The ID of the last post from the previous page. Returns posts with smaller IDs.',
+        default: null,
+    })
+    @ApiQuery({
+        name: 'limit',
+        required: false,
+        type: Number,
+        description: 'The number of posts to return. Max is 20.',
+        default: 10,
+    })
+    async findAll(@Query('cursor') cursor?: string, @Query('limit') limit?: string) {
+        const parsedCursor = cursor ? parseInt(cursor, 10) : void 0
+        const parsedLimit = limit ? parseInt(limit, 10) : 10
+        return this.postsService.findAll(parsedCursor, parsedLimit)
     }
 
     @Get(':id')
