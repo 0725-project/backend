@@ -18,23 +18,26 @@ export class UsersService {
         }
     }
 
-    findAll() {
-        return this.repo.find()
+    async findAll() {
+        const users = await this.repo.find({ relations: ['posts'] })
+        return users
     }
 
     async findByUsername(username: string) {
-        const user = await this.repo.findOne({ where: { username } })
+        const user = await this.repo.findOne({ where: { username }, relations: ['posts'] })
         if (!user) {
             throw new NotFoundException('User not found')
         }
+
         return user
     }
 
     async findById(id: number) {
-        const user = await this.repo.findOne({ where: { id } })
+        const user = await this.repo.findOne({ where: { id }, relations: ['posts'] })
         if (!user) {
             throw new NotFoundException('User not found')
         }
+
         return user
     }
 }

@@ -10,15 +10,19 @@ const bootstrap = async () => {
     app.setGlobalPrefix('api')
     app.useGlobalPipes(new ValidationPipe({ whitelist: true }))
 
+    const logger = new Logger('Bootstrap')
+
     if (process.env.NODE_ENV !== 'production') {
         setupSwagger(app)
     }
 
     await app.listen(PORT)
 
-    const logger = new Logger('Bootstrap')
     logger.log(`Application is running on: ${await app.getUrl()}`)
-    logger.log(`Swagger is available at: ${await app.getUrl()}/api-docs`)
+
+    if (process.env.NODE_ENV !== 'production') {
+        logger.log(`Swagger is available at: ${await app.getUrl()}/api-docs`)
+    }
 }
 
 bootstrap()
