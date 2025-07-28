@@ -11,7 +11,13 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 const bootstrap = async () => {
     const app = await NestFactory.create(AppModule)
     app.setGlobalPrefix('api')
-    app.useGlobalPipes(new ValidationPipe({ whitelist: true }))
+    app.useGlobalPipes(
+        new ValidationPipe({
+            whitelist: true,
+            transform: true,
+            forbidNonWhitelisted: true,
+        }),
+    )
     app.useGlobalInterceptors(new TransformInterceptor())
     app.use(cookieParser())
 

@@ -2,59 +2,44 @@ import { Injectable, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Post } from '../posts/post.entity'
-import { validationId } from 'src/common/utils/validation'
+import { SearchPostsQueryDto } from './dto/search-posts.dto'
 
 @Injectable()
 export class SearchService {
     constructor(@InjectRepository(Post) private repo: Repository<Post>) {}
 
-    async search(
-        keyword?: string,
-        author?: string,
-        cursor?: number,
-        limit = 10,
-        order: 'asc' | 'desc' = 'desc',
-        startDate?: string,
-        endDate?: string,
-    ) {
-        validationId(limit)
-
-        if (limit < 1 || limit > 20) throw new BadRequestException('Limit must be between 1 and 20')
-        if (order !== 'asc' && order !== 'desc') {
-            throw new BadRequestException('Order must be "asc" or "desc"')
-        }
-
+    async search(dto: SearchPostsQueryDto) {
         const query = this.repo
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
-            .orderBy('post.id', order.toUpperCase() as 'ASC' | 'DESC')
-            .take(limit)
+            .orderBy('post.id', dto.order!.toUpperCase() as 'ASC' | 'DESC')
+            .take(dto.limit!)
 
         const where: string[] = []
         const params: Record<string, any> = {}
 
-        if (keyword) {
+        if (dto.q) {
             where.push('(post.title ILIKE :q OR post.content ILIKE :q)')
-            params.q = `%${keyword}%`
+            params.q = `%${dto.q}%`
         }
 
-        if (author) {
+        if (dto.author) {
             where.push('author.username ILIKE :author')
-            params.author = `%${author}%`
+            params.author = `%${dto.author}%`
         }
 
-        if (cursor) {
-            where.push(`post.id ${order === 'desc' ? '<' : '>'} :cursor`)
-            params.cursor = cursor
+        if (dto.cursor) {
+            where.push(`post.id ${dto.order === 'desc' ? '<' : '>'} :cursor`)
+            params.cursor = dto.cursor
         }
 
-        if (startDate) {
+        if (dto.startDate) {
             where.push('post.createdAt >= :startDate')
-            params.startDate = new Date(startDate)
+            params.startDate = new Date(dto.startDate)
         }
 
-        if (endDate) {
-            const endDateObj = new Date(endDate)
+        if (dto.endDate) {
+            const endDateObj = new Date(dto.endDate)
             endDateObj.setSeconds(endDateObj.getSeconds() + 1)
             where.push('post.createdAt <= :endDate')
             params.endDate = endDateObj
@@ -62,11 +47,10 @@ export class SearchService {
 
         if (where.length > 0) {
             query.where(where.join(' AND '), params)
-            console.log('Search query:', query.getQueryAndParameters())
         }
 
         const posts = await query.getMany()
-        const nextCursor = posts.length < limit ? null : posts[posts.length - 1].id
+        const nextCursor = posts.length < dto.limit! ? null : posts[posts.length - 1].id
 
         return { posts, nextCursor }
     }

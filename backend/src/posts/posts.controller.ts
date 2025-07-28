@@ -15,6 +15,8 @@ import {
 import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
+import { IdDto } from 'src/common/types/default.dto'
+import { GetPostsQueryDto } from './dto/get-posts.dto'
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -39,10 +41,8 @@ export class PostsController {
         description: 'The number of posts to return. Max is 20.',
         default: 10,
     })
-    async findAll(@Query('cursor') cursor?: string, @Query('limit') limit?: string) {
-        const parsedCursor = cursor ? parseInt(cursor, 10) : void 0
-        const parsedLimit = limit ? parseInt(limit, 10) : 10
-        return this.postsService.findAll(parsedCursor, parsedLimit)
+    async findAll(@Query() getPostsQueryDto: GetPostsQueryDto) {
+        return this.postsService.findAll(getPostsQueryDto.cursor, getPostsQueryDto.limit)
     }
 
     @Get(':id')
@@ -50,8 +50,8 @@ export class PostsController {
     @ApiResponse({ status: 200, description: 'Return a single post.' })
     @ApiBadRequestResponse({ description: 'Invalid ID.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
-    findOne(@Param('id') id: string) {
-        return this.postsService.findOne(parseInt(id, 10))
+    findOne(@Param() { id }: IdDto) {
+        return this.postsService.findOne(id)
     }
 
     @UseGuards(JwtAuthGuard)
@@ -74,8 +74,8 @@ export class PostsController {
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
     @ApiForbiddenResponse({ description: 'You are not the author of this post.' })
-    update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto, @Request() req: AuthenticatedRequest) {
-        return this.postsService.update(parseInt(id, 10), updatePostDto, req.user.userId)
+    update(@Param() { id }: IdDto, @Body() updatePostDto: UpdatePostDto, @Request() req: AuthenticatedRequest) {
+        return this.postsService.update(id, updatePostDto, req.user.userId)
     }
 
     @UseGuards(JwtAuthGuard)
@@ -87,7 +87,7 @@ export class PostsController {
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
     @ApiForbiddenResponse({ description: 'You are not the author of this post.' })
-    remove(@Param('id') id: string, @Request() req: AuthenticatedRequest) {
-        return this.postsService.remove(parseInt(id, 10), req.user.userId)
+    remove(@Param() { id }: IdDto, @Request() req: AuthenticatedRequest) {
+        return this.postsService.remove(id, req.user.userId)
     }
 }
