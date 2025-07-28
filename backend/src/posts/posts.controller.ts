@@ -15,8 +15,7 @@ import {
 import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
-import { IdDto } from 'src/common/types/default.dto'
-import { GetPostsQueryDto } from './dto/get-posts.dto'
+import { CursorPaginationDto, IdDto } from 'src/common/types/default.dto'
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -41,8 +40,8 @@ export class PostsController {
         description: 'The number of posts to return. Max is 20.',
         default: 10,
     })
-    async findAll(@Query() getPostsQueryDto: GetPostsQueryDto) {
-        return this.postsService.findAll(getPostsQueryDto.cursor, getPostsQueryDto.limit)
+    async findAll(@Query() { cursor, limit }: CursorPaginationDto) {
+        return this.postsService.findAll(cursor, limit)
     }
 
     @Get(':id')

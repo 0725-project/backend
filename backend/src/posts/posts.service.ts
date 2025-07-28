@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common'
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Post } from './post.entity'
 import { Repository } from 'typeorm'
@@ -19,10 +19,6 @@ export class PostsService {
     }
 
     async findAll(cursor?: number, limit = 10) {
-        if (limit < 1 || limit > 20) {
-            throw new BadRequestException('Limit must be between 1 and 20')
-        }
-
         const query = this.repo
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')

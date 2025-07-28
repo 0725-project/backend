@@ -1,7 +1,7 @@
 import { IsOptional, IsString, IsInt, IsIn, IsISO8601, Min, Max } from 'class-validator'
-import { Type } from 'class-transformer'
+import { CursorPaginationDto } from 'src/common/types/default.dto'
 
-export class SearchPostsQueryDto {
+export class SearchPostsQueryDto extends CursorPaginationDto {
     @IsOptional()
     @IsString()
     q?: string
@@ -9,18 +9,6 @@ export class SearchPostsQueryDto {
     @IsOptional()
     @IsString()
     author?: string
-
-    @IsOptional()
-    @Type(() => Number)
-    @IsInt()
-    cursor?: number
-
-    @IsOptional()
-    @Type(() => Number)
-    @IsInt()
-    @Min(1)
-    @Max(20)
-    limit?: number = 10
 
     @IsOptional()
     @IsIn(['asc', 'desc'])

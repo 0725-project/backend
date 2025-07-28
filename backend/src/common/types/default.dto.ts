@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNotEmpty, IsInt, IsString } from 'class-validator'
+import { IsNotEmpty, IsInt, IsString, IsOptional, Min, Max } from 'class-validator'
 import { Type } from 'class-transformer'
 
 export class IdDto {
@@ -21,4 +21,18 @@ export class UsernameDto {
     @IsString()
     @IsNotEmpty()
     username: string
+}
+
+export class CursorPaginationDto {
+    @IsOptional()
+    @Type(() => Number)
+    @IsInt()
+    cursor?: number
+
+    @IsOptional()
+    @Type(() => Number)
+    @IsInt()
+    @Min(1)
+    @Max(20)
+    limit?: number = 10
 }
