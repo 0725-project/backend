@@ -11,11 +11,12 @@ import {
     ApiForbiddenResponse,
     ApiBadRequestResponse,
     ApiQuery,
+    ApiParam,
 } from '@nestjs/swagger'
 import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
-import { CursorPaginationDto, IdDto } from 'src/common/types/default.dto'
+import { CursorPaginationDto, IdDto, TopicNameDto } from 'src/common/types/default.dto'
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -42,6 +43,27 @@ export class PostsController {
     })
     async findAll(@Query() { cursor, limit }: CursorPaginationDto) {
         return this.postsService.findAll(cursor, limit)
+    }
+
+    @Get('/topic/:topicName')
+    @ApiOperation({ summary: 'Get posts by topic name' })
+    @ApiParam({ name: 'topicName', description: 'The topic name associated with the post.' })
+    @ApiQuery({
+        name: 'cursor',
+        required: false,
+        type: Number,
+        description: 'The ID of the last post from the previous page.',
+        default: null,
+    })
+    @ApiQuery({
+        name: 'limit',
+        required: false,
+        type: Number,
+        description: 'The number of posts to return. Max is 20.',
+        default: 10,
+    })
+    async findByTopic(@Param() { topicName }: TopicNameDto, @Query() { cursor, limit }: CursorPaginationDto) {
+        return this.postsService.findByTopicName(topicName, cursor, limit)
     }
 
     @Get(':id')

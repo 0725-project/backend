@@ -11,6 +11,10 @@ export class SearchPostsQueryDto extends CursorPaginationDto {
     author?: string
 
     @IsOptional()
+    @IsString()
+    topicName?: string
+
+    @IsOptional()
     @IsIn(['asc', 'desc'])
     order?: 'asc' | 'desc' = 'desc'
 

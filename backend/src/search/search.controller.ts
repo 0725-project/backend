@@ -12,6 +12,7 @@ export class SearchController {
     @ApiOperation({ summary: 'Search posts by author and/or keyword with pagination' })
     @ApiQuery({ name: 'q', required: false, description: 'Keyword in title or content' })
     @ApiQuery({ name: 'author', required: false, description: 'Author name' })
+    @ApiQuery({ name: 'topicName', required: false, description: 'Topic name' })
     @ApiQuery({ name: 'cursor', required: false, type: Number })
     @ApiQuery({ name: 'limit', required: false, type: Number, default: 10 })
     @ApiQuery({

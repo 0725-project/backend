@@ -12,6 +12,7 @@ export class SearchService {
         const query = this.repo
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
+            .leftJoinAndSelect('post.topic', 'topic')
             .orderBy('post.id', dto.order!.toUpperCase() as 'ASC' | 'DESC')
             .take(dto.limit!)
 
@@ -26,6 +27,11 @@ export class SearchService {
         if (dto.author) {
             where.push('author.username ILIKE :author')
             params.author = `%${dto.author}%`
+        }
+
+        if (dto.topicName) {
+            where.push('topic.name ILIKE :topicName')
+            params.topicName = `%${dto.topicName}%`
         }
 
         if (dto.cursor) {

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNotEmpty, IsInt, IsString, IsOptional, Min, Max } from 'class-validator'
+import { IsNotEmpty, IsInt, IsString, IsOptional, Min, Max, Matches } from 'class-validator'
 import { Type } from 'class-transformer'
 
 export class IdDto {
@@ -35,4 +35,15 @@ export class CursorPaginationDto {
     @Min(1)
     @Max(20)
     limit?: number = 10
+}
+
+export class TopicNameDto {
+    @ApiProperty({
+        description: 'The topic name associated with the post.',
+        example: 'programming',
+    })
+    @IsString()
+    @IsNotEmpty()
+    @Matches(/^[a-z]+$/, { message: 'The topic name must be in lowercase letters.' })
+    topicName: string
 }

@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module'
 import { PostsModule } from './posts/posts.module'
 import { SearchModule } from './search/search.module'
 import { RedisModule } from './common/redis/redis.module'
+import { TopicModule } from './topics/topic.module'
 
 @Module({
     imports: [
@@ -18,13 +19,13 @@ import { RedisModule } from './common/redis/redis.module'
             password: process.env.DATABASE_PASSWORD,
             database: process.env.DATABASE_NAME,
             autoLoadEntities: true,
-            // synchronize: true,
         }),
         RedisModule,
         UsersModule,
         AuthModule,
         PostsModule,
         SearchModule,
+        TopicModule,
     ],
 })
 export class AppModule {}
