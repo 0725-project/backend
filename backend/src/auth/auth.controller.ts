@@ -30,7 +30,7 @@ export class AuthController {
     @ApiUnauthorizedResponse({ description: 'Invalid username or password.' })
     @ApiBadRequestResponse({ description: 'Request payload is invalid.' })
     async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
-        const result = await this.authService.login(loginDto.username, loginDto.password)
+        const result = await this.authService.login(loginDto)
 
         res.cookie('refresh_token', result.refresh_token, {
             httpOnly: true,
@@ -49,7 +49,7 @@ export class AuthController {
     @ApiBadRequestResponse({ description: 'Username or password is missing or invalid.' })
     @ApiConflictResponse({ description: 'Username already exists.' })
     register(@Body() registerDto: RegisterDto) {
-        return this.authService.register(registerDto.username, registerDto.password)
+        return this.authService.register(registerDto)
     }
 
     @Post('refresh')

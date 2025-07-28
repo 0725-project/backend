@@ -14,6 +14,9 @@ export class User {
     @Column()
     password: string
 
+    @Column()
+    email: string
+
     @OneToMany(() => Post, (post) => post.author)
     posts: Post[]
 }

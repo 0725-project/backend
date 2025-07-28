@@ -8,10 +8,10 @@ import * as bcrypt from 'bcrypt'
 export class UsersService {
     constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
-    async create(username: string, password: string) {
+    async create(username: string, password: string, email: string) {
         try {
             const hashed = await bcrypt.hash(password, 10)
-            const user = this.repo.create({ username, password: hashed })
+            const user = this.repo.create({ username, password: hashed, email })
             return await this.repo.save(user)
         } catch (err) {
             throw new InternalServerErrorException('Failed to create user')
@@ -29,6 +29,11 @@ export class UsersService {
 
     async isExistUsername(username: string) {
         const user = await this.repo.findOne({ where: { username } })
+        return Boolean(user)
+    }
+
+    async isExistEmail(email: string) {
+        const user = await this.repo.findOne({ where: { email } })
         return Boolean(user)
     }
 

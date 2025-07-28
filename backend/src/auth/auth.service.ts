@@ -3,6 +3,8 @@ import { REFRESH_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN_SECONDS } from '../c
 import { JwtService } from '@nestjs/jwt'
 import { UsersService } from '../users/users.service'
 import { RedisService } from '../common/redis/redis.service'
+import { RegisterDto } from './dto/register.dto'
+import { LoginDto } from './dto/login.dto'
 import * as bcrypt from 'bcrypt'
 
 @Injectable()
@@ -13,13 +15,13 @@ export class AuthService {
         private redisService: RedisService,
     ) {}
 
-    async login(username: string, password: string) {
-        if (!username || !password) {
+    async login(dto: LoginDto) {
+        if (!dto.username || !dto.password) {
             throw new BadRequestException('Username and password are required')
         }
 
-        const user = await this.usersService.findByUsername(username)
-        if (!user || !(await bcrypt.compare(password, user.password))) {
+        const user = await this.usersService.findByUsername(dto.username)
+        if (!user || !(await bcrypt.compare(dto.password, user.password))) {
             throw new UnauthorizedException('Invalid credentials')
         }
 
@@ -36,17 +38,22 @@ export class AuthService {
         }
     }
 
-    async register(username: string, password: string) {
-        if (!username || !password) {
-            throw new BadRequestException('Username and password are required')
+    async register(dto: RegisterDto) {
+        if (!dto.username || !dto.password || !dto.email) {
+            throw new BadRequestException('Username, password, and email are required')
         }
 
-        const existing = await this.usersService.isExistUsername(username)
+        const existing = await this.usersService.isExistUsername(dto.username)
         if (existing) {
             throw new ConflictException('Username already exists')
         }
 
-        return this.usersService.create(username, password)
+        const emailExists = await this.usersService.isExistEmail(dto.email)
+        if (emailExists) {
+            throw new ConflictException('Email already exists')
+        }
+
+        return this.usersService.create(dto.username, dto.password, dto.email)
     }
 
     async refresh(userId: number, refreshToken: string) {
