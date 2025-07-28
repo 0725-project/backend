@@ -7,6 +7,7 @@ import { PostsModule } from './posts/posts.module'
 import { SearchModule } from './search/search.module'
 import { RedisModule } from './common/redis/redis.module'
 import { TopicModule } from './topics/topic.module'
+import { AppController } from './app.controller'
 
 @Module({
     imports: [
@@ -27,5 +28,6 @@ import { TopicModule } from './topics/topic.module'
         SearchModule,
         TopicModule,
     ],
+    controllers: [AppController],
 })
 export class AppModule {}
