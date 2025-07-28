@@ -10,10 +10,6 @@ export class PostsService {
     constructor(@InjectRepository(Post) private repo: Repository<Post>) {}
 
     async create(createPostDto: CreatePostDto, userId: number) {
-        if (!createPostDto.title || !createPostDto.content) {
-            throw new NotFoundException('Title and content are required')
-        }
-
         const post = this.repo.create({ ...createPostDto, author: { id: userId } })
         return this.repo.save(post)
     }
