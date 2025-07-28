@@ -24,6 +24,7 @@ export class PostsController {
     @Get()
     @ApiOperation({ summary: 'Get posts with page id cursor based pagination' })
     @ApiResponse({ status: 200, description: 'Return paginated posts.' })
+    @ApiBadRequestResponse({ description: 'Invalid cursor or limit.' })
     @ApiQuery({
         name: 'cursor',
         required: false,
@@ -47,6 +48,7 @@ export class PostsController {
     @Get(':id')
     @ApiOperation({ summary: 'Get a single post by id' })
     @ApiResponse({ status: 200, description: 'Return a single post.' })
+    @ApiBadRequestResponse({ description: 'Invalid ID.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
     findOne(@Param('id') id: string) {
         return this.postsService.findOne(parseInt(id, 10))
@@ -68,6 +70,7 @@ export class PostsController {
     @Put(':id')
     @ApiOperation({ summary: 'Update a post' })
     @ApiResponse({ status: 200, description: 'The post has been successfully updated.' })
+    @ApiBadRequestResponse({ description: 'Invalid ID' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
     @ApiForbiddenResponse({ description: 'You are not the author of this post.' })
@@ -80,6 +83,7 @@ export class PostsController {
     @Delete(':id')
     @ApiOperation({ summary: 'Delete a post' })
     @ApiResponse({ status: 200, description: 'The post has been successfully deleted.' })
+    @ApiBadRequestResponse({ description: 'Invalid ID.' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
     @ApiForbiddenResponse({ description: 'You are not the author of this post.' })

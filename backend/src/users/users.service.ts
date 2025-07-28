@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { User } from './user.entity'
 import { Repository } from 'typeorm'
 import * as bcrypt from 'bcrypt'
+import { validationId } from 'src/common/utils/validation'
 
 @Injectable()
 export class UsersService {
@@ -38,6 +39,8 @@ export class UsersService {
     }
 
     async findById(id: number) {
+        validationId(id)
+
         const user = await this.repo.findOne({ where: { id } })
         if (!user) {
             throw new NotFoundException('User not found')

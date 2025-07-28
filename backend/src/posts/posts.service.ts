@@ -4,6 +4,7 @@ import { Post } from './post.entity'
 import { Repository } from 'typeorm'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { CreatePostDto } from './dto/create-post.dto'
+import { validationId } from 'src/common/utils/validation'
 
 @Injectable()
 export class PostsService {
@@ -19,6 +20,8 @@ export class PostsService {
     }
 
     async findAll(cursor?: number, limit = 10) {
+        validationId(limit)
+
         if (limit < 1 || limit > 20) {
             throw new BadRequestException('Limit must be between 1 and 20')
         }
@@ -40,6 +43,8 @@ export class PostsService {
     }
 
     async findOne(id: number) {
+        validationId(id)
+
         const post = await this.repo.findOne({ where: { id }, relations: ['author'] })
         if (!post) {
             throw new NotFoundException('Post not found')
@@ -49,6 +54,8 @@ export class PostsService {
     }
 
     async update(id: number, updatePostDto: UpdatePostDto, userId: number) {
+        validationId(id)
+
         const post = await this.repo.findOne({ where: { id }, relations: ['author'] })
         if (!post) {
             throw new NotFoundException('Post not found')
@@ -63,6 +70,8 @@ export class PostsService {
     }
 
     async remove(id: number, userId: number) {
+        validationId(id)
+
         const post = await this.repo.findOne({ where: { id }, relations: ['author'] })
         if (!post) {
             throw new NotFoundException('Post not found')

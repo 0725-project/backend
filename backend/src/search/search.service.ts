@@ -2,6 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Post } from '../posts/post.entity'
+import { validationId } from 'src/common/utils/validation'
 
 @Injectable()
 export class SearchService {
@@ -16,6 +17,8 @@ export class SearchService {
         startDate?: string,
         endDate?: string,
     ) {
+        validationId(limit)
+
         if (limit < 1 || limit > 20) throw new BadRequestException('Limit must be between 1 and 20')
         if (order !== 'asc' && order !== 'desc') {
             throw new BadRequestException('Order must be "asc" or "desc"')

@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common'
 import { UsersService } from './users.service'
-import { ApiOperation, ApiResponse, ApiTags, ApiNotFoundResponse } from '@nestjs/swagger'
+import { ApiOperation, ApiResponse, ApiTags, ApiNotFoundResponse, ApiBadRequestResponse } from '@nestjs/swagger'
 
 @ApiTags('Users')
 @Controller('users')
@@ -11,6 +11,7 @@ export class UsersController {
     @ApiOperation({ summary: 'Get a single user by id' })
     @ApiResponse({ status: 200, description: 'Return a single user.' })
     @ApiNotFoundResponse({ description: 'User not found.' })
+    @ApiBadRequestResponse({ description: 'Invalid ID.' })
     findOne(@Param('id') id: string) {
         return this.usersService.findById(parseInt(id, 10))
     }
