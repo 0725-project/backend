@@ -19,6 +19,6 @@ export class Post {
     @ManyToOne(() => User, (user) => user.posts)
     author: User
 
-    @ManyToOne(() => Topic, { nullable: false })
+    @ManyToOne(() => Topic, (topic) => topic.posts)
     topic: Topic
 }
