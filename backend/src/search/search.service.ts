@@ -64,6 +64,7 @@ export class SearchService {
 
         const posts = await query.getMany()
         const nextCursor = posts.length < limit ? null : posts[posts.length - 1].id
+
         return { posts, nextCursor }
     }
 }

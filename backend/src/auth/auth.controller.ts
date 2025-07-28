@@ -31,12 +31,14 @@ export class AuthController {
     @ApiBadRequestResponse({ description: 'Request payload is invalid.' })
     async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
         const result = await this.authService.login(loginDto.username, loginDto.password)
+
         res.cookie('refresh_token', result.refresh_token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
             maxAge: REFRESH_TOKEN_EXPIRES_IN_SECONDS,
         })
+
         return { access_token: result.access_token, user_id: result.user_id }
     }
 
@@ -57,10 +59,8 @@ export class AuthController {
     @ApiUnauthorizedResponse({ description: 'Invalid refresh token' })
     async refresh(@Req() req: Request) {
         const userId = this.extractUserIdFromRefreshToken(req)
-        if (typeof userId !== 'number') {
-            throw new UnauthorizedException('Invalid refresh token')
-        }
         const refreshToken = req.cookies?.refresh_token
+
         return this.authService.refresh(userId, refreshToken)
     }
 
@@ -69,27 +69,27 @@ export class AuthController {
     @ApiResponse({ status: 200, description: 'Logout successful.' })
     @ApiBadRequestResponse({ description: 'Refresh token is required' })
     async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-        const userId = this.extractUserIdFromRefreshToken(req, false)
-        if (typeof userId === 'number') {
-            await this.authService.logout(userId)
-        }
+        const userId = this.extractUserIdFromRefreshToken(req)
+        await this.authService.logout(userId)
+
         res.clearCookie('refresh_token')
+
         return { message: 'Logged out' }
     }
 
-    private extractUserIdFromRefreshToken(req: Request, throwOnInvalid = true): number | undefined {
+    private extractUserIdFromRefreshToken(req: Request): number {
         const refreshToken = req.cookies?.refresh_token
         if (!refreshToken) {
-            if (throwOnInvalid) throw new BadRequestException('Refresh token is required')
-            return undefined
+            throw new BadRequestException('Refresh token is required')
         }
+
         try {
             const payload = this.jwtService.decode(refreshToken) as { sub: number }
             if (typeof payload?.sub !== 'number') throw new Error()
+
             return payload.sub
         } catch {
-            if (throwOnInvalid) throw new UnauthorizedException('Invalid refresh token')
-            return undefined
+            throw new UnauthorizedException('Invalid refresh token')
         }
     }
 }

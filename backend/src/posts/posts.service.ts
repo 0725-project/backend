@@ -44,6 +44,7 @@ export class PostsService {
         if (!post) {
             throw new NotFoundException('Post not found')
         }
+
         return post
     }
 
@@ -52,6 +53,7 @@ export class PostsService {
         if (!post) {
             throw new NotFoundException('Post not found')
         }
+
         if (post.author.id !== userId) {
             throw new ForbiddenException('You are not authorized to update this post')
         }
@@ -65,6 +67,7 @@ export class PostsService {
         if (!post) {
             throw new NotFoundException('Post not found')
         }
+
         if (post.author.id !== userId) {
             throw new ForbiddenException('You are not authorized to delete this post')
         }

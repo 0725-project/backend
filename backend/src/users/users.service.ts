@@ -18,11 +18,6 @@ export class UsersService {
         }
     }
 
-    async findAll() {
-        const users = await this.repo.find()
-        return users
-    }
-
     async findByUsername(username: string) {
         const user = await this.repo.findOne({ where: { username } })
         if (!user) {
@@ -34,7 +29,7 @@ export class UsersService {
 
     async isExistUsername(username: string) {
         const user = await this.repo.findOne({ where: { username } })
-        return !!user
+        return Boolean(user)
     }
 
     async findById(id: number) {

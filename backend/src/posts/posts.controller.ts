@@ -49,7 +49,7 @@ export class PostsController {
     @ApiResponse({ status: 200, description: 'Return a single post.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
     findOne(@Param('id') id: string) {
-        return this.postsService.findOne(+id)
+        return this.postsService.findOne(parseInt(id, 10))
     }
 
     @UseGuards(JwtAuthGuard)
@@ -72,7 +72,7 @@ export class PostsController {
     @ApiNotFoundResponse({ description: 'Post not found.' })
     @ApiForbiddenResponse({ description: 'You are not the author of this post.' })
     update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto, @Request() req: AuthenticatedRequest) {
-        return this.postsService.update(+id, updatePostDto, req.user.userId)
+        return this.postsService.update(parseInt(id, 10), updatePostDto, req.user.userId)
     }
 
     @UseGuards(JwtAuthGuard)
@@ -84,6 +84,6 @@ export class PostsController {
     @ApiNotFoundResponse({ description: 'Post not found.' })
     @ApiForbiddenResponse({ description: 'You are not the author of this post.' })
     remove(@Param('id') id: string, @Request() req: AuthenticatedRequest) {
-        return this.postsService.remove(+id, req.user.userId)
+        return this.postsService.remove(parseInt(id, 10), req.user.userId)
     }
 }

@@ -19,7 +19,6 @@ export class AuthService {
         }
 
         const user = await this.usersService.findByUsername(username)
-
         if (!user || !(await bcrypt.compare(password, user.password))) {
             throw new UnauthorizedException('Invalid credentials')
         }
@@ -27,7 +26,9 @@ export class AuthService {
         const payload = { sub: user.id }
         const accessToken = this.jwtService.sign(payload)
         const refreshToken = this.jwtService.sign(payload, { expiresIn: REFRESH_TOKEN_EXPIRES_IN })
+
         await this.redisService.set(`user:${user.id}:refresh`, refreshToken, REFRESH_TOKEN_EXPIRES_IN_SECONDS)
+
         return {
             access_token: accessToken,
             refresh_token: refreshToken,
@@ -53,8 +54,10 @@ export class AuthService {
         if (!stored || stored !== refreshToken) {
             throw new UnauthorizedException('Invalid refresh token')
         }
+
         const payload = { sub: userId }
         const accessToken = this.jwtService.sign(payload)
+
         return { access_token: accessToken }
     }
 

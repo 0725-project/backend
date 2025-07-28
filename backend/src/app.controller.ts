@@ -8,7 +8,11 @@ export class AppController {
 
     @Get('health')
     @ApiOperation({ summary: 'Health check endpoint', description: 'Returns OK if the server is running' })
-    health(): string {
-        return 'OK'
+    health() {
+        return {
+            status: 'OK',
+            timestamp: new Date().toISOString(),
+            environment: process.env.NODE_ENV || 'development'
+        }
     }
 }
