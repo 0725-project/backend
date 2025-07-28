@@ -27,7 +27,7 @@ export class TopicController {
     @ApiBadRequestResponse({ description: 'Invalid request' })
     @ApiConflictResponse({ description: 'Topic already exists' })
     create(@Body() dto: CreateTopicDto, @Request() req: AuthenticatedRequest) {
-        return this.topicService.create(dto, { id: req.user.userId } as any)
+        return this.topicService.create(dto, req.user.userId)
     }
 
     @Get()

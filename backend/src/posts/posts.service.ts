@@ -40,7 +40,7 @@ export class PostsService {
     }
 
     async findOne(id: number) {
-        const post = await this.repo.findOne({ where: { id }, relations: ['author'] })
+        const post = await this.repo.findOne({ where: { id }, relations: ['author', 'topic'] })
         if (!post) {
             throw new NotFoundException('Post not found')
         }
@@ -77,7 +77,7 @@ export class PostsService {
         }
 
         if (post.author.id !== userId) {
-            throw new ForbiddenException('You are not authorized to update this post')
+            throw new ForbiddenException('You are not the author of this post')
         }
 
         Object.assign(post, updatePostDto)

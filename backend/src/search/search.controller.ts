@@ -24,7 +24,7 @@ export class SearchController {
     })
     @ApiQuery({ name: 'startDate', required: false, description: 'Start date (YYYY-MM-DD or ISO string)' })
     @ApiQuery({ name: 'endDate', required: false, description: 'End date (YYYY-MM-DD or ISO string)' })
-    @ApiResponse({ status: 200 })
+    @ApiResponse({ status: 200, description: 'Search results' })
     @ApiBadRequestResponse({ description: 'Invalid query parameters' })
     search(@Query() query: SearchPostsQueryDto) {
         return this.searchService.search(query)

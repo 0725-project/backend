@@ -5,7 +5,7 @@ import { UsernameDto } from 'src/common/types/default.dto'
 export class LoginDto extends UsernameDto {
     @ApiProperty({
         description: 'The password of the user.',
-        example: 'password123',
+        example: 'securePassword1234@',
     })
     @IsString()
     @IsNotEmpty()

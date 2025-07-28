@@ -12,11 +12,15 @@ export class TopicService {
         private readonly topicRepository: Repository<Topic>,
     ) {}
 
-    async create(createTopicDto: CreateTopicDto, creator: User) {
+    async create(createTopicDto: CreateTopicDto, creatorId: number) {
         const exists = await this.topicRepository.findOne({ where: { name: createTopicDto.topicName } })
         if (exists) throw new ConflictException('Topic already exists')
 
-        const topic = this.topicRepository.create({ ...createTopicDto, creator })
+        const topic = this.topicRepository.create({
+            ...createTopicDto,
+            name: createTopicDto.topicName,
+            creator: { id: creatorId },
+        })
         return this.topicRepository.save(topic)
     }
 

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn } from 'typeorm'
 import { User } from '../users/user.entity'
 import { Post } from '../posts/post.entity'
 import { Matches } from 'class-validator'
@@ -18,6 +18,6 @@ export class Topic {
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date
 
-    @ManyToOne(() => Post, (post) => post.topic)
+    @OneToMany(() => Post, (post) => post.topic)
     posts: Post[]
 }
