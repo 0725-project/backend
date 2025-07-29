@@ -17,6 +17,7 @@ import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 import { CursorPaginationDto, IdDto, TopicNameDto } from 'src/common/types/default.dto'
+import { GetTopicPostParamDto } from './dto/get-topic-post.dto'
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -64,6 +65,14 @@ export class PostsController {
     })
     async findByTopic(@Param() { topicName }: TopicNameDto, @Query() { cursor, limit }: CursorPaginationDto) {
         return this.postsService.findByTopicName(topicName, cursor, limit)
+    }
+
+       @Get('/topic/:topicName/:topicLocalId')
+    @ApiOperation({ summary: 'Get a post by topicName and topicLocalId' })
+    @ApiResponse({ status: 200, description: 'Return a single post in topic by topicLocalId' })
+    @ApiNotFoundResponse({ description: 'Post not found' })
+    findByTopicLocalId(@Param() { topicName, topicLocalId }: GetTopicPostParamDto) {
+        return this.postsService.findByTopicLocalId(topicName, topicLocalId)
     }
 
     @Get(':id')

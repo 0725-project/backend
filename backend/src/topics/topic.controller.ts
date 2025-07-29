@@ -13,7 +13,6 @@ import {
 } from '@nestjs/swagger'
 import { AuthenticatedRequest } from '../common/types/express-request.interface'
 import { TopicNameDto } from 'src/common/types/default.dto'
-import { GetTopicPostParamDto } from './dto/get-topic-post.dto'
 
 @ApiTags('Topics')
 @Controller('topics')
@@ -44,13 +43,5 @@ export class TopicsController {
     @ApiNotFoundResponse({ description: 'Topic not found' })
     findByName(@Param() { topicName }: TopicNameDto) {
         return this.topicService.findByName(topicName)
-    }
-
-    @Get(':topicName/:topicLocalId')
-    @ApiOperation({ summary: 'Get a post by topicName and topicLocalId' })
-    @ApiResponse({ status: 200, description: 'Return a single post in topic by topicLocalId' })
-    @ApiNotFoundResponse({ description: 'Post not found' })
-    findPostByTopicLocalId(@Param() { topicName, topicLocalId }: GetTopicPostParamDto) {
-        return this.topicService.findPostByTopicLocalId(topicName, topicLocalId)
     }
 }

@@ -6,20 +6,20 @@ import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectRepository(User) private repo: Repository<User>) {}
+    constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
 
     async create(username: string, password: string, email: string) {
         try {
             const hashed = await bcrypt.hash(password, 10)
-            const user = this.repo.create({ username, password: hashed, email })
-            return await this.repo.save(user)
+            const user = this.userRepo.create({ username, password: hashed, email })
+            return await this.userRepo.save(user)
         } catch (err) {
             throw new InternalServerErrorException('Failed to create user')
         }
     }
 
     async findByUsername(username: string) {
-        const user = await this.repo.findOne({ where: { username } })
+        const user = await this.userRepo.findOne({ where: { username } })
         if (!user) {
             throw new NotFoundException('User not found')
         }
@@ -28,17 +28,17 @@ export class UsersService {
     }
 
     async isExistUsername(username: string) {
-        const user = await this.repo.findOne({ where: { username } })
+        const user = await this.userRepo.findOne({ where: { username } })
         return Boolean(user)
     }
 
     async isExistEmail(email: string) {
-        const user = await this.repo.findOne({ where: { email } })
+        const user = await this.userRepo.findOne({ where: { email } })
         return Boolean(user)
     }
 
     async findById(id: number) {
-        const user = await this.repo.findOne({ where: { id } })
+        const user = await this.userRepo.findOne({ where: { id } })
         if (!user) {
             throw new NotFoundException('User not found')
         }

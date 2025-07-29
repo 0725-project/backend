@@ -10,43 +10,31 @@ import { Post } from '../posts/post.entity'
 export class TopicsService {
     constructor(
         @InjectRepository(Topic)
-        private readonly topicRepository: Repository<Topic>,
-        @InjectRepository(Post)
-        private readonly postRepository: Repository<Post>,
+        private readonly topicRepo: Repository<Topic>,
     ) {}
-    async findPostByTopicLocalId(topicName: string, topicLocalId: number) {
-        const topic = await this.topicRepository.findOne({ where: { name: topicName } })
-        if (!topic) throw new NotFoundException('Topic not found')
-
-        const post = await this.postRepository.findOne({
-            where: { topic: { id: topic.id }, topicLocalId },
-            relations: ['author', 'topic'],
-        })
-        if (!post) throw new NotFoundException('Post not found')
-
-        return post
-    }
 
     async create(createTopicDto: CreateTopicDto, creatorId: number) {
-        const exists = await this.topicRepository.findOne({ where: { name: createTopicDto.topicName } })
+        const exists = await this.topicRepo.findOne({ where: { name: createTopicDto.topicName } })
         if (exists) throw new ConflictException('Topic already exists')
 
-        const topic = this.topicRepository.create({
+        const topic = this.topicRepo.create({
             ...createTopicDto,
             name: createTopicDto.topicName,
             creator: { id: creatorId },
         })
-        return this.topicRepository.save(topic)
+        return this.topicRepo.save(topic)
     }
 
     async findByName(name: string) {
-        const topic = await this.topicRepository.findOne({ where: { name }, relations: ['creator'] })
+        const topic = await this.topicRepo.findOne({ where: { name }, relations: ['creator'] })
         if (!topic) throw new NotFoundException('Topic not found')
+
+        console.log('Topic found:', topic)
 
         return topic
     }
 
     async findAll() {
-        return this.topicRepository.find({ relations: ['creator'] })
+        return this.topicRepo.find({ relations: ['creator'] })
     }
 }

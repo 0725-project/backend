@@ -9,7 +9,7 @@ import { Topic } from '../topics/topic.entity'
 @Injectable()
 export class PostsService {
     constructor(
-        @InjectRepository(Post) private repo: Repository<Post>,
+        @InjectRepository(Post) private postRepo: Repository<Post>,
         @InjectRepository(Topic) private topicRepo: Repository<Topic>,
     ) {}
 
@@ -17,19 +17,19 @@ export class PostsService {
         const topic = await this.topicRepo.findOne({ where: { name: createPostDto.topicName } })
         if (!topic) throw new NotFoundException('Topic not found')
 
-        const count = await this.repo.count({ where: { topic: { id: topic.id } } })
+        const count = await this.postRepo.count({ where: { topic: { id: topic.id } } })
 
-        const post = this.repo.create({
+        const post = this.postRepo.create({
             ...createPostDto,
             author: { id: userId },
             topic,
             topicLocalId: count + 1,
         })
-        return this.repo.save(post)
+        return this.postRepo.save(post)
     }
 
     async findAll(cursor?: number, limit = 10) {
-        const query = this.repo
+        const query = this.postRepo
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
@@ -47,7 +47,7 @@ export class PostsService {
     }
 
     async findOne(id: number) {
-        const post = await this.repo.findOne({ where: { id }, relations: ['author', 'topic'] })
+        const post = await this.postRepo.findOne({ where: { id }, relations: ['author', 'topic'] })
         if (!post) {
             throw new NotFoundException('Post not found')
         }
@@ -59,7 +59,7 @@ export class PostsService {
         const topic = await this.topicRepo.findOne({ where: { name: topicName } })
         if (!topic) throw new NotFoundException('Topic not found')
 
-        const query = this.repo
+        const query = this.postRepo
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
@@ -77,8 +77,21 @@ export class PostsService {
         return { posts, nextCursor }
     }
 
+    async findByTopicLocalId(topicName: string, topicLocalId: number) {
+        const topic = await this.topicRepo.findOne({ where: { name: topicName } })
+        if (!topic) throw new NotFoundException('Topic not found')
+
+        const post = await this.postRepo.findOne({
+            where: { topic: { id: topic.id }, topicLocalId },
+            relations: ['author', 'topic'],
+        })
+        if (!post) throw new NotFoundException('Post not found')
+
+        return post
+    }
+
     async update(id: number, updatePostDto: UpdatePostDto, userId: number) {
-        const post = await this.repo.findOne({ where: { id }, relations: ['author'] })
+        const post = await this.postRepo.findOne({ where: { id }, relations: ['author'] })
         if (!post) {
             throw new NotFoundException('Post not found')
         }
@@ -88,11 +101,11 @@ export class PostsService {
         }
 
         Object.assign(post, updatePostDto)
-        return this.repo.save(post)
+        return this.postRepo.save(post)
     }
 
     async remove(id: number, userId: number) {
-        const post = await this.repo.findOne({ where: { id }, relations: ['author'] })
+        const post = await this.postRepo.findOne({ where: { id }, relations: ['author'] })
         if (!post) {
             throw new NotFoundException('Post not found')
         }
@@ -101,6 +114,6 @@ export class PostsService {
             throw new ForbiddenException('You are not authorized to delete this post')
         }
 
-        return this.repo.remove(post)
+        return this.postRepo.remove(post)
     }
 }

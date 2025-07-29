@@ -6,10 +6,10 @@ import { SearchPostsQueryDto } from './dto/search-posts.dto'
 
 @Injectable()
 export class SearchService {
-    constructor(@InjectRepository(Post) private repo: Repository<Post>) {}
+    constructor(@InjectRepository(Post) private postRepo: Repository<Post>) {}
 
     async search(dto: SearchPostsQueryDto) {
-        const query = this.repo
+        const query = this.postRepo
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
