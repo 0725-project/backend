@@ -10,8 +10,6 @@ export class TypeOrmExceptionFilter implements ExceptionFilter {
 
         const err = exception as unknown as { code: string; detail: string }
 
-        console.log(err)
-
         let statusCode = 500
         let message = `Database error: ${err.code}`
         let error = 'InternalServerError'
