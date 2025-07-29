@@ -5,6 +5,7 @@ import { Repository } from 'typeorm'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { CreatePostDto } from './dto/create-post.dto'
 import { Topic } from '../topics/topic.entity'
+import { SELECT_POSTS_WITH_AUTHOR_AND_TOPIC } from 'src/common/constants'
 
 @Injectable()
 export class PostsService {
@@ -33,6 +34,7 @@ export class PostsService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
+            .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
             .orderBy('post.id', 'DESC')
             .take(limit)
 
@@ -47,7 +49,13 @@ export class PostsService {
     }
 
     async findOne(id: number) {
-        const post = await this.postRepo.findOne({ where: { id }, relations: ['author', 'topic'] })
+        const post = await this.postRepo
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.author', 'author')
+            .leftJoinAndSelect('post.topic', 'topic')
+            .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
+            .where('post.id = :id', { id })
+            .getOne()
         if (!post) {
             throw new NotFoundException('Post not found')
         }
@@ -63,6 +71,7 @@ export class PostsService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
+            .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
             .where('topic.name = :topicName', { topicName })
             .orderBy('post.id', 'DESC')
             .take(limit)
@@ -81,17 +90,27 @@ export class PostsService {
         const topic = await this.topicRepo.findOne({ where: { name: topicName } })
         if (!topic) throw new NotFoundException('Topic not found')
 
-        const post = await this.postRepo.findOne({
-            where: { topic: { id: topic.id }, topicLocalId },
-            relations: ['author', 'topic'],
-        })
+        const post = await this.postRepo
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.author', 'author')
+            .leftJoinAndSelect('post.topic', 'topic')
+            .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
+            .where('post.topic.id = :topicId', { topicId: topic.id })
+            .andWhere('post.topicLocalId = :topicLocalId', { topicLocalId })
+            .getOne()
         if (!post) throw new NotFoundException('Post not found')
 
         return post
     }
 
     async update(id: number, updatePostDto: UpdatePostDto, userId: number) {
-        const post = await this.postRepo.findOne({ where: { id }, relations: ['author'] })
+        const post = await this.postRepo
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.author', 'author')
+            .leftJoinAndSelect('post.topic', 'topic')
+            .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
+            .where('post.id = :id', { id })
+            .getOne()
         if (!post) {
             throw new NotFoundException('Post not found')
         }
@@ -105,7 +124,13 @@ export class PostsService {
     }
 
     async remove(id: number, userId: number) {
-        const post = await this.postRepo.findOne({ where: { id }, relations: ['author'] })
+        const post = await this.postRepo
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.author', 'author')
+            .leftJoinAndSelect('post.topic', 'topic')
+            .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
+            .where('post.id = :id', { id })
+            .getOne()
         if (!post) {
             throw new NotFoundException('Post not found')
         }

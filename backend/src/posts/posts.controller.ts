@@ -67,7 +67,7 @@ export class PostsController {
         return this.postsService.findByTopicName(topicName, cursor, limit)
     }
 
-       @Get('/topic/:topicName/:topicLocalId')
+    @Get('/topic/:topicName/:topicLocalId')
     @ApiOperation({ summary: 'Get a post by topicName and topicLocalId' })
     @ApiResponse({ status: 200, description: 'Return a single post in topic by topicLocalId' })
     @ApiNotFoundResponse({ description: 'Post not found' })
@@ -90,7 +90,7 @@ export class PostsController {
     @ApiOperation({ summary: 'Create a new post' })
     @ApiResponse({ status: 201, description: 'The post has been successfully created.' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
-    @ApiBadRequestResponse({ description: 'Invalid post data.' })
+    @ApiBadRequestResponse({ description: 'Invalid payload.' })
     create(@Body() createPostDto: CreatePostDto, @Request() req: AuthenticatedRequest) {
         return this.postsService.create(createPostDto, req.user.userId)
     }
@@ -100,7 +100,7 @@ export class PostsController {
     @Put(':id')
     @ApiOperation({ summary: 'Update a post' })
     @ApiResponse({ status: 200, description: 'The post has been successfully updated.' })
-    @ApiBadRequestResponse({ description: 'Invalid ID' })
+    @ApiBadRequestResponse({ description: 'Invalid ID or payload.' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
     @ApiForbiddenResponse({ description: 'You are not the author of this post.' })

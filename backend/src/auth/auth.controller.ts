@@ -46,8 +46,8 @@ export class AuthController {
     @ApiOperation({ summary: 'Register a new user' })
     @ApiBody({ type: RegisterDto })
     @ApiResponse({ status: 201, description: 'User registration successful.' })
-    @ApiBadRequestResponse({ description: 'Username or password is missing or invalid.' })
-    @ApiConflictResponse({ description: 'Username already exists.' })
+    @ApiBadRequestResponse({ description: 'Username, password or email is invalid.' })
+    @ApiConflictResponse({ description: 'Username or email already exists.' })
     register(@Body() registerDto: RegisterDto) {
         return this.authService.register(registerDto)
     }

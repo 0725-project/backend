@@ -4,6 +4,7 @@ import { setupSwagger } from './common/utils/setupSwagger'
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { TransformInterceptor } from './common/interceptors/transform.interceptor'
 import * as cookieParser from 'cookie-parser'
+import { TypeOrmExceptionFilter } from './common/filters/typeorm-exception.filter'
 
 const PORT = process.env.PORT ?? 3000
 const IS_PRODUCTION = process.env.NODE_ENV === 'production'
@@ -19,6 +20,7 @@ const bootstrap = async () => {
         }),
     )
     app.useGlobalInterceptors(new TransformInterceptor())
+    app.useGlobalFilters(new TypeOrmExceptionFilter())
     app.use(cookieParser())
 
     const logger = new Logger('Bootstrap')

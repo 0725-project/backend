@@ -7,7 +7,7 @@ import { Topic } from '../topics/topic.entity'
 import { TopicsModule } from '../topics/topic.module'
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Post, Topic]), forwardRef(() => TopicsModule)],
+    imports: [TypeOrmModule.forFeature([Post, Topic]), TopicsModule],
     providers: [PostsService],
     controllers: [PostsController],
 })

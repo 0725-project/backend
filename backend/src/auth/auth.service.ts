@@ -35,16 +35,6 @@ export class AuthService {
     }
 
     async register(dto: RegisterDto) {
-        const existing = await this.usersService.isExistUsername(dto.username)
-        if (existing) {
-            throw new ConflictException('Username already exists')
-        }
-
-        const emailExists = await this.usersService.isExistEmail(dto.email)
-        if (emailExists) {
-            throw new ConflictException('Email already exists')
-        }
-
         return this.usersService.create(dto.username, dto.password, dto.email)
     }
 
