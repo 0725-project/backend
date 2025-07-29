@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsString, IsNotEmpty } from 'class-validator'
 import { TopicNameDto } from 'src/common/types/default.dto'
+import { IntersectionType } from '@nestjs/swagger'
 
-export class CreatePostDto extends TopicNameDto {
+export class CreatePostDto extends IntersectionType(TopicNameDto) {
     @ApiProperty({
         description: 'The title of the post.',
         example: 'My First Post',

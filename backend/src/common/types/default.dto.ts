@@ -23,6 +23,26 @@ export class UsernameDto {
     username: string
 }
 
+export class PasswordDto {
+    @ApiProperty({
+        description: 'The password of the user.',
+        example: 'securePassword1234@',
+    })
+    @IsString()
+    @IsNotEmpty()
+    password: string
+}
+
+export class EmailDto {
+    @ApiProperty({
+        description: 'The email address of the user.',
+        example: 'foo@example.com',
+    })
+    @IsString()
+    @IsNotEmpty()
+    email: string
+}
+
 export class CursorPaginationDto {
     @IsOptional()
     @Type(() => Number)

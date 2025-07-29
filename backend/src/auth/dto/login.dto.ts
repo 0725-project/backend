@@ -1,13 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsNotEmpty } from 'class-validator'
-import { UsernameDto } from 'src/common/types/default.dto'
+import { PasswordDto, UsernameDto } from 'src/common/types/default.dto'
+import { IntersectionType } from '@nestjs/swagger'
 
-export class LoginDto extends UsernameDto {
-    @ApiProperty({
-        description: 'The password of the user.',
-        example: 'securePassword1234@',
-    })
-    @IsString()
-    @IsNotEmpty()
-    password: string
-}
+export class LoginDto extends IntersectionType(UsernameDto, PasswordDto) {}
