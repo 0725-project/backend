@@ -21,4 +21,7 @@ export class Post {
 
     @ManyToOne(() => Topic, (topic) => topic.posts)
     topic: Topic
+
+    @Column()
+    topicLocalId: number // ex) /topics/{topicName}/{topicLocalId}
 }

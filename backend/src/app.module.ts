@@ -6,7 +6,7 @@ import { AuthModule } from './auth/auth.module'
 import { PostsModule } from './posts/posts.module'
 import { SearchModule } from './search/search.module'
 import { RedisModule } from './common/redis/redis.module'
-import { TopicModule } from './topics/topic.module'
+import { TopicsModule } from './topics/topic.module'
 import { AppController } from './app.controller'
 
 @Module({
@@ -26,7 +26,7 @@ import { AppController } from './app.controller'
         AuthModule,
         PostsModule,
         SearchModule,
-        TopicModule,
+        TopicsModule,
     ],
     controllers: [AppController],
 })

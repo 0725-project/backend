@@ -1,5 +1,5 @@
 import { Controller, Post, Body, UseGuards, Request, Get, Param } from '@nestjs/common'
-import { TopicService } from './topic.service'
+import { TopicsService } from './topic.service'
 import { CreateTopicDto } from './dto/create-topic.dto'
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard'
 import {
@@ -13,11 +13,12 @@ import {
 } from '@nestjs/swagger'
 import { AuthenticatedRequest } from '../common/types/express-request.interface'
 import { TopicNameDto } from 'src/common/types/default.dto'
+import { GetTopicPostDto } from './dto/get-topic-post.dto'
 
 @ApiTags('Topics')
 @Controller('topics')
-export class TopicController {
-    constructor(private readonly topicService: TopicService) {}
+export class TopicsController {
+    constructor(private readonly topicService: TopicsService) {}
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
@@ -43,5 +44,13 @@ export class TopicController {
     @ApiNotFoundResponse({ description: 'Topic not found' })
     findByName(@Param() { topicName }: TopicNameDto) {
         return this.topicService.findByName(topicName)
+    }
+
+    @Get(':topicName/:topicLocalId')
+    @ApiOperation({ summary: 'Get a post by topicName and topicLocalId' })
+    @ApiResponse({ status: 200, description: 'Return a single post in topic by topicLocalId' })
+    @ApiNotFoundResponse({ description: 'Post not found' })
+    findPostByTopicLocalId(@Param() { topicName, topicLocalId }: GetTopicPostDto) {
+        return this.topicService.findPostByTopicLocalId(topicName, topicLocalId)
     }
 }

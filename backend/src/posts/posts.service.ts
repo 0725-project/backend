@@ -17,7 +17,15 @@ export class PostsService {
         const topic = await this.topicRepo.findOne({ where: { name: createPostDto.topicName } })
         if (!topic) throw new NotFoundException('Topic not found')
 
-        const post = this.repo.create({ ...createPostDto, author: { id: userId }, topic })
+        // 해당 토픽 내 게시글 개수 조회
+        const count = await this.repo.count({ where: { topic: { id: topic.id } } })
+
+        const post = this.repo.create({
+            ...createPostDto,
+            author: { id: userId },
+            topic,
+            topicLocalId: count + 1,
+        })
         return this.repo.save(post)
     }
 
