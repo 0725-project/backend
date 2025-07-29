@@ -23,5 +23,5 @@ export class Post {
     topic: Topic
 
     @Column()
-    topicLocalId: number // ex) /topics/{topicName}/{topicLocalId}
+    topicLocalId: number
 }

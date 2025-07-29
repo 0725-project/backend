@@ -3,7 +3,7 @@ import { TopicNameDto } from 'src/common/types/default.dto'
 import { IsInt, IsNotEmpty } from 'class-validator'
 import { Type } from 'class-transformer'
 
-export class GetTopicPostDto extends IntersectionType(TopicNameDto) {
+export class GetTopicPostParamDto extends IntersectionType(TopicNameDto) {
     @ApiProperty({
         description: 'The local ID of the post within the topic.',
         example: 1,

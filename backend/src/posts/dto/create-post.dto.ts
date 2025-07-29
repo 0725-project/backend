@@ -1,7 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty, IntersectionType } from '@nestjs/swagger'
 import { IsString, IsNotEmpty } from 'class-validator'
 import { TopicNameDto } from 'src/common/types/default.dto'
-import { IntersectionType } from '@nestjs/swagger'
 
 export class CreatePostDto extends IntersectionType(TopicNameDto) {
     @ApiProperty({

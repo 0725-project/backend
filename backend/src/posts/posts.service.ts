@@ -17,7 +17,6 @@ export class PostsService {
         const topic = await this.topicRepo.findOne({ where: { name: createPostDto.topicName } })
         if (!topic) throw new NotFoundException('Topic not found')
 
-        // 해당 토픽 내 게시글 개수 조회
         const count = await this.repo.count({ where: { topic: { id: topic.id } } })
 
         const post = this.repo.create({
