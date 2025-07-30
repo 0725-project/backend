@@ -23,7 +23,7 @@ export class TopicService {
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
             .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
-            .where('topic.name = :topicName', { topicName })
+            .where('topic.id = :topicId', { topicId: topic.id })
             .orderBy('post.id', 'DESC')
             .take(limit)
 
