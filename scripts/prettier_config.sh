@@ -1,3 +1,5 @@
+#!/bin/bash
+
 rm -rf frontend/.prettierrc
 rm -rf frontend/.prettierignore
 rm -rf backend/.prettierrc
