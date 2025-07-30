@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
 import { Exclude } from 'class-transformer'
 import { Post } from '../posts/post.entity'
-import { Topic } from 'src/topics/topic.entity'
+import { Topic } from 'src/topics/topics.entity'
 
 @Entity()
 export class User {

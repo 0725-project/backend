@@ -6,7 +6,8 @@ import { AuthModule } from './auth/auth.module'
 import { PostsModule } from './posts/posts.module'
 import { SearchModule } from './search/search.module'
 import { RedisModule } from './common/redis/redis.module'
-import { TopicsModule } from './topics/topic.module'
+import { TopicModule } from './topic/topic.module'
+import { TopicsModule } from './topics/topics.module'
 import { AppController } from './app.controller'
 
 @Module({
@@ -22,11 +23,12 @@ import { AppController } from './app.controller'
             autoLoadEntities: true,
         }),
         RedisModule,
-        UsersModule,
         AuthModule,
+        UsersModule,
         PostsModule,
-        SearchModule,
+        TopicModule,
         TopicsModule,
+        SearchModule,
     ],
     controllers: [AppController],
 })

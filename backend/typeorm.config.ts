@@ -2,7 +2,7 @@ import { DataSource } from 'typeorm'
 import { User } from './src/users/user.entity'
 import { Post } from './src/posts/post.entity'
 import * as dotenv from 'dotenv'
-import { Topic } from 'src/topics/topic.entity'
+import { Topic } from 'src/topics/topics.entity'
 
 dotenv.config()
 

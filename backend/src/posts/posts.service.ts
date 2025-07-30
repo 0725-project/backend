@@ -4,7 +4,7 @@ import { Post } from './post.entity'
 import { Repository } from 'typeorm'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { CreatePostDto } from './dto/create-post.dto'
-import { Topic } from '../topics/topic.entity'
+import { Topic } from '../topics/topics.entity'
 import { SELECT_POSTS_WITH_AUTHOR_AND_TOPIC } from 'src/common/constants'
 
 @Injectable()
@@ -59,46 +59,6 @@ export class PostsService {
         if (!post) {
             throw new NotFoundException('Post not found')
         }
-
-        return post
-    }
-
-    async findByTopicName(topicName: string, cursor?: number, limit = 10) {
-        const topic = await this.topicRepo.findOne({ where: { name: topicName } })
-        if (!topic) throw new NotFoundException('Topic not found')
-
-        const query = this.postRepo
-            .createQueryBuilder('post')
-            .leftJoinAndSelect('post.author', 'author')
-            .leftJoinAndSelect('post.topic', 'topic')
-            .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
-            .where('topic.name = :topicName', { topicName })
-            .orderBy('post.id', 'DESC')
-            .take(limit)
-
-        if (cursor) {
-            query.andWhere('post.id < :cursor', { cursor })
-        }
-
-        const posts = await query.getMany()
-        const nextCursor = posts.length < limit ? null : posts[posts.length - 1].id
-
-        return { posts, nextCursor }
-    }
-
-    async findByTopicLocalId(topicName: string, topicLocalId: number) {
-        const topic = await this.topicRepo.findOne({ where: { name: topicName } })
-        if (!topic) throw new NotFoundException('Topic not found')
-
-        const post = await this.postRepo
-            .createQueryBuilder('post')
-            .leftJoinAndSelect('post.author', 'author')
-            .leftJoinAndSelect('post.topic', 'topic')
-            .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
-            .where('post.topic.id = :topicId', { topicId: topic.id })
-            .andWhere('post.topicLocalId = :topicLocalId', { topicLocalId })
-            .getOne()
-        if (!post) throw new NotFoundException('Post not found')
 
         return post
     }

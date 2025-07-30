@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm'
 import { User } from '../users/user.entity'
-import { Topic } from '../topics/topic.entity'
+import { Topic } from '../topics/topics.entity'
 
 @Entity()
 export class Post {

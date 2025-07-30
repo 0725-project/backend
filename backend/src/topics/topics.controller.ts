@@ -1,5 +1,5 @@
 import { Controller, Post, Body, UseGuards, Request, Get, Param } from '@nestjs/common'
-import { TopicsService } from './topic.service'
+import { TopicsService } from './topics.service'
 import { CreateTopicDto } from './dto/create-topic.dto'
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard'
 import {
