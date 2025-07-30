@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from './user.entity'
-import { Repository } from 'typeorm'
+import { QueryBuilder, Repository } from 'typeorm'
 import * as bcrypt from 'bcrypt'
 
 @Injectable()
@@ -25,6 +25,19 @@ export class UsersService {
 
     async findById(id: number) {
         const user = await this.userRepo.findOne({ where: { id } })
+        if (!user) {
+            throw new NotFoundException('User not found')
+        }
+
+        return user
+    }
+
+    async getPasswordByUsername(username: string) {
+        const user = await this.userRepo
+            .createQueryBuilder('user')
+            .where('user.username = :username', { username })
+            .select(['user', 'user.password'])
+            .getOne()
         if (!user) {
             throw new NotFoundException('User not found')
         }

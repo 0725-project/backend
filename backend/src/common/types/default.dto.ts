@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNotEmpty, IsInt, IsString, IsOptional, Min, Max, Matches } from 'class-validator'
+import { IsNotEmpty, IsInt, IsString, IsOptional, Min, Max, Matches, MaxLength } from 'class-validator'
 import { Type } from 'class-transformer'
 
 export class IdDto {
@@ -20,6 +20,7 @@ export class UsernameDto {
     })
     @IsString()
     @IsNotEmpty()
+    @MaxLength(32)
     username: string
 }
 
@@ -30,6 +31,7 @@ export class PasswordDto {
     })
     @IsString()
     @IsNotEmpty()
+    @MaxLength(255)
     password: string
 }
 
@@ -40,7 +42,20 @@ export class EmailDto {
     })
     @IsString()
     @IsNotEmpty()
+    @MaxLength(320)
+    @Matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
     email: string
+}
+
+export class PostTitleDto {
+    @ApiProperty({
+        description: 'The title of the post.',
+        example: 'My First Post',
+    })
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(255)
+    title: string
 }
 
 export class CursorPaginationDto {
@@ -65,5 +80,17 @@ export class TopicNameDto {
     @IsString()
     @IsNotEmpty()
     @Matches(/^[a-z]+$/, { message: 'The topic name must be in lowercase letters.' })
+    @MaxLength(32)
     topicName: string
+}
+
+export class TopicDescriptionDto {
+    @ApiProperty({
+        description: 'The description of the topic.',
+        example: 'Programming discussions and resources',
+    })
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(255)
+    description: string
 }

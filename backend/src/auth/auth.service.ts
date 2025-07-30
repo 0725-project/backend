@@ -16,7 +16,7 @@ export class AuthService {
     ) {}
 
     async login(dto: LoginDto) {
-        const user = await this.usersService.findByUsername(dto.username)
+        const user = await this.usersService.getPasswordByUsername(dto.username)
         if (!user || !(await bcrypt.compare(dto.password, user.password))) {
             throw new UnauthorizedException('Invalid credentials')
         }

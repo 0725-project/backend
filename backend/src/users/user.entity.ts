@@ -8,14 +8,14 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ unique: true })
+    @Column({ type: 'varchar', length: 32, unique: true })
     username: string
 
     @Exclude()
-    @Column()
+    @Column({ type: 'varchar', length: 255, select: false })
     password: string
 
-    @Column({ unique: true })
+    @Column({ type: 'varchar', length: 320, unique: true })
     email: string
 
     @OneToMany(() => Post, (post) => post.author)
