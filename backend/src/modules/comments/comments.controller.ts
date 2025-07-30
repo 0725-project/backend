@@ -8,6 +8,7 @@ import {
     ApiNotFoundResponse,
     ApiBadRequestResponse,
     ApiQuery,
+    ApiParam,
 } from '@nestjs/swagger'
 import { CommentsService } from './comments.service'
 import { CreateCommentDto } from './dto/create-comment.dto'
@@ -33,15 +34,10 @@ export class CommentsController {
     }
 
     @Get(':postId')
-    @ApiOperation({ summary: 'Get comments for a post with pagination' })
+    @ApiOperation({ summary: 'Get comments for a post' })
     @ApiResponse({ status: 200, description: 'Return paginated comments.' })
     @ApiBadRequestResponse({ description: 'Invalid cursor or limit.' })
-    @ApiQuery({
-        name: 'postId',
-        required: true,
-        type: Number,
-        description: 'The ID of the post to get comments for.',
-    })
+    @ApiParam({ name: 'postId', type: Number, description: 'ID of the post to get comments for.' })
     @ApiQuery({
         name: 'cursor',
         required: false,
