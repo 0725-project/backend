@@ -11,7 +11,7 @@ import {
 } from '@nestjs/swagger'
 import { CommentsService } from './comments.service'
 import { CreateCommentDto } from './dto/create-comment.dto'
-import { CursorPaginationDto } from 'src/common/types/default.dto'
+import { CursorPaginationDto, PostIdDto } from 'src/common/types/default.dto'
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
@@ -55,8 +55,8 @@ export class CommentsController {
         type: Number,
         description: 'The number of comments to return. Max is 20.',
         default: 10,
-    }) 
-    getComments(@Param('postId') postId: number, @Query() dto: CursorPaginationDto) {
+    })
+    getComments(@Param() { postId }: PostIdDto, @Query() dto: CursorPaginationDto) {
         return this.commentsService.getComments(postId, dto)
     }
 }
