@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, Index } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, Index, OneToMany } from 'typeorm'
 import { User } from '../users/user.entity'
 import { Topic } from '../topics/topics.entity'
+import { Comment } from '../comments/comment.entity'
 
 @Entity()
 @Index(['topic', 'id'])
@@ -25,4 +26,7 @@ export class Post {
 
     @ManyToOne(() => Topic, (topic) => topic.posts)
     topic: Topic
+
+    @OneToMany(() => Comment, (comment) => comment.post)
+    comments: Comment[]
 }

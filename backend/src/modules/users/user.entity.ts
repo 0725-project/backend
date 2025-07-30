@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
 import { Exclude } from 'class-transformer'
 import { Post } from '../posts/post.entity'
 import { Topic } from 'src/modules/topics/topics.entity'
+import { Comment } from '../comments/comment.entity'
 
 @Entity()
 export class User {
@@ -23,4 +24,7 @@ export class User {
 
     @OneToMany(() => Topic, (topic) => topic.creator)
     topics: Topic[]
+
+    @OneToMany(() => Comment, (comment) => comment.user)
+    comments: Comment[]
 }

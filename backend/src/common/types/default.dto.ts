@@ -13,6 +13,17 @@ export class IdDto {
     id: number
 }
 
+export class PostIdDto {
+    @ApiProperty({
+        description: 'The ID of the post.',
+        example: 1,
+    })
+    @Type(() => Number)
+    @IsInt()
+    @IsNotEmpty()
+    postId: number
+}
+
 export class UsernameDto {
     @ApiProperty({
         description: 'The username of the user.',

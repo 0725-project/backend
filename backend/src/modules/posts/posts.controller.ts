@@ -11,12 +11,11 @@ import {
     ApiForbiddenResponse,
     ApiBadRequestResponse,
     ApiQuery,
-    ApiParam,
 } from '@nestjs/swagger'
 import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
-import { CursorPaginationDto, IdDto, TopicNameDto } from 'src/common/types/default.dto'
+import { CursorPaginationDto, IdDto } from 'src/common/types/default.dto'
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -41,7 +40,7 @@ export class PostsController {
         description: 'The number of posts to return. Max is 20.',
         default: 10,
     })
-    async findAll(@Query() { cursor, limit }: CursorPaginationDto) {
+    findAll(@Query() { cursor, limit }: CursorPaginationDto) {
         return this.postsService.findAll(cursor, limit)
     }
 

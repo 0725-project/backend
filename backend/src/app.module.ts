@@ -9,6 +9,7 @@ import { PostsModule } from './modules/posts/posts.module'
 import { SearchModule } from './modules/search/search.module'
 import { TopicModule } from './modules/topic/topic.module'
 import { TopicsModule } from './modules/topics/topics.module'
+import { CommentsModule } from './modules/comments/comments.module'
 
 import { AppController } from './app.controller'
 
@@ -31,6 +32,7 @@ import { AppController } from './app.controller'
         TopicModule,
         TopicsModule,
         SearchModule,
+        CommentsModule,
     ],
     controllers: [AppController],
 })
