@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { SELECT_POSTS_WITH_AUTHOR_AND_TOPIC } from 'src/common/constants'
-import { Post } from 'src/posts/post.entity'
-import { Topic } from 'src/topics/topics.entity'
+import { Post } from 'src/modules/posts/post.entity'
+import { Topic } from 'src/modules/topics/topics.entity'
 import { Repository } from 'typeorm'
 
 @Injectable()

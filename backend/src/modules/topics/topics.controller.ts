@@ -1,7 +1,7 @@
 import { Controller, Post, Body, UseGuards, Request, Get, Param } from '@nestjs/common'
 import { TopicsService } from './topics.service'
 import { CreateTopicDto } from './dto/create-topic.dto'
-import { JwtAuthGuard } from '../common/guards/jwt-auth.guard'
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard'
 import {
     ApiBearerAuth,
     ApiTags,
@@ -11,7 +11,7 @@ import {
     ApiConflictResponse,
     ApiNotFoundResponse,
 } from '@nestjs/swagger'
-import { AuthenticatedRequest } from '../common/types/express-request.interface'
+import { AuthenticatedRequest } from '../../common/types/express-request.interface'
 import { TopicNameDto } from 'src/common/types/default.dto'
 
 @ApiTags('Topics')

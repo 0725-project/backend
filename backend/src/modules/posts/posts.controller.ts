@@ -1,6 +1,6 @@
 import { Controller, Get, Body, Param, Delete, Put, Request, UseGuards, Post as HttpPost, Query } from '@nestjs/common'
 import { PostsService } from './posts.service'
-import { JwtAuthGuard } from '../common/guards/jwt-auth.guard'
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard'
 import {
     ApiBearerAuth,
     ApiOperation,

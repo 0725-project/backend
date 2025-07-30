@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule } from '@nestjs/config'
-import { UsersModule } from './users/users.module'
-import { AuthModule } from './auth/auth.module'
-import { PostsModule } from './posts/posts.module'
-import { SearchModule } from './search/search.module'
 import { RedisModule } from './common/redis/redis.module'
-import { TopicModule } from './topic/topic.module'
-import { TopicsModule } from './topics/topics.module'
+
+import { UsersModule } from './modules/users/users.module'
+import { AuthModule } from './modules/auth/auth.module'
+import { PostsModule } from './modules/posts/posts.module'
+import { SearchModule } from './modules/search/search.module'
+import { TopicModule } from './modules/topic/topic.module'
+import { TopicsModule } from './modules/topics/topics.module'
+
 import { AppController } from './app.controller'
 
 @Module({

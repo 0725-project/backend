@@ -4,7 +4,7 @@ import { Topic } from './topics.entity'
 import { Post } from '../posts/post.entity'
 import { TopicsService } from './topics.service'
 import { TopicsController } from './topics.controller'
-import { PostsModule } from 'src/posts/posts.module'
+import { PostsModule } from 'src/modules/posts/posts.module'
 
 @Module({
     imports: [TypeOrmModule.forFeature([Post, Topic]), forwardRef(() => PostsModule)],

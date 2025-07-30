@@ -9,7 +9,7 @@ import {
     ApiConflictResponse,
     ApiBody,
 } from '@nestjs/swagger'
-import { REFRESH_TOKEN_EXPIRES_IN_SECONDS } from '../common/constants'
+import { REFRESH_TOKEN_EXPIRES_IN_SECONDS } from '../../common/constants'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
 import { Request, Response } from 'express'
