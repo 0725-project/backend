@@ -1,9 +1,9 @@
 import { DataSource } from 'typeorm'
 import { User } from './src/modules/users/user.entity'
 import { Post } from './src/modules/posts/post.entity'
-import * as dotenv from 'dotenv'
 import { Topic } from 'src/modules/topics/topics.entity'
 
+import * as dotenv from 'dotenv'
 dotenv.config()
 
 export default new DataSource({
