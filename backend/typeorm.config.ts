@@ -1,8 +1,8 @@
 import { DataSource } from 'typeorm'
-import { User } from './src/modules/users/user.entity'
-import { Post } from './src/modules/posts/post.entity'
+import { User } from './src/modules/users/users.entity'
+import { Post } from './src/modules/posts/posts.entity'
 import { Topic } from 'src/modules/topics/topics.entity'
-import { Comment } from 'src/modules/comments/comment.entity'
+import { Comment } from 'src/modules/comments/comments.entity'
 
 import * as dotenv from 'dotenv'
 dotenv.config()

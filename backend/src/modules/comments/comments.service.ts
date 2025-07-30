@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { Comment } from './comment.entity'
+import { Comment } from './comments.entity'
 import { CreateCommentDto } from './dto/create-comment.dto'
 import { CursorPaginationDto } from 'src/common/types/default.dto'
 

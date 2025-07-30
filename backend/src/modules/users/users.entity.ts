@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
 import { Exclude } from 'class-transformer'
-import { Post } from '../posts/post.entity'
+import { Post } from '../posts/posts.entity'
 import { Topic } from 'src/modules/topics/topics.entity'
-import { Comment } from '../comments/comment.entity'
+import { Comment } from '../comments/comments.entity'
 
-@Entity()
+@Entity('users')
 export class User {
     @PrimaryGeneratedColumn()
     id: number

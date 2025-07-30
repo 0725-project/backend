@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, Index } from 'typeorm'
-import { Post } from '../posts/post.entity'
-import { User } from '../users/user.entity'
+import { Post } from '../posts/posts.entity'
+import { User } from '../users/users.entity'
 
 @Entity('comments')
 @Index(['post', 'id'])
