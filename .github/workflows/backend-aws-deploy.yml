@@ -1,8 +1,9 @@
 name: Deploy Backend Workflow (v1)
 
-# on:
-#   push:
-#     paths:
+on:
+  push:
+    paths:
+        - 'nope'
 #       - 'backend/**'
 #       - '.github/workflows/backend-deploy.yaml'
 
