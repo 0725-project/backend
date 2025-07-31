@@ -75,8 +75,8 @@ export class PostsController {
     @ApiResponse({ status: 201, description: 'The post has been successfully created.' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
-    create(@Body() createPostDto: CreatePostDto, @Request() req: AuthenticatedRequest) {
-        return this.postsService.create(createPostDto, req.user.userId)
+    create(@Body() createPostDto: CreatePostDto, @Request() req: AuthenticatedRequest, @Ip() ip: string) {
+        return this.postsService.create(createPostDto, req.user.userId, ip)
     }
 
     @UseGuards(JwtAuthGuard)

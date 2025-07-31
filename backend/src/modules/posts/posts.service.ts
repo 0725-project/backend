@@ -16,7 +16,7 @@ export class PostsService {
         private redisService: RedisService,
     ) {}
 
-    async create(createPostDto: CreatePostDto, userId: number) {
+    async create(createPostDto: CreatePostDto, userId: number, ip: string) {
         const topic = await this.topicRepo.findOne({ where: { name: createPostDto.topicName } })
         if (!topic) throw new NotFoundException('Topic not found')
 
@@ -27,6 +27,8 @@ export class PostsService {
             author: { id: userId },
             topic,
             topicLocalId: count + 1,
+            viewCount: 0,
+            ip,
         })
         return this.postRepo.save(post)
     }
