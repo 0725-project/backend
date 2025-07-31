@@ -12,6 +12,9 @@ export class User {
     @Column({ type: 'varchar', length: 32, unique: true })
     username: string
 
+    @Column({ type: 'varchar', length: 32, nullable: true })
+    nickname: string
+
     @Exclude()
     @Column({ type: 'varchar', length: 255, select: false })
     password: string

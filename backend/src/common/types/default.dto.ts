@@ -32,7 +32,19 @@ export class UsernameDto {
     @IsString()
     @IsNotEmpty()
     @MaxLength(32)
+    @Matches(/^[a-z0-9_]+$/, { message: 'The username must be lowercase letters, numbers, or underscores.' })
     username: string
+}
+
+export class NicknameDto {
+    @ApiProperty({
+        description: 'The nickname of the user.',
+        example: 'Kim Jun Young',
+    })
+    @IsString()
+    @MaxLength(32)
+    @IsOptional()
+    nickname?: string
 }
 
 export class PasswordDto {

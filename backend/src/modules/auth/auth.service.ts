@@ -35,7 +35,7 @@ export class AuthService {
     }
 
     async register(dto: RegisterDto) {
-        return this.usersService.create(dto.username, dto.password, dto.email)
+        return this.usersService.create(dto)
     }
 
     async refresh(userId: number, refreshToken: string) {
