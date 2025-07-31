@@ -34,6 +34,17 @@ import { CursorPaginationDto, IdDto } from 'src/common/types/default.dto'
 export class PostsController {
     constructor(private postsService: PostsService) {}
 
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @HttpPost()
+    @ApiOperation({ summary: 'Create a new post' })
+    @ApiResponse({ status: 201, description: 'The post has been successfully created.' })
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+    @ApiBadRequestResponse({ description: 'Invalid payload.' })
+    create(@Body() createPostDto: CreatePostDto, @Request() req: AuthenticatedRequest, @Ip() ip: string) {
+        return this.postsService.create(createPostDto, req.user.userId, ip)
+    }
+
     @Get()
     @ApiOperation({ summary: 'Get posts with page id cursor based pagination' })
     @ApiResponse({ status: 200, description: 'Return paginated posts.' })
@@ -66,17 +77,6 @@ export class PostsController {
         await this.postsService.incrementViewCount(post.id, ip)
 
         return post
-    }
-
-    @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth()
-    @HttpPost()
-    @ApiOperation({ summary: 'Create a new post' })
-    @ApiResponse({ status: 201, description: 'The post has been successfully created.' })
-    @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
-    @ApiBadRequestResponse({ description: 'Invalid payload.' })
-    create(@Body() createPostDto: CreatePostDto, @Request() req: AuthenticatedRequest, @Ip() ip: string) {
-        return this.postsService.create(createPostDto, req.user.userId, ip)
     }
 
     @UseGuards(JwtAuthGuard)

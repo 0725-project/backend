@@ -32,7 +32,21 @@ export class TopicsService {
         return topic
     }
 
-    async findAll() {
-        return this.topicRepo.find({ relations: ['creator'] })
+    async findAll(cursor? : number, limit = 10) {
+        const query = this.topicRepo
+            .createQueryBuilder('topic')
+            .leftJoinAndSelect('topic.creator', 'creator')
+            .select(['topic.id', 'topic.name', 'creator.id', 'creator.username'])
+            .orderBy('topic.id', 'DESC')
+            .take(limit)
+
+        if (cursor) {
+            query.andWhere('topic.id < :cursor', { cursor })
+        }
+
+        const topics = await query.getMany()
+        const nextCursor = topics.length < limit ? null : topics[topics.length - 1].id
+
+        return { topics, nextCursor }
     }
 }

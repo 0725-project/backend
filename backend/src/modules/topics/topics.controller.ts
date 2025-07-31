@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Request, Get, Param } from '@nestjs/common'
+import { Controller, Post, Body, UseGuards, Request, Get, Param, Query } from '@nestjs/common'
 import { TopicsService } from './topics.service'
 import { CreateTopicDto } from './dto/create-topic.dto'
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard'
@@ -10,9 +10,10 @@ import {
     ApiBadRequestResponse,
     ApiConflictResponse,
     ApiNotFoundResponse,
+    ApiQuery,
 } from '@nestjs/swagger'
 import { AuthenticatedRequest } from '../../common/types/express-request.interface'
-import { TopicNameDto } from 'src/common/types/default.dto'
+import { CursorPaginationDto, TopicNameDto } from 'src/common/types/default.dto'
 
 @ApiTags('Topics')
 @Controller('topics')
@@ -31,10 +32,25 @@ export class TopicsController {
     }
 
     @Get()
-    @ApiOperation({ summary: 'Get all topics' })
+    @ApiOperation({ summary: 'Get all topics with pagination' })
     @ApiResponse({ status: 200, description: 'Return a list of topics' })
-    findAll() {
-        return this.topicService.findAll()
+    @ApiBadRequestResponse({ description: 'Invalid cursor or limit.' })
+    @ApiQuery({
+        name: 'cursor',
+        required: false,
+        type: Number,
+        description: 'The ID of the last topic from the previous page. Returns topics with smaller IDs.',
+        default: null,
+    })
+    @ApiQuery({
+        name: 'limit',
+        required: false,
+        type: Number,
+        description: 'The number of topics to return. Max is 20.',
+        default: 10,
+    })
+    findAll(@Query() { cursor, limit }: CursorPaginationDto) {
+        return this.topicService.findAll(cursor, limit)
     }
 
     @Get(':topicName')
