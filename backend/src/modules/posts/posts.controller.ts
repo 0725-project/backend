@@ -1,4 +1,16 @@
-import { Controller, Get, Body, Param, Delete, Put, Request, UseGuards, Post as HttpPost, Query } from '@nestjs/common'
+import {
+    Controller,
+    Get,
+    Body,
+    Param,
+    Delete,
+    Put,
+    Request,
+    UseGuards,
+    Post as HttpPost,
+    Query,
+    Ip,
+} from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard'
 import {
@@ -49,8 +61,11 @@ export class PostsController {
     @ApiResponse({ status: 200, description: 'Return a single post.' })
     @ApiBadRequestResponse({ description: 'Invalid ID.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
-    findOne(@Param() { id }: IdDto) {
-        return this.postsService.findOne(id)
+    async findOne(@Param() { id }: IdDto, @Ip() ip: string) {
+        const post = await this.postsService.findOne(id)
+        await this.postsService.incrementViewCount(post.id, ip)
+
+        return post
     }
 
     @UseGuards(JwtAuthGuard)

@@ -21,6 +21,9 @@ export class Post {
     @Column({ type: 'int' })
     topicLocalId: number
 
+    @Column({ type: 'int', default: 0 })
+    viewCount: number
+
     @ManyToOne(() => User, (user) => user.posts)
     author: User
 

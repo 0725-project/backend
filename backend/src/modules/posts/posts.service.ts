@@ -6,12 +6,14 @@ import { UpdatePostDto } from './dto/update-post.dto'
 import { CreatePostDto } from './dto/create-post.dto'
 import { Topic } from '../topics/topics.entity'
 import { SELECT_POSTS_WITH_AUTHOR_AND_TOPIC } from 'src/common/constants'
+import { RedisService } from 'src/common/redis/redis.service'
 
 @Injectable()
 export class PostsService {
     constructor(
         @InjectRepository(Post) private postRepo: Repository<Post>,
         @InjectRepository(Topic) private topicRepo: Repository<Topic>,
+        private redisService: RedisService,
     ) {}
 
     async create(createPostDto: CreatePostDto, userId: number) {
@@ -100,5 +102,14 @@ export class PostsService {
         }
 
         return this.postRepo.remove(post)
+    }
+
+    async incrementViewCount(postId: number, ip: string) {
+        const key = `post:${postId}:viewer:${ip}`
+        const exists = await this.redisService.get(key)
+        if (!exists) {
+            await this.redisService.set(key, '1', 3600) // 1 hour TTL
+            await this.postRepo.increment({ id: postId }, 'viewCount', 1)
+        }
     }
 }

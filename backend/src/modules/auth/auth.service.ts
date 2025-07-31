@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { REFRESH_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN_SECONDS } from '../../common/constants'
 import { JwtService } from '@nestjs/jwt'
 import { UsersService } from '../users/users.service'

@@ -5,9 +5,10 @@ import { PostsService } from './posts.service'
 import { PostsController } from './posts.controller'
 import { Topic } from '../topics/topics.entity'
 import { TopicsModule } from '../topics/topics.module'
+import { RedisModule } from 'src/common/redis/redis.module'
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Post, Topic]), TopicsModule],
+    imports: [TypeOrmModule.forFeature([Post, Topic]), TopicsModule, RedisModule],
     providers: [PostsService],
     controllers: [PostsController],
 })
