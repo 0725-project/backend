@@ -13,7 +13,7 @@ import { CursorPaginationDto, TopicNameDto } from 'src/common/types/default.dto'
 import { GetTopicPostParamDto } from './dto/get-topic-post.dto'
 
 @ApiTags('Topic')
-@Controller('t')
+@Controller('topic')
 export class TopicController {
     constructor(private readonly topicService: TopicService) {}
 
