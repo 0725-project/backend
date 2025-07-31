@@ -17,7 +17,7 @@ export class UsersController {
         return this.usersService.findById(id)
     }
 
-    @Get(':username')
+    @Get('/username/:username')
     @ApiOperation({ summary: 'Get a user by username' })
     @ApiResponse({ status: 200, description: 'Return a user by username.' })
     @ApiNotFoundResponse({ description: 'User not found.' })
