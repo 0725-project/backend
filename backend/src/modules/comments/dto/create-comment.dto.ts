@@ -3,7 +3,7 @@ import { IsString } from 'class-validator'
 import { PostIdDto } from 'src/common/types/default.dto'
 
 export class CreateCommentDto extends IntersectionType(PostIdDto) {
-    @ApiProperty({ description: 'Comment content' })
+    @ApiProperty({ description: 'The content of the comment.', example: 'This is a comment.' })
     @IsString()
     content: string
 }

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Query, Param, UseGuards, Req } from '@nestjs/common'
+import { Controller, Post, Body, Get, Query, Param, UseGuards, Req, Put, Delete } from '@nestjs/common'
 import {
     ApiBearerAuth,
     ApiOperation,
@@ -9,12 +9,14 @@ import {
     ApiBadRequestResponse,
     ApiQuery,
     ApiParam,
+    ApiForbiddenResponse,
 } from '@nestjs/swagger'
 import { CommentsService } from './comments.service'
 import { CreateCommentDto } from './dto/create-comment.dto'
-import { CursorPaginationDto, PostIdDto } from 'src/common/types/default.dto'
+import { CursorPaginationDto, IdDto, PostIdDto } from 'src/common/types/default.dto'
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
+import { UpdateCommentDto } from './dto/update-comment.dto'
 
 @ApiTags('Comments')
 @Controller('comments')
@@ -54,5 +56,33 @@ export class CommentsController {
     })
     getComments(@Param() { postId }: PostIdDto, @Query() dto: CursorPaginationDto) {
         return this.commentsService.getComments(postId, dto)
+    }
+
+    @Put(':id')
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
+    @ApiOperation({ summary: 'Update a comment' })
+    @ApiResponse({ status: 200, description: 'The comment has been successfully updated.' })
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+    @ApiBadRequestResponse({ description: 'Invalid payload.' })
+    @ApiNotFoundResponse({ description: 'Comment not found.' })
+    @ApiForbiddenResponse({ description: 'You do not have permission to edit this comment.' })
+    @ApiParam({ name: 'id', type: Number, description: 'ID of the comment to update.' })
+    update(@Param() { id }: IdDto, @Body() dto: UpdateCommentDto, @Req() req: AuthenticatedRequest) {
+        return this.commentsService.update(id, dto, req.user.userId)
+    }
+
+    @Delete(':id')
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
+    @ApiOperation({ summary: 'Delete a comment' })
+    @ApiResponse({ status: 204, description: 'The comment has been successfully deleted.' })
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+    @ApiBadRequestResponse({ description: 'Invalid ID.' })
+    @ApiNotFoundResponse({ description: 'Comment not found.' })
+    @ApiForbiddenResponse({ description: 'You do not have permission to delete this comment.' })
+    @ApiParam({ name: 'id', type: Number, description: 'ID of the comment to delete.' })
+    delete(@Param() { id }: IdDto, @Req() req: AuthenticatedRequest) {
+        return this.commentsService.delete(id, req.user.userId)
     }
 }

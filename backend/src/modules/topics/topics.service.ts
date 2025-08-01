@@ -32,7 +32,7 @@ export class TopicsService {
         return topic
     }
 
-    async findAll(cursor? : number, limit = 10) {
+    async findAll(cursor?: number, limit = 10) {
         const query = this.topicRepo
             .createQueryBuilder('topic')
             .leftJoinAndSelect('topic.creator', 'creator')
