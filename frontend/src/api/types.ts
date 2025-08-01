@@ -1,3 +1,5 @@
+// 헷갈리지 말라고 타입들 직접 하나하나 명시해둠, TODO: 나중에 리펙토링
+
 /// POST /api/auth/register
 export interface RegisterResponse {
     id: number
@@ -192,4 +194,27 @@ export interface GetPostCommentsResponse {
         }
     }[]
     nextCursor: number | null
+}
+
+/// PUT /api/comments/{id}
+export interface UpdateCommentResponse {
+    id: number
+    content: string
+    createdAt: string
+    user: {
+        id: number
+        username: string
+        nickname: string
+    }
+}
+
+/// DELETE /api/comments/{id}
+export interface DeleteCommentResponse {
+    content: string
+    createdAt: string
+    user: {
+        id: number
+        username: string
+        nickname: string
+    }
 }
