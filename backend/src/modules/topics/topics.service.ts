@@ -24,7 +24,7 @@ export class TopicsService {
         const topic = await this.topicRepo
             .createQueryBuilder('topic')
             .leftJoinAndSelect('topic.creator', 'creator')
-            .select(['topic.id', 'topic.name', 'creator.id', 'creator.username'])
+            .select(['topic', 'creator.id', 'creator.username', 'creator.nickname'])
             .where('topic.name = :name', { name })
             .getOne()
         if (!topic) throw new NotFoundException('Topic not found')
@@ -36,7 +36,7 @@ export class TopicsService {
         const query = this.topicRepo
             .createQueryBuilder('topic')
             .leftJoinAndSelect('topic.creator', 'creator')
-            .select(['topic.id', 'topic.name', 'creator.id', 'creator.username'])
+            .select(['topic', 'creator.id', 'creator.username', 'creator.nickname'])
             .orderBy('topic.id', 'DESC')
             .take(limit)
 

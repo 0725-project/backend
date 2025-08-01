@@ -1,5 +1,5 @@
 -- Dummy data for users
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('foo', 'testsecurePassword1234@', 'foo@example.com', 'First User');
+INSERT INTO users ("username", "password", "email", "nickname") VALUES ('foo', 'securePassword1234@', 'foo@example.com', 'First User');
 INSERT INTO users ("username", "password", "email", "nickname") VALUES ('rlawnsdud', 'password123', 'normal8781@gmail.com', 'Kim Jun Young');
 INSERT INTO users ("username", "password", "email", "nickname") VALUES ('admin', 'adminPassword1234@', 'admin@example.com', 'Admin');
 INSERT INTO users ("username", "password", "email", "nickname") VALUES ('john', 'superSafePw1234@', 'john@example.com', 'John Doe');
