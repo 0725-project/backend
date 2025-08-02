@@ -19,7 +19,8 @@
 │   ├── constants
 │   │   └── index.ts
 │   ├── dto
-│   │   ├── base.ts
+│   │   ├── base.dto.ts
+│   │   ├── index.ts
 │   │   └── pagination.dto.ts
 │   ├── filters
 │   │   └── typeorm-exception.filter.ts
@@ -37,7 +38,7 @@
 │       └── setupSwagger.ts
 ├── main.ts
 ├── migrations
-│   └── ...
+│   └── 1754101626596-Init.ts
 └── modules
     ├── auth
     │   ├── auth.controller.ts
@@ -45,6 +46,7 @@
     │   ├── auth.service.ts
     │   ├── dto
     │   │   ├── base.dto.ts
+    │   │   ├── index.ts
     │   │   ├── request.dto.ts
     │   │   └── response.dto.ts
     │   └── jwt.strategy.ts
@@ -55,11 +57,13 @@
     │   ├── comments.service.ts
     │   └── dto
     │       ├── base.dto.ts
+    │       ├── index.ts
     │       ├── request.dto.ts
     │       └── response.dto.ts
     ├── posts
     │   ├── dto
     │   │   ├── base.dto.ts
+    │   │   ├── index.ts
     │   │   ├── request.dto.ts
     │   │   └── response.dto.ts
     │   ├── posts.controller.ts
@@ -68,12 +72,14 @@
     │   └── posts.service.ts
     ├── search
     │   ├── dto
+    │   │   ├── index.ts
     │   │   └── request.dto.ts
     │   ├── search.controller.ts
     │   ├── search.module.ts
     │   └── search.service.ts
     ├── topic
     │   ├── dto
+    │   │   ├── index.ts
     │   │   ├── request.dto.ts
     │   │   └── response.dto.ts
     │   ├── topic.controller.ts
@@ -82,6 +88,7 @@
     ├── topics
     │   ├── dto
     │   │   ├── base.dto.ts
+    │   │   ├── index.ts
     │   │   ├── request.dto.ts
     │   │   └── response.dto.ts
     │   ├── topics.controller.ts
@@ -91,6 +98,7 @@
     └── users
         ├── dto
         │   ├── base.dto.ts
+        │   ├── index.ts
         │   └── response.dto.ts
         ├── users.controller.ts
         ├── users.entity.ts
