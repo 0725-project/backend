@@ -1,8 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { ApiOperation, ApiResponse, ApiTags, ApiNotFoundResponse, ApiBadRequestResponse } from '@nestjs/swagger'
-import { IdDto, UsernameDto } from 'src/common/types/default.dto'
-import { UserResponseDto } from 'src/common/types/response.dto'
+import { IdDto } from 'src/common/types/default.dto'
+import { UsernameDto, UserResponseDto } from './user.dto'
 
 @ApiTags('Users')
 @Controller('users')

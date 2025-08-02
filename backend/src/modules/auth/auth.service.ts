@@ -3,10 +3,9 @@ import { REFRESH_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN_SECONDS } from '../.
 import { JwtService } from '@nestjs/jwt'
 import { UsersService } from '../users/users.service'
 import { RedisService } from '../../common/redis/redis.service'
-import { RegisterDto } from './dto/register.dto'
-import { LoginDto } from './dto/login.dto'
 import * as bcrypt from 'bcrypt'
 import { User } from '../users/users.entity'
+import { LoginDto, RegisterDto } from './auth.dto'
 
 @Injectable()
 export class AuthService {

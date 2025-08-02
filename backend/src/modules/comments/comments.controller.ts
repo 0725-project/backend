@@ -12,12 +12,11 @@ import {
     ApiForbiddenResponse,
 } from '@nestjs/swagger'
 import { CommentsService } from './comments.service'
-import { CreateCommentDto } from './dto/create-comment.dto'
-import { CursorPaginationDto, IdDto, PostIdDto } from 'src/common/types/default.dto'
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
-import { UpdateCommentDto } from './dto/update-comment.dto'
-import { CommentResponseDto, CommentsResponseDto } from 'src/common/types/response.dto'
+import { CommentResponseDto, CommentsResponseDto, CreateCommentDto, UpdateCommentDto } from './comments.dto'
+import { PostIdDto } from '../posts/posts.dto'
+import { CursorPaginationDto, IdDto } from 'src/common/types/default.dto'
 
 @ApiTags('Comments')
 @Controller('comments')

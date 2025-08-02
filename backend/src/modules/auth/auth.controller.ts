@@ -10,11 +10,9 @@ import {
     ApiBody,
 } from '@nestjs/swagger'
 import { REFRESH_TOKEN_EXPIRES_IN_SECONDS } from '../../common/constants'
-import { RegisterDto, RegisterResponseDto } from './dto/register.dto'
-import { LoginDto, LoginResponseDto } from './dto/login.dto'
 import { Request, Response } from 'express'
 import { JwtService } from '@nestjs/jwt'
-import { AccessTokenDto } from 'src/common/types/response.dto'
+import { AccessTokenDto, LoginDto, LoginResponseDto, RegisterDto, RegisterResponseDto } from './auth.dto'
 
 @ApiTags('Authorization')
 @Controller('auth')

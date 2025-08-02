@@ -2,10 +2,9 @@ import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/commo
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Comment } from './comments.entity'
-import { CreateCommentDto } from './dto/create-comment.dto'
 import { CursorPaginationDto } from 'src/common/types/default.dto'
-import { UpdateCommentDto } from './dto/update-comment.dto'
 import { selectUserColumns } from 'src/common/constants'
+import { CreateCommentDto, UpdateCommentDto } from './comments.dto'
 
 @Injectable()
 export class CommentsService {

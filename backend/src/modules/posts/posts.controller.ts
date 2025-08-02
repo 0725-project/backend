@@ -24,11 +24,9 @@ import {
     ApiBadRequestResponse,
     ApiQuery,
 } from '@nestjs/swagger'
-import { CreatePostDto } from './dto/create-post.dto'
-import { UpdatePostDto } from './dto/update-post.dto'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 import { CursorPaginationDto, IdDto } from 'src/common/types/default.dto'
-import { PostResponseDto, PostsResponseDto } from 'src/common/types/response.dto'
+import { CreatePostDto, PostResponseDto, PostsResponseDto, UpdatePostDto } from './posts.dto'
 
 @ApiTags('Posts')
 @Controller('posts')
