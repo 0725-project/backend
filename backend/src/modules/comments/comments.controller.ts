@@ -26,13 +26,13 @@ import {
 import { PostIdDto } from 'src/modules/posts/dto'
 
 @ApiTags('Comments')
-@Controller('comments')
+@Controller()
 export class CommentsController {
     constructor(private readonly commentsService: CommentsService) {}
 
     @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
-    @Post()
+    @Post('posts/:postId/comments')
     @ApiOperation({ summary: 'Create a new comment' })
     @ApiResponse({
         status: 201,
@@ -42,34 +42,23 @@ export class CommentsController {
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
-    create(@Body() dto: CreateCommentDto, @Req() req: AuthenticatedRequest): Promise<CreateCommentResponseDto> {
-        return this.commentsService.create(dto, req.user.userId)
+    create(
+        @Param() { postId }: PostIdDto,
+        @Body() dto: CreateCommentDto,
+        @Req() req: AuthenticatedRequest,
+    ): Promise<CreateCommentResponseDto> {
+        return this.commentsService.create(postId, dto, req.user.userId)
     }
 
-    @Get(':postId')
+    @Get('posts/:postId/comments')
     @ApiOperation({ summary: 'Get comments for a post' })
     @ApiResponse({ status: 200, description: 'Return paginated comments.', type: CommentsResponseDto })
     @ApiBadRequestResponse({ description: 'Invalid cursor or limit.' })
-    @ApiParam({ name: 'postId', type: Number, description: 'ID of the post to get comments for.' })
-    @ApiQuery({
-        name: 'cursor',
-        required: false,
-        type: Number,
-        description: 'The ID of the last comment from the previous page. Returns comments with smaller IDs.',
-        default: null,
-    })
-    @ApiQuery({
-        name: 'limit',
-        required: false,
-        type: Number,
-        description: 'The number of comments to return. Max is 20.',
-        default: 10,
-    })
     getComments(@Param() { postId }: PostIdDto, @Query() dto: CursorPaginationDto): Promise<CommentsResponseDto> {
         return this.commentsService.getComments(postId, dto)
     }
 
-    @Put(':id')
+    @Put('comments/:id')
     @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
     @ApiOperation({ summary: 'Update a comment' })
@@ -78,7 +67,6 @@ export class CommentsController {
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
     @ApiNotFoundResponse({ description: 'Comment not found.' })
     @ApiForbiddenResponse({ description: 'You do not have permission to edit this comment.' })
-    @ApiParam({ name: 'id', type: Number, description: 'ID of the comment to update.' })
     update(
         @Param() { id }: IdDto,
         @Body() dto: UpdateCommentDto,
@@ -87,7 +75,7 @@ export class CommentsController {
         return this.commentsService.update(id, dto, req.user.userId)
     }
 
-    @Delete(':id')
+    @Delete('comments/:id')
     @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
     @ApiOperation({ summary: 'Delete a comment' })
@@ -96,7 +84,6 @@ export class CommentsController {
     @ApiBadRequestResponse({ description: 'Invalid ID.' })
     @ApiNotFoundResponse({ description: 'Comment not found.' })
     @ApiForbiddenResponse({ description: 'You do not have permission to delete this comment.' })
-    @ApiParam({ name: 'id', type: Number, description: 'ID of the comment to delete.' })
     delete(@Param() { id }: IdDto, @Req() req: AuthenticatedRequest) {
         return this.commentsService.delete(id, req.user.userId)
     }

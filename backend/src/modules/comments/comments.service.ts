@@ -14,10 +14,10 @@ export class CommentsService {
         private readonly commentRepo: Repository<Comment>,
     ) {}
 
-    async create(createCommentDto: CreateCommentDto, userId: number) {
+    async create(postId: number, createCommentDto: CreateCommentDto, userId: number) {
         const comment = this.commentRepo.create({
             content: createCommentDto.content,
-            post: { id: createCommentDto.postId },
+            post: { id: postId },
             user: { id: userId },
         })
 
