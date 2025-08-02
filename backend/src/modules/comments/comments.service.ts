@@ -19,7 +19,9 @@ export class CommentsService {
             post: { id: createCommentDto.postId },
             user: { id: userId },
         })
-        return await this.commentRepo.save(comment)
+
+        const { id, content, createdAt } = await this.commentRepo.save(comment)
+        return { id, content, createdAt }
     }
 
     async getComments(postId: number, dto: CursorPaginationDto) {
@@ -71,6 +73,6 @@ export class CommentsService {
             throw new ForbiddenException('You do not have permission to delete this comment')
         }
 
-        return this.commentRepo.remove(comment)
+        await this.commentRepo.remove(comment)
     }
 }

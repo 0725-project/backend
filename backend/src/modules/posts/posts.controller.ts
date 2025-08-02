@@ -26,7 +26,7 @@ import {
 } from '@nestjs/swagger'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 import { CursorPaginationDto, IdDto } from 'src/common/types/default.dto'
-import { CreatePostDto, PostResponseDto, PostsResponseDto, UpdatePostDto } from './posts.dto'
+import { CreatePostDto, CreatePostResponseDto, PostResponseDto, PostsResponseDto, UpdatePostDto } from './posts.dto'
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -37,14 +37,14 @@ export class PostsController {
     @ApiBearerAuth()
     @HttpPost()
     @ApiOperation({ summary: 'Create a new post' })
-    @ApiResponse({ status: 201, description: 'The post has been successfully created.', type: PostResponseDto })
+    @ApiResponse({ status: 201, description: 'The post has been successfully created.', type: CreatePostResponseDto })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
     create(
         @Body() createPostDto: CreatePostDto,
         @Request() req: AuthenticatedRequest,
         @Ip() ip: string,
-    ): Promise<PostResponseDto> {
+    ): Promise<CreatePostResponseDto> {
         return this.postsService.create(createPostDto, req.user.userId, ip)
     }
 
@@ -103,12 +103,12 @@ export class PostsController {
     @ApiBearerAuth()
     @Delete(':id')
     @ApiOperation({ summary: 'Delete a post' })
-    @ApiResponse({ status: 200, description: 'The post has been successfully deleted.', type: PostResponseDto })
+    @ApiResponse({ status: 200, description: 'The post has been successfully deleted.' })
     @ApiBadRequestResponse({ description: 'Invalid ID.' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
     @ApiForbiddenResponse({ description: 'You are not the author of this post.' })
-    remove(@Param() { id }: IdDto, @Request() req: AuthenticatedRequest): Promise<PostResponseDto> {
-        return this.postsService.remove(id, req.user.userId)
+    delete(@Param() { id }: IdDto, @Request() req: AuthenticatedRequest) {
+        return this.postsService.delete(id, req.user.userId)
     }
 }

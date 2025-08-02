@@ -12,7 +12,7 @@ import {
     ApiQuery,
 } from '@nestjs/swagger'
 import { AuthenticatedRequest } from '../../common/types/express-request.interface'
-import { CreateTopicDto, TopicNameDto, TopicResponseDto, TopicsResponseDto } from './topics.dto'
+import { CreateTopicDto, CreateTopicResponseDto, TopicNameDto, TopicResponseDto, TopicsResponseDto } from './topics.dto'
 import { CursorPaginationDto } from 'src/common/types/default.dto'
 
 @ApiTags('Topics')
@@ -24,10 +24,10 @@ export class TopicsController {
     @ApiBearerAuth()
     @Post()
     @ApiOperation({ summary: 'Create a new topic' })
-    @ApiResponse({ status: 201, description: 'Topic created successfully', type: TopicResponseDto })
+    @ApiResponse({ status: 201, description: 'Topic created successfully', type: CreateTopicResponseDto })
     @ApiBadRequestResponse({ description: 'Invalid request' })
     @ApiConflictResponse({ description: 'Topic already exists' })
-    create(@Body() dto: CreateTopicDto, @Request() req: AuthenticatedRequest): Promise<TopicResponseDto> {
+    create(@Body() dto: CreateTopicDto, @Request() req: AuthenticatedRequest): Promise<CreateTopicResponseDto> {
         return this.topicService.create(dto, req.user.userId)
     }
 

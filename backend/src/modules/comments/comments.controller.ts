@@ -14,7 +14,13 @@ import {
 import { CommentsService } from './comments.service'
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
-import { CommentResponseDto, CommentsResponseDto, CreateCommentDto, UpdateCommentDto } from './comments.dto'
+import {
+    CommentResponseDto,
+    CommentsResponseDto,
+    CreateCommentDto,
+    CreateCommentResponseDto,
+    UpdateCommentDto,
+} from './comments.dto'
 import { PostIdDto } from '../posts/posts.dto'
 import { CursorPaginationDto, IdDto } from 'src/common/types/default.dto'
 
@@ -27,11 +33,15 @@ export class CommentsController {
     @UseGuards(JwtAuthGuard)
     @Post()
     @ApiOperation({ summary: 'Create a new comment' })
-    @ApiResponse({ status: 201, description: 'The comment has been successfully created.', type: CommentResponseDto })
+    @ApiResponse({
+        status: 201,
+        description: 'The comment has been successfully created.',
+        type: CreateCommentResponseDto,
+    })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
-    create(@Body() dto: CreateCommentDto, @Req() req: AuthenticatedRequest): Promise<CommentResponseDto> {
+    create(@Body() dto: CreateCommentDto, @Req() req: AuthenticatedRequest): Promise<CreateCommentResponseDto> {
         return this.commentsService.create(dto, req.user.userId)
     }
 
@@ -80,13 +90,13 @@ export class CommentsController {
     @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
     @ApiOperation({ summary: 'Delete a comment' })
-    @ApiResponse({ status: 204, description: 'The comment has been successfully deleted.', type: CommentResponseDto })
+    @ApiResponse({ status: 204, description: 'The comment has been successfully deleted.' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiBadRequestResponse({ description: 'Invalid ID.' })
     @ApiNotFoundResponse({ description: 'Comment not found.' })
     @ApiForbiddenResponse({ description: 'You do not have permission to delete this comment.' })
     @ApiParam({ name: 'id', type: Number, description: 'ID of the comment to delete.' })
-    delete(@Param() { id }: IdDto, @Req() req: AuthenticatedRequest): Promise<CommentResponseDto> {
+    delete(@Param() { id }: IdDto, @Req() req: AuthenticatedRequest) {
         return this.commentsService.delete(id, req.user.userId)
     }
 }

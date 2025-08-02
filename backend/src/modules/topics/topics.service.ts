@@ -17,7 +17,14 @@ export class TopicsService {
             name: createTopicDto.topicName,
             creator: { id: creatorId },
         })
-        return this.topicRepo.save(topic)
+
+        const { id, name, description, createdAt } = await this.topicRepo.save(topic)
+        return {
+            id,
+            name,
+            description,
+            createdAt,
+        }
     }
 
     async findByName(name: string) {

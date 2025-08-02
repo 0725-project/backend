@@ -1,5 +1,5 @@
 import { ApiProperty, IntersectionType, OmitType, PartialType } from '@nestjs/swagger'
-import { CreatedAtDto, CursorPaginationDto, IdDto } from 'src/common/types/default.dto'
+import { CreatedAtDto, CursorPaginationResponseDto, IdDto } from 'src/common/types/default.dto'
 import { TopicBriefResponseDto, TopicLocalIdDto, TopicNameDto } from '../topics/topics.dto'
 import { UserBriefResponseDto } from '../users/user.dto'
 import { IsInt, IsNotEmpty, IsString, MaxLength } from 'class-validator'
@@ -71,7 +71,7 @@ export class PostResponseDto extends IntersectionType(
     topic: TopicBriefResponseDto
 }
 
-export class PostsResponseDto extends IntersectionType(CursorPaginationDto) {
+export class PostsResponseDto extends IntersectionType(CursorPaginationResponseDto) {
     @ApiProperty({
         description: 'List of posts.',
         type: [PostResponseDto],
@@ -81,3 +81,5 @@ export class PostsResponseDto extends IntersectionType(CursorPaginationDto) {
 
 export class CreatePostDto extends IntersectionType(PostTitleDto, PostContentDto, TopicNameDto) {}
 export class UpdatePostDto extends PartialType(OmitType(CreatePostDto, ['topicName'])) {}
+
+export class CreatePostResponseDto extends IntersectionType(OmitType(PostResponseDto, ['author', 'topic'])) {}

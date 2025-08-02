@@ -29,7 +29,16 @@ export class PostsService {
             viewCount: 0,
             ip,
         })
-        return this.postRepo.save(post)
+
+        const { id, title, content, createdAt, topicLocalId, viewCount } = await this.postRepo.save(post)
+        return {
+            id,
+            title,
+            content,
+            createdAt,
+            topicLocalId,
+            viewCount,
+        }
     }
 
     async findAll(cursor?: number, limit = 10) {
@@ -86,7 +95,7 @@ export class PostsService {
         return this.postRepo.save(post)
     }
 
-    async remove(id: number, userId: number) {
+    async delete(id: number, userId: number) {
         const post = await this.postRepo
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
@@ -102,7 +111,7 @@ export class PostsService {
             throw new ForbiddenException('You are not authorized to delete this post')
         }
 
-        return this.postRepo.remove(post)
+        await this.postRepo.remove(post)
     }
 
     async incrementViewCount(postId: number, ip: string) {

@@ -1,6 +1,6 @@
-import { ApiProperty, IntersectionType } from '@nestjs/swagger'
+import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
 import { IsString, IsInt, IsNotEmpty, Matches, MaxLength } from 'class-validator'
-import { IdDto, CreatedAtDto, CursorPaginationDto } from 'src/common/types/default.dto'
+import { IdDto, CreatedAtDto, CursorPaginationResponseDto } from 'src/common/types/default.dto'
 import { UserBriefResponseDto } from '../users/user.dto'
 import { Type } from 'class-transformer'
 
@@ -62,7 +62,7 @@ export class TopicResponseDto extends IntersectionType(IdDto, CreatedAtDto) {
     creator: UserBriefResponseDto
 }
 
-export class TopicsResponseDto extends IntersectionType(CursorPaginationDto) {
+export class TopicsResponseDto extends IntersectionType(CursorPaginationResponseDto) {
     @ApiProperty({
         description: 'List of topics.',
         type: [TopicResponseDto],
@@ -89,3 +89,5 @@ export class TopicBriefResponseDto extends IntersectionType(IdDto) {
 }
 
 export class CreateTopicDto extends IntersectionType(TopicNameDto, TopicDescriptionDto) {}
+
+export class CreateTopicResponseDto extends IntersectionType(OmitType(TopicResponseDto, ['creator'])) {}

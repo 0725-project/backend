@@ -16,7 +16,6 @@ export class IdDto {
 export class CursorPaginationDto {
     @ApiProperty({
         description: 'The cursor for pagination, used to fetch the next set of results.',
-        example: 10,
         required: false,
     })
     @IsOptional()
@@ -35,6 +34,19 @@ export class CursorPaginationDto {
     @Min(1)
     @Max(20)
     limit?: number = 10
+}
+
+export class CursorPaginationResponseDto {
+    @ApiProperty({
+        description: 'The next cursor for pagination, used to fetch the next set of results.',
+        required: false,
+        example: 2,
+    })
+    @IsOptional()
+    @Type(() => Number)
+    @IsInt()
+    @IsNotEmpty()
+    nextCursor?: number | null
 }
 
 export class CreatedAtDto {
