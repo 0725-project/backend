@@ -1,5 +1,5 @@
 import { IsOptional, IsString, IsIn, IsISO8601 } from 'class-validator'
-import { CursorPaginationDto } from 'src/common/types/default.dto'
+import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
 import { IntersectionType } from '@nestjs/swagger'
 
 export class SearchPostsQueryDto extends IntersectionType(CursorPaginationDto) {

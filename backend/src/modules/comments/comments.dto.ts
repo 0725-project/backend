@@ -1,7 +1,8 @@
 import { ApiProperty, IntersectionType, OmitType, PartialType } from '@nestjs/swagger'
 import { IsNotEmpty, IsString } from 'class-validator'
 import { UserBriefResponseDto } from '../users/user.dto'
-import { CreatedAtDto, CursorPaginationResponseDto, IdDto } from 'src/common/types/default.dto'
+import { CreatedAtDto, IdDto } from 'src/common/dto/default.dto'
+import { CursorPaginationResponseDto } from 'src/common/dto/pagination.dto'
 import { PostIdDto } from '../posts/posts.dto'
 
 export class CommentContentDto {

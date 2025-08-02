@@ -1,7 +1,7 @@
 import { ApiProperty, IntersectionType } from '@nestjs/swagger'
 import { IsString, IsNotEmpty } from 'class-validator'
 import { EmailDto, NicknameDto, PasswordDto, UsernameDto, UserResponseDto } from '../users/user.dto'
-import { IdDto } from 'src/common/types/default.dto'
+import { IdDto } from 'src/common/dto/default.dto'
 
 export class AccessTokenDto {
     @ApiProperty({ description: 'Access token for authenticated user', example: 'XXX.YYY.ZZZ' })

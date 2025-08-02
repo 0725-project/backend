@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/commo
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Comment } from './comments.entity'
-import { CursorPaginationDto } from 'src/common/types/default.dto'
+import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
 import { selectUserColumns } from 'src/common/constants'
 import { CreateCommentDto, UpdateCommentDto } from './comments.dto'
 

@@ -13,7 +13,7 @@ import {
 } from '@nestjs/swagger'
 import { AuthenticatedRequest } from '../../common/types/express-request.interface'
 import { CreateTopicDto, CreateTopicResponseDto, TopicNameDto, TopicResponseDto, TopicsResponseDto } from './topics.dto'
-import { CursorPaginationDto } from 'src/common/types/default.dto'
+import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
 
 @ApiTags('Topics')
 @Controller('topics')

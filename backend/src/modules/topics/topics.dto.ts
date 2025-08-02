@@ -1,6 +1,7 @@
 import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
 import { IsString, IsInt, IsNotEmpty, Matches, MaxLength } from 'class-validator'
-import { IdDto, CreatedAtDto, CursorPaginationResponseDto } from 'src/common/types/default.dto'
+import { IdDto, CreatedAtDto } from 'src/common/dto/default.dto'
+import { CursorPaginationResponseDto } from 'src/common/dto/pagination.dto'
 import { UserBriefResponseDto } from '../users/user.dto'
 import { Type } from 'class-transformer'
 

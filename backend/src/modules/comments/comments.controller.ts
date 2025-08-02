@@ -22,7 +22,8 @@ import {
     UpdateCommentDto,
 } from './comments.dto'
 import { PostIdDto } from '../posts/posts.dto'
-import { CursorPaginationDto, IdDto } from 'src/common/types/default.dto'
+import { IdDto } from 'src/common/dto/default.dto'
+import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
 
 @ApiTags('Comments')
 @Controller('comments')

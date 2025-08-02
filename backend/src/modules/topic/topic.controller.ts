@@ -11,7 +11,7 @@ import {
 import { TopicService } from './topic.service'
 import { PostResponseDto, PostsResponseDto } from '../posts/posts.dto'
 import { TopicNameDto } from '../topics/topics.dto'
-import { CursorPaginationDto } from 'src/common/types/default.dto'
+import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
 import { GetTopicPostParamDto } from './topic.dto'
 
 @ApiTags('Topic')

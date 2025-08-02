@@ -1,6 +1,6 @@
 import { ApiProperty, IntersectionType } from '@nestjs/swagger'
 import { IsString, IsNotEmpty, MaxLength, Matches, IsOptional } from 'class-validator'
-import { CreatedAtDto, IdDto } from 'src/common/types/default.dto'
+import { CreatedAtDto, IdDto } from 'src/common/dto/default.dto'
 
 export class UsernameDto {
     @ApiProperty({
