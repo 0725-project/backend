@@ -1,11 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
-import { REFRESH_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN_SECONDS } from '../../common/constants'
+import { REFRESH_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN_SECONDS } from 'src/common/constants'
 import { JwtService } from '@nestjs/jwt'
-import { UsersService } from '../users/users.service'
-import { RedisService } from '../../common/redis/redis.service'
+import { UsersService } from 'src/modules/users/users.service'
+import { RedisService } from 'src/common/redis/redis.service'
+import { User } from 'src/modules/users/users.entity'
 import * as bcrypt from 'bcrypt'
-import { User } from '../users/users.entity'
-import { LoginDto, RegisterDto } from './auth.dto'
+
+import { LoginDto, RegisterDto } from './dto/request.dto'
 
 @Injectable()
 export class AuthService {

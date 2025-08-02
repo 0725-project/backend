@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { Post } from '../posts/posts.entity'
+import { Post } from 'src/modules/posts/posts.entity'
 import { selectTopicColumns, selectUserColumns } from 'src/common/constants'
-import { SearchPostsQueryDto } from './search.dto'
+
+import { SearchPostsQueryDto } from './dto/request.dto'
 
 @Injectable()
 export class SearchService {

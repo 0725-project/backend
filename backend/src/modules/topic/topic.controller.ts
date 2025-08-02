@@ -9,10 +9,11 @@ import {
     ApiParam,
 } from '@nestjs/swagger'
 import { TopicService } from './topic.service'
-import { PostResponseDto, PostsResponseDto } from '../posts/posts.dto'
-import { TopicNameDto } from '../topics/topics.dto'
+
 import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
-import { GetTopicPostParamDto } from './topic.dto'
+import { PostResponseDto, PostsResponseDto } from 'src/modules/posts/dto/response.dto'
+import { TopicNameDto } from 'src/modules/topics/dto/base.dto'
+import { GetTopicPostParamDto } from './dto/request.dto'
 
 @ApiTags('Topic')
 @Controller('topic')

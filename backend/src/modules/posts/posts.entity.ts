@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, Index, OneToMany } from 'typeorm'
-import { User } from '../users/users.entity'
-import { Topic } from '../topics/topics.entity'
-import { Comment } from '../comments/comments.entity'
+import { User } from 'src/modules/users/users.entity'
+import { Topic } from 'src/modules/topics/topics.entity'
+import { Comment } from 'src/modules/comments/comments.entity'
 import { Exclude } from 'class-transformer'
 
 @Entity('posts')

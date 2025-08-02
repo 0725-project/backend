@@ -12,7 +12,7 @@ import {
     Ip,
 } from '@nestjs/common'
 import { PostsService } from './posts.service'
-import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard'
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard'
 import {
     ApiBearerAuth,
     ApiOperation,
@@ -25,9 +25,11 @@ import {
     ApiQuery,
 } from '@nestjs/swagger'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
-import { IdDto } from 'src/common/dto/default.dto'
+
+import { IdDto } from 'src/common/dto/base'
 import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
-import { CreatePostDto, CreatePostResponseDto, PostResponseDto, PostsResponseDto, UpdatePostDto } from './posts.dto'
+import { CreatePostDto, UpdatePostDto } from './dto/request.dto'
+import { CreatePostResponseDto, PostResponseDto, PostsResponseDto } from './dto/response.dto'
 
 @ApiTags('Posts')
 @Controller('posts')

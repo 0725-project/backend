@@ -2,10 +2,11 @@ import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/commo
 import { InjectRepository } from '@nestjs/typeorm'
 import { Post } from './posts.entity'
 import { Repository } from 'typeorm'
-import { Topic } from '../topics/topics.entity'
+import { Topic } from 'src/modules/topics/topics.entity'
 import { RedisService } from 'src/common/redis/redis.service'
 import { selectUserColumns, selectTopicColumns } from 'src/common/constants'
-import { CreatePostDto, UpdatePostDto } from './posts.dto'
+
+import { CreatePostDto, UpdatePostDto } from './dto/request.dto'
 
 @Injectable()
 export class PostsService {

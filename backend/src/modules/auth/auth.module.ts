@@ -3,11 +3,11 @@ import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 import { AuthService } from './auth.service'
 import { AuthController } from './auth.controller'
-import { UsersModule } from '../users/users.module'
+import { UsersModule } from 'src/modules/users/users.module'
 import { JwtStrategy } from './jwt.strategy'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { RedisModule } from '../../common/redis/redis.module'
-import { JWT_EXPIRES_IN } from '../../common/constants'
+import { RedisModule } from 'src/common/redis/redis.module'
+import { JWT_EXPIRES_IN } from 'src/common/constants'
 
 @Module({
     imports: [
