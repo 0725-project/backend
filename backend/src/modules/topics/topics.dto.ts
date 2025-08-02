@@ -17,6 +17,18 @@ export class TopicNameDto {
     topicName: string
 }
 
+export class TopicNameResponseDto {
+    @ApiProperty({
+        description: 'The topic name associated with the post.',
+        example: 'programming',
+    })
+    @IsString()
+    @IsNotEmpty()
+    @Matches(/^[a-z]+$/, { message: 'The topic name must be in lowercase letters.' })
+    @MaxLength(32)
+    name: string
+}
+
 export class TopicDescriptionDto {
     @ApiProperty({
         description: 'The description of the topic.',
@@ -39,23 +51,7 @@ export class TopicLocalIdDto {
     topicLocalId: number
 }
 
-export class TopicResponseDto extends IntersectionType(IdDto, CreatedAtDto) {
-    @ApiProperty({
-        description: 'The name of the topic.',
-        example: 'General Discussion',
-    })
-    @IsString()
-    @IsNotEmpty()
-    name: string
-
-    @ApiProperty({
-        description: 'The description of the topic.',
-        example: 'A place for general discussions.',
-    })
-    @IsString()
-    @IsNotEmpty()
-    description: string
-
+export class TopicResponseDto extends IntersectionType(IdDto, TopicNameResponseDto, TopicDescriptionDto, CreatedAtDto) {
     @ApiProperty({
         description: 'The creator of the topic.',
         type: UserBriefResponseDto,
@@ -71,24 +67,6 @@ export class TopicsResponseDto extends IntersectionType(CursorPaginationResponse
     topics: TopicResponseDto[]
 }
 
-export class TopicBriefResponseDto extends IntersectionType(IdDto) {
-    @ApiProperty({
-        description: 'The name of the topic.',
-        example: 'General Discussion',
-    })
-    @IsString()
-    @IsNotEmpty()
-    name: string
-
-    @ApiProperty({
-        description: 'The description of the topic.',
-        example: 'A place for general discussions.',
-    })
-    @IsString()
-    @IsNotEmpty()
-    description: string
-}
-
+export class TopicBriefResponseDto extends IntersectionType(IdDto, TopicNameResponseDto, TopicDescriptionDto) {}
 export class CreateTopicDto extends IntersectionType(TopicNameDto, TopicDescriptionDto) {}
-
 export class CreateTopicResponseDto extends IntersectionType(OmitType(TopicResponseDto, ['creator'])) {}

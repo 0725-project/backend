@@ -82,5 +82,4 @@ export class PostsResponseDto extends IntersectionType(CursorPaginationResponseD
 
 export class CreatePostDto extends IntersectionType(PostTitleDto, PostContentDto, TopicNameDto) {}
 export class UpdatePostDto extends PartialType(OmitType(CreatePostDto, ['topicName'])) {}
-
 export class CreatePostResponseDto extends IntersectionType(OmitType(PostResponseDto, ['author', 'topic'])) {}

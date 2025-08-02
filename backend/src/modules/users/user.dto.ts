@@ -49,5 +49,4 @@ export class EmailDto {
 }
 
 export class UserResponseDto extends IntersectionType(IdDto, UsernameDto, NicknameDto, EmailDto, CreatedAtDto) {}
-
 export class UserBriefResponseDto extends IntersectionType(IdDto, UsernameDto, NicknameDto) {}
