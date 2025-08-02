@@ -1,28 +1,25 @@
-// 헷갈리지 말라고 타입들 직접 하나하나 명시해둠, TODO: 나중에 리펙토링
-
 /// POST /api/auth/register
 export interface RegisterResponse {
     id: number
     username: string
     nickname: string
     email: string
+    createdAt: string
 }
 
 /// POST /api/auth/login
 export interface LoginResponse {
-    access_token: string
-    user_id: number
+    id: number
+    accessToken: string
 }
 
 /// POST /api/auth/refresh
 export interface RefreshResponse {
-    access_token: string
+    accessToken: string
 }
 
 /// POST /api/auth/logout
-export interface LogoutResponse {
-    message: string
-}
+export interface LogoutResponse {}
 
 /// GET /api/users/id/{id}
 /// GET /api/users/username/{username}
@@ -31,24 +28,17 @@ export interface GetUserResponse {
     username: string
     nickname: string
     email: string
+    createdAt: string
 }
 
 /// POST /api/posts
 export interface CreatePostResponse {
     id: number
     title: string
+    content: string
     createdAt: string
     topicLocalId: number
     viewCount: number
-    author: {
-        id: number
-    }
-    topic: {
-        id: number
-        name: string
-        description: string
-        createdAt: string
-    }
 }
 
 /// GET /api/posts
@@ -76,8 +66,7 @@ export interface GetPostsResponse {
 
 /// GET /api/posts/{id}
 /// PUT /api/posts/{id}
-/// DELETE /api/posts/{id}
-export interface RUDPostResponse {
+export interface RUPostResponse {
     id: number
     title: string
     content: string
@@ -96,17 +85,31 @@ export interface RUDPostResponse {
     }
 }
 
+/// DELETE /api/posts/{id}
+export interface DeletePostResponse {}
+
 /// POST /api/topics
 export interface CreateTopicResponse {
     id: number
     name: string
     description: string
-    creator: {
-        id: number
-        username: string
-        nickname: string
-    }
     createdAt: string
+}
+
+/// GET /api/topics
+export interface GetTopicsResponse {
+    topics: {
+        id: number
+        name: string
+        description: string
+        creator: {
+            id: number
+            username: string
+            nickname: string
+        }
+        createdAt: string
+    }[]
+    nextCursor: number | null
 }
 
 /// GET /api/topics/{topicName}
@@ -135,11 +138,6 @@ export interface GetTopicPostsResponse {
             id: number
             username: string
             nickname: string
-        }
-        topic: {
-            id: number
-            name: string
-            description: string
         }
     }[]
     nextCursor: number | null
@@ -173,12 +171,6 @@ export interface CreateCommentResponse {
     id: number
     content: string
     createdAt: string
-    post: {
-        id: number
-    }
-    user: {
-        id: number
-    }
 }
 
 /// GET /api/comments/{postId}
@@ -209,12 +201,4 @@ export interface UpdateCommentResponse {
 }
 
 /// DELETE /api/comments/{id}
-export interface DeleteCommentResponse {
-    content: string
-    createdAt: string
-    user: {
-        id: number
-        username: string
-        nickname: string
-    }
-}
+export interface DeleteCommentResponse {}

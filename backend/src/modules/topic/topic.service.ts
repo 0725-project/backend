@@ -14,7 +14,7 @@ export class TopicService {
         private readonly topicRepo: Repository<Topic>,
     ) {}
 
-    async findByTopicName(topicName: string, cursor?: number, limit = 10) {
+    async postsFindByTopicName(topicName: string, cursor?: number, limit = 10) {
         const topic = await this.topicRepo.findOne({ where: { name: topicName } })
         if (!topic) throw new NotFoundException('Topic not found')
 
@@ -22,7 +22,7 @@ export class TopicService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
-            .select(['post', ...selectUserColumns('author'), ...selectTopicColumns('topic')])
+            .select(['post', ...selectUserColumns('author')])
             .where('topic.id = :topicId', { topicId: topic.id })
             .orderBy('post.id', 'DESC')
             .take(limit)
@@ -37,7 +37,7 @@ export class TopicService {
         return { posts, nextCursor }
     }
 
-    async findByTopicLocalId(topicName: string, topicLocalId: number) {
+    async postFindByTopicLocalId(topicName: string, topicLocalId: number) {
         const topic = await this.topicRepo.findOne({ where: { name: topicName } })
         if (!topic) throw new NotFoundException('Topic not found')
 

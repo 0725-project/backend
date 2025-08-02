@@ -14,6 +14,7 @@ import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
 import { PostResponseDto, PostsResponseDto } from 'src/modules/posts/dto/response.dto'
 import { TopicNameDto } from 'src/modules/topics/dto/base.dto'
 import { GetTopicPostParamDto } from './dto/request.dto'
+import { TopicPostsResponseDto } from './dto/response.dto'
 
 @ApiTags('Topic')
 @Controller('topic')
@@ -37,14 +38,14 @@ export class TopicController {
         description: 'The number of posts to return. Max is 20.',
         default: 10,
     })
-    @ApiResponse({ status: 200, description: 'Return posts in the topic.', type: PostsResponseDto })
+    @ApiResponse({ status: 200, description: 'Return posts in the topic.', type: TopicPostsResponseDto })
     @ApiNotFoundResponse({ description: 'Topic not found' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
     async findByTopic(
         @Param() { topicName }: TopicNameDto,
         @Query() { cursor, limit }: CursorPaginationDto,
-    ): Promise<PostsResponseDto> {
-        return this.topicService.findByTopicName(topicName, cursor, limit)
+    ): Promise<TopicPostsResponseDto> {
+        return this.topicService.postsFindByTopicName(topicName, cursor, limit)
     }
 
     @Get(':topicName/:topicLocalId')
@@ -55,6 +56,6 @@ export class TopicController {
     @ApiNotFoundResponse({ description: 'Post not found' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
     findByTopicLocalId(@Param() { topicName, topicLocalId }: GetTopicPostParamDto): Promise<PostResponseDto> {
-        return this.topicService.findByTopicLocalId(topicName, topicLocalId)
+        return this.topicService.postFindByTopicLocalId(topicName, topicLocalId)
     }
 }
