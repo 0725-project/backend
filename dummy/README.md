@@ -1,30 +1,89 @@
 # Dummy Data
 
 ```md
-psql -U ky0422 -d board_db -f ./dummy.sql
+source ./dummy.sh && psql -U ky0422 -d board_db -f ./dummy.sql
 ```
 
 ## Users
 
 ```
-                                     Table "public.users"
-  Column  |          Type          | Collation | Nullable |              Default              
-----------+------------------------+-----------+----------+-----------------------------------
- id       | integer                |           | not null | nextval('users_id_seq'::regclass)
- username | character varying(32)  |           | not null | 
- password | character varying(255) |           | not null | 
- email    | character varying(320) |           | not null | 
- nickname | character varying(32)  |           |          | 
+                                        Table "public.users"
+  Column   |            Type             | Collation | Nullable |              Default              
+-----------+-----------------------------+-----------+----------+-----------------------------------
+ id        | integer                     |           | not null | nextval('users_id_seq'::regclass)
+ username  | character varying(32)       |           | not null | 
+ nickname  | character varying(32)       |           |          | 
+ password  | character varying(255)      |           | not null | 
+ email     | character varying(320)      |           | not null | 
+ createdAt | timestamp without time zone |           | not null | now()
 ```
 
-```sql
--- Dummy data for users
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('foo', 'testsecurePassword1234@', 'foo@example.com', 'First User');
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('rlawnsdud', 'password123', 'normal8781@gmail.com', 'Kim Jun Young');
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('admin', 'adminPassword1234@', 'admin@example.com', 'Admin');
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('john', 'superSafePw1234@', 'john@example.com', 'John Doe');
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('jane', 'anotherSecurePassword1234@', 'jane@example.com', 'Jane Doe');
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('guest', 'qwerty1234@', 'guest@example.com', 'Guest User');
+```shell
+curl -X 'POST' \
+  'http://[::1]:3000/api/auth/register' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "foo",
+  "nickname": "First User",
+  "password": "securePassword1234@",
+  "email": "foo@example.com"
+}'
+
+curl -X 'POST' \
+  'http://[::1]:3000/api/auth/register' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "rlawnsdud",
+  "nickname": "Kim Jun Young",
+  "password": "password123",
+  "email": "normal8781@gmail.com"
+}'
+
+curl -X 'POST' \
+  'http://[::1]:3000/api/auth/register' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "admin",
+  "nickname": "Admin",
+  "password": "adminPassword1234@",
+  "email": "admin@example.com"
+}'
+
+curl -X 'POST' \
+  'http://[::1]:3000/api/auth/register' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "john",
+  "nickname": "John Doe",
+  "password": "superSafePw1234@",
+  "email": "john@example.com"
+}'
+
+curl -X 'POST' \
+  'http://[::1]:3000/api/auth/register' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "jane",
+  "nickname": "Jane Doe",
+  "password": "anotherSecurePassword1234@",
+  "email": "jane@example.com"
+}'
+
+curl -X 'POST' \
+  'http://[::1]:3000/api/auth/register' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "guest",
+  "nickname": "Guest User",
+  "password": "qwerty1234@",
+  "email": "guest@example.com"
+}'
 ```
 
 ## Topics

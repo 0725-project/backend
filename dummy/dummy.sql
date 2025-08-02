@@ -1,11 +1,3 @@
--- Dummy data for users
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('foo', 'securePassword1234@', 'foo@example.com', 'First User');
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('rlawnsdud', 'password123', 'normal8781@gmail.com', 'Kim Jun Young');
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('admin', 'adminPassword1234@', 'admin@example.com', 'Admin');
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('john', 'superSafePw1234@', 'john@example.com', 'John Doe');
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('jane', 'anotherSecurePassword1234@', 'jane@example.com', 'Jane Doe');
-INSERT INTO users ("username", "password", "email", "nickname") VALUES ('guest', 'qwerty1234@', 'guest@example.com', 'Guest User');
-
 -- Dummy data for topics
 INSERT INTO topics ("name", "description", "creatorId") VALUES ('programming', 'Programming discussions and resources.', 1);
 INSERT INTO topics ("name", "description", "creatorId") VALUES ('technology', 'Latest trends in technology.', 2);
