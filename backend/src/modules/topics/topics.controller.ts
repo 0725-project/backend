@@ -13,10 +13,8 @@ import {
     ApiQuery,
 } from '@nestjs/swagger'
 
-import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
-import { CreateTopicDto } from './dto/request.dto'
-import { CreateTopicResponseDto, TopicResponseDto, TopicsResponseDto } from './dto/response.dto'
-import { TopicNameDto } from './dto/base.dto'
+import { CursorPaginationDto } from 'src/common/dto'
+import { CreateTopicResponseDto, TopicResponseDto, TopicsResponseDto, CreateTopicDto, TopicNameDto } from './dto'
 
 @ApiTags('Topics')
 @Controller('topics')

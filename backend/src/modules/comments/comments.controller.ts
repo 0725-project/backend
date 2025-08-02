@@ -15,11 +15,15 @@ import { CommentsService } from './comments.service'
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
-import { IdDto } from 'src/common/dto/base'
-import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
-import { CommentResponseDto, CommentsResponseDto, CreateCommentResponseDto } from './dto/response.dto'
-import { CreateCommentDto, UpdateCommentDto } from './dto/request.dto'
-import { PostIdDto } from 'src/modules/posts/dto/base.dto'
+import { IdDto, CursorPaginationDto } from 'src/common/dto'
+import {
+    CommentResponseDto,
+    CommentsResponseDto,
+    CreateCommentResponseDto,
+    CreateCommentDto,
+    UpdateCommentDto,
+} from './dto'
+import { PostIdDto } from 'src/modules/posts/dto'
 
 @ApiTags('Comments')
 @Controller('comments')

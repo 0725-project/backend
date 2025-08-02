@@ -6,7 +6,7 @@ import { Topic } from 'src/modules/topics/topics.entity'
 import { RedisService } from 'src/common/redis/redis.service'
 import { selectUserColumns, selectTopicColumns } from 'src/common/constants'
 
-import { CreatePostDto, UpdatePostDto } from './dto/request.dto'
+import { CreatePostDto, UpdatePostDto } from './dto'
 
 @Injectable()
 export class PostsService {

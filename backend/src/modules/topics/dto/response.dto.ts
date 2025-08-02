@@ -1,10 +1,9 @@
 import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
 import { IsNotEmpty, IsString, MaxLength, Matches } from 'class-validator'
 
-import { UserBriefResponseDto } from 'src/modules/users/dto/response.dto'
-import { CursorPaginationResponseDto } from 'src/common/dto/pagination.dto'
-import { CreatedAtDto, IdDto } from 'src/common/dto/base'
-import { TopicDescriptionDto } from './base.dto'
+import { CreatedAtDto, IdDto, CursorPaginationResponseDto } from 'src/common/dto'
+import { UserBriefResponseDto } from 'src/modules/users/dto'
+import { TopicDescriptionDto } from '.'
 
 export class TopicNameResponseDto {
     @ApiProperty({

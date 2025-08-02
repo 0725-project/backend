@@ -26,10 +26,8 @@ import {
 } from '@nestjs/swagger'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
-import { IdDto } from 'src/common/dto/base'
-import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
-import { CreatePostDto, UpdatePostDto } from './dto/request.dto'
-import { CreatePostResponseDto, PostResponseDto, PostsResponseDto } from './dto/response.dto'
+import { IdDto, CursorPaginationDto } from 'src/common/dto'
+import { CreatePostDto, UpdatePostDto, CreatePostResponseDto, PostResponseDto, PostsResponseDto } from './dto'
 
 @ApiTags('Posts')
 @Controller('posts')

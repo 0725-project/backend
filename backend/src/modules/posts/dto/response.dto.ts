@@ -2,12 +2,10 @@ import { IntersectionType } from '@nestjs/swagger'
 import { ApiProperty, OmitType } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 
-import { CreatedAtDto, IdDto } from 'src/common/dto/base'
-import { CursorPaginationResponseDto } from 'src/common/dto/pagination.dto'
-import { TopicLocalIdDto } from 'src/modules/topics/dto/base.dto'
-import { TopicBriefResponseDto } from 'src/modules/topics/dto/response.dto'
-import { UserBriefResponseDto } from 'src/modules/users/dto/response.dto'
-import { PostContentDto, PostTitleDto, ViewCountDto } from './base.dto'
+import { CreatedAtDto, IdDto, CursorPaginationResponseDto } from 'src/common/dto'
+import { TopicLocalIdDto, TopicBriefResponseDto } from 'src/modules/topics/dto'
+import { UserBriefResponseDto } from 'src/modules/users/dto'
+import { PostContentDto, PostTitleDto, ViewCountDto } from '.'
 
 export class PostResponseDto extends IntersectionType(
     IdDto,

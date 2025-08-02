@@ -4,7 +4,7 @@ import { Repository } from 'typeorm'
 import { Post } from 'src/modules/posts/posts.entity'
 import { selectTopicColumns, selectUserColumns } from 'src/common/constants'
 
-import { SearchPostsQueryDto } from './dto/request.dto'
+import { SearchPostsQueryDto } from './dto'
 
 @Injectable()
 export class SearchService {

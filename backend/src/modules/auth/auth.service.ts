@@ -6,7 +6,7 @@ import { RedisService } from 'src/common/redis/redis.service'
 import { User } from 'src/modules/users/users.entity'
 import * as bcrypt from 'bcrypt'
 
-import { LoginDto, RegisterDto } from './dto/request.dto'
+import { LoginDto, RegisterDto } from './dto'
 
 @Injectable()
 export class AuthService {

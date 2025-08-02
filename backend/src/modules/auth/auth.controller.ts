@@ -13,9 +13,7 @@ import { REFRESH_TOKEN_EXPIRES_IN_SECONDS } from 'src/common/constants'
 import { Request, Response } from 'express'
 import { JwtService } from '@nestjs/jwt'
 
-import { LoginDto, RegisterDto } from './dto/request.dto'
-import { LoginResponseDto, RegisterResponseDto } from './dto/response.dto'
-import { AccessTokenDto } from './dto/base.dto'
+import { AccessTokenDto, LoginDto, LoginResponseDto, RegisterDto, RegisterResponseDto } from './dto'
 
 @ApiTags('Authorization')
 @Controller('auth')

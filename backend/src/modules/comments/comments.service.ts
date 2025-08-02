@@ -4,8 +4,8 @@ import { Repository } from 'typeorm'
 import { Comment } from './comments.entity'
 import { selectUserColumns } from 'src/common/constants'
 
-import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
-import { CreateCommentDto, UpdateCommentDto } from './dto/request.dto'
+import { CursorPaginationDto } from 'src/common/dto'
+import { CreateCommentDto, UpdateCommentDto } from './dto'
 
 @Injectable()
 export class CommentsService {

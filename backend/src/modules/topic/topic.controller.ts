@@ -10,11 +10,10 @@ import {
 } from '@nestjs/swagger'
 import { TopicService } from './topic.service'
 
-import { CursorPaginationDto } from 'src/common/dto/pagination.dto'
-import { PostResponseDto, PostsResponseDto } from 'src/modules/posts/dto/response.dto'
-import { TopicNameDto } from 'src/modules/topics/dto/base.dto'
-import { GetTopicPostParamDto } from './dto/request.dto'
-import { TopicPostsResponseDto } from './dto/response.dto'
+import { CursorPaginationDto } from 'src/common/dto'
+import { PostResponseDto } from 'src/modules/posts/dto'
+import { TopicNameDto } from 'src/modules/topics/dto'
+import { GetTopicPostParamDto, TopicPostsResponseDto } from './dto'
 
 @ApiTags('Topic')
 @Controller('topic')
