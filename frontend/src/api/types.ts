@@ -1,4 +1,4 @@
-/// POST /api/auth/register
+// POST /api/auth/register
 export interface RegisterResponse {
     id: number
     username: string
@@ -7,22 +7,22 @@ export interface RegisterResponse {
     createdAt: string
 }
 
-/// POST /api/auth/login
+// POST /api/auth/login
 export interface LoginResponse {
     id: number
     accessToken: string
 }
 
-/// POST /api/auth/refresh
+// POST /api/auth/refresh
 export interface RefreshResponse {
     accessToken: string
 }
 
-/// POST /api/auth/logout
+// POST /api/auth/logout
 export interface LogoutResponse {}
 
-/// GET /api/users/id/{id}
-/// GET /api/users/username/{username}
+// GET /api/users/id/{id}
+// GET /api/users/username/{username}
 export interface GetUserResponse {
     id: number
     username: string
@@ -31,7 +31,7 @@ export interface GetUserResponse {
     createdAt: string
 }
 
-/// POST /api/posts
+// POST /api/posts
 export interface CreatePostResponse {
     id: number
     title: string
@@ -41,7 +41,7 @@ export interface CreatePostResponse {
     viewCount: number
 }
 
-/// GET /api/posts
+// GET /api/posts
 export interface GetPostsResponse {
     posts: {
         id: number
@@ -64,8 +64,8 @@ export interface GetPostsResponse {
     nextCursor: number | null
 }
 
-/// GET /api/posts/{id}
-/// PUT /api/posts/{id}
+// GET /api/posts/{id}
+// PUT /api/posts/{id}
 export interface RUPostResponse {
     id: number
     title: string
@@ -85,10 +85,10 @@ export interface RUPostResponse {
     }
 }
 
-/// DELETE /api/posts/{id}
+// DELETE /api/posts/{id}
 export interface DeletePostResponse {}
 
-/// POST /api/topics
+// POST /api/topics
 export interface CreateTopicResponse {
     id: number
     name: string
@@ -96,7 +96,7 @@ export interface CreateTopicResponse {
     createdAt: string
 }
 
-/// GET /api/topics
+// GET /api/topics
 export interface GetTopicsResponse {
     topics: {
         id: number
@@ -112,7 +112,7 @@ export interface GetTopicsResponse {
     nextCursor: number | null
 }
 
-/// GET /api/topics/{topicName}
+// GET /api/topics/{topicName}
 export interface GetTopicResponse {
     id: number
     name: string
@@ -125,7 +125,7 @@ export interface GetTopicResponse {
     createdAt: string
 }
 
-/// GET /api/topic/{topicName}
+// GET /api/topic/{topicName}
 export interface GetTopicPostsResponse {
     posts: {
         id: number
@@ -143,37 +143,20 @@ export interface GetTopicPostsResponse {
     nextCursor: number | null
 }
 
-/// GET /api/topic/{topicName}/{topicLocalId}
-export interface GetTopicPostResponse {
-    id: number
-    title: string
-    content: string
-    createdAt: string
-    topicLocalId: number
-    viewCount: number
-    author: {
-        id: number
-        username: string
-        nickname: string
-    }
-    topic: {
-        id: number
-        name: string
-        description: string
-    }
-}
+// GET /api/topic/{topicName}/{topicLocalId}
+export type GetTopicPostByLocalIdResponse = RUPostResponse
 
-/// GET /api/search
+// GET /api/search
 export type SearchPostsResponse = GetPostsResponse
 
-/// POST /api/comments
+// POST /api/posts/{postId}/comments
 export interface CreateCommentResponse {
     id: number
     content: string
     createdAt: string
 }
 
-/// GET /api/comments/{postId}
+// GET /api/posts/{postId}/comments
 export interface GetPostCommentsResponse {
     comments: {
         id: number
@@ -188,7 +171,7 @@ export interface GetPostCommentsResponse {
     nextCursor: number | null
 }
 
-/// PUT /api/comments/{id}
+// PUT /api/comments/{id}
 export interface UpdateCommentResponse {
     id: number
     content: string
@@ -200,5 +183,5 @@ export interface UpdateCommentResponse {
     }
 }
 
-/// DELETE /api/comments/{id}
+// DELETE /api/comments/{id}
 export interface DeleteCommentResponse {}
