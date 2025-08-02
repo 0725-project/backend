@@ -1,8 +1,8 @@
 import { Controller, Get, Query } from '@nestjs/common'
 import { SearchService } from './search.service'
 import { ApiTags, ApiOperation, ApiQuery, ApiResponse, ApiBadRequestResponse } from '@nestjs/swagger'
-import { SearchPostsQueryDto } from './dto/search-posts.dto'
 import { PostsResponseDto } from '../posts/posts.dto'
+import { SearchPostsQueryDto } from './search.dto'
 
 @ApiTags('Search')
 @Controller('search')
