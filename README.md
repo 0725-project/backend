@@ -74,7 +74,8 @@
     │   └── search.service.ts
     ├── topic
     │   ├── dto
-    │   │   └── request.dto.ts
+    │   │   ├── request.dto.ts
+    │   │   └── response.dto.ts
     │   ├── topic.controller.ts
     │   ├── topic.module.ts
     │   └── topic.service.ts
