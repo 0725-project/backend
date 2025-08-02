@@ -81,12 +81,42 @@ export class PostTitleDto {
     title: string
 }
 
+export class PostContentDto {
+    @ApiProperty({
+        description: 'The content of the post.',
+        example: 'This is the content of my first post.',
+    })
+    @IsString()
+    @IsNotEmpty()
+    content: string
+}
+
+export class CommentContentDto {
+    @ApiProperty({
+        description: 'The content of the comment.',
+        example: 'This is a comment on the post.',
+    })
+    @IsString()
+    @IsNotEmpty()
+    content: string
+}
+
 export class CursorPaginationDto {
+    @ApiProperty({
+        description: 'The cursor for pagination, used to fetch the next set of results.',
+        example: 10,
+        required: false,
+    })
     @IsOptional()
     @Type(() => Number)
     @IsInt()
     cursor?: number
 
+    @ApiProperty({
+        description: 'The number of items to return per page. Maximum is 20.',
+        example: 10,
+        required: false,
+    })
     @IsOptional()
     @Type(() => Number)
     @IsInt()
@@ -116,4 +146,26 @@ export class TopicDescriptionDto {
     @IsNotEmpty()
     @MaxLength(255)
     description: string
+}
+
+export class TopicLocalIdDto {
+    @ApiProperty({
+        description: 'The local ID of the post within the topic.',
+        example: 1,
+    })
+    @Type(() => Number)
+    @IsInt()
+    @IsNotEmpty()
+    topicLocalId: number
+}
+
+export class ViewCountDto {
+    @ApiProperty({
+        description: 'The number of views for the post.',
+        example: 100,
+    })
+    @Type(() => Number)
+    @IsInt()
+    @IsNotEmpty()
+    viewCount: number
 }

@@ -10,10 +10,11 @@ import {
     ApiBody,
 } from '@nestjs/swagger'
 import { REFRESH_TOKEN_EXPIRES_IN_SECONDS } from '../../common/constants'
-import { RegisterDto } from './dto/register.dto'
-import { LoginDto } from './dto/login.dto'
+import { RegisterDto, RegisterResponseDto } from './dto/register.dto'
+import { LoginDto, LoginResponseDto } from './dto/login.dto'
 import { Request, Response } from 'express'
 import { JwtService } from '@nestjs/jwt'
+import { AccessTokenDto } from 'src/common/types/response.dto'
 
 @ApiTags('Authorization')
 @Controller('auth')
@@ -26,10 +27,10 @@ export class AuthController {
     @Post('login')
     @ApiOperation({ summary: 'User login' })
     @ApiBody({ type: LoginDto })
-    @ApiResponse({ status: 201, description: 'Login successful, returns JWT token.' })
+    @ApiResponse({ status: 201, description: 'Login successful.', type: LoginResponseDto })
     @ApiUnauthorizedResponse({ description: 'Invalid username or password.' })
     @ApiBadRequestResponse({ description: 'Request payload is invalid.' })
-    async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
+    async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response): Promise<LoginResponseDto> {
         const result = await this.authService.login(loginDto)
 
         res.cookie('refresh_token', result.refresh_token, {
@@ -39,25 +40,25 @@ export class AuthController {
             maxAge: REFRESH_TOKEN_EXPIRES_IN_SECONDS,
         })
 
-        return { access_token: result.access_token, user_id: result.user_id }
+        return { id: result.user_id, accessToken: result.access_token }
     }
 
     @Post('register')
     @ApiOperation({ summary: 'Register a new user' })
     @ApiBody({ type: RegisterDto })
-    @ApiResponse({ status: 201, description: 'User registration successful.' })
+    @ApiResponse({ status: 201, description: 'User registration successful.', type: RegisterResponseDto })
     @ApiBadRequestResponse({ description: 'Username, password or email is invalid.' })
     @ApiConflictResponse({ description: 'Username or email already exists.' })
-    register(@Body() registerDto: RegisterDto) {
+    register(@Body() registerDto: RegisterDto): Promise<RegisterResponseDto> {
         return this.authService.register(registerDto)
     }
 
     @Post('refresh')
     @ApiOperation({ summary: 'Re-issue access token using refresh token' })
-    @ApiResponse({ status: 200, description: 'Returns new access token.' })
+    @ApiResponse({ status: 200, description: 'Returns new access token.', type: AccessTokenDto })
     @ApiBadRequestResponse({ description: 'Refresh token is required' })
     @ApiUnauthorizedResponse({ description: 'Invalid refresh token' })
-    async refresh(@Req() req: Request) {
+    async refresh(@Req() req: Request): Promise<AccessTokenDto> {
         const userId = this.extractUserIdFromRefreshToken(req)
         const refreshToken = req.cookies?.refresh_token
 
@@ -73,8 +74,6 @@ export class AuthController {
         await this.authService.logout(userId)
 
         res.clearCookie('refresh_token')
-
-        return { message: 'Logged out' }
     }
 
     private extractUserIdFromRefreshToken(req: Request): number {

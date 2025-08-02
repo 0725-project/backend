@@ -11,6 +11,7 @@ import {
 import { TopicService } from './topic.service'
 import { CursorPaginationDto, TopicNameDto } from 'src/common/types/default.dto'
 import { GetTopicPostParamDto } from './dto/get-topic-post.dto'
+import { PostResponseDto, PostsResponseDto } from 'src/common/types/response.dto'
 
 @ApiTags('Topic')
 @Controller('topic')
@@ -34,10 +35,13 @@ export class TopicController {
         description: 'The number of posts to return. Max is 20.',
         default: 10,
     })
-    @ApiResponse({ status: 200, description: 'Return posts in the topic.' })
+    @ApiResponse({ status: 200, description: 'Return posts in the topic.', type: PostsResponseDto })
     @ApiNotFoundResponse({ description: 'Topic not found' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
-    async findByTopic(@Param() { topicName }: TopicNameDto, @Query() { cursor, limit }: CursorPaginationDto) {
+    async findByTopic(
+        @Param() { topicName }: TopicNameDto,
+        @Query() { cursor, limit }: CursorPaginationDto,
+    ): Promise<PostsResponseDto> {
         return this.topicService.findByTopicName(topicName, cursor, limit)
     }
 
@@ -45,10 +49,10 @@ export class TopicController {
     @ApiOperation({ summary: 'Get a post by topicName and topicLocalId' })
     @ApiParam({ name: 'topicName', description: 'The topic name associated with the post.' })
     @ApiParam({ name: 'topicLocalId', description: 'The local ID of the post within the topic.' })
-    @ApiResponse({ status: 200, description: 'Return a single post in topic by topicLocalId' })
+    @ApiResponse({ status: 200, description: 'Return a single post in topic by topicLocalId', type: PostResponseDto })
     @ApiNotFoundResponse({ description: 'Post not found' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
-    findByTopicLocalId(@Param() { topicName, topicLocalId }: GetTopicPostParamDto) {
+    findByTopicLocalId(@Param() { topicName, topicLocalId }: GetTopicPostParamDto): Promise<PostResponseDto> {
         return this.topicService.findByTopicLocalId(topicName, topicLocalId)
     }
 }

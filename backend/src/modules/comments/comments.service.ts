@@ -4,8 +4,8 @@ import { Repository } from 'typeorm'
 import { Comment } from './comments.entity'
 import { CreateCommentDto } from './dto/create-comment.dto'
 import { CursorPaginationDto } from 'src/common/types/default.dto'
-import { SELECT_USER_WITH_DEFAULT } from 'src/common/constants'
 import { UpdateCommentDto } from './dto/update-comment.dto'
+import { selectUserColumns } from 'src/common/constants'
 
 @Injectable()
 export class CommentsService {
@@ -27,7 +27,7 @@ export class CommentsService {
         const query = this.commentRepo
             .createQueryBuilder('comment')
             .leftJoinAndSelect('comment.user', 'user')
-            .select(['comment', ...SELECT_USER_WITH_DEFAULT])
+            .select(['comment', ...selectUserColumns('user')])
             .where('comment.postId = :postId', { postId })
             .orderBy('comment.createdAt', 'DESC')
             .take(dto.limit)
@@ -46,7 +46,7 @@ export class CommentsService {
         const comment = await this.commentRepo
             .createQueryBuilder('comment')
             .leftJoinAndSelect('comment.user', 'user')
-            .select(['comment', ...SELECT_USER_WITH_DEFAULT])
+            .select(['comment', ...selectUserColumns('user')])
             .where('comment.id = :id', { id })
             .getOne()
         if (!comment) throw new NotFoundException('Comment not found')
@@ -63,7 +63,7 @@ export class CommentsService {
         const comment = await this.commentRepo
             .createQueryBuilder('comment')
             .leftJoinAndSelect('comment.user', 'user')
-            .select(['comment', ...SELECT_USER_WITH_DEFAULT])
+            .select(['comment', ...selectUserColumns('user')])
             .where('comment.id = :id', { id })
             .getOne()
         if (!comment) throw new NotFoundException('Comment not found')

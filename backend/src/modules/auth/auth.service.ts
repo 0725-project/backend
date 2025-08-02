@@ -6,6 +6,7 @@ import { RedisService } from '../../common/redis/redis.service'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
 import * as bcrypt from 'bcrypt'
+import { User } from '../users/users.entity'
 
 @Injectable()
 export class AuthService {
@@ -34,7 +35,7 @@ export class AuthService {
         }
     }
 
-    async register(dto: RegisterDto) {
+    async register(dto: RegisterDto): Promise<User> {
         return this.usersService.create(dto)
     }
 
@@ -47,7 +48,7 @@ export class AuthService {
         const payload = { sub: userId }
         const accessToken = this.jwtService.sign(payload)
 
-        return { access_token: accessToken }
+        return { accessToken: accessToken }
     }
 
     async logout(userId: number) {

@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
-export class Init1753969088627 implements MigrationInterface {
-    name = 'Init1753969088627'
+export class Init1754101626596 implements MigrationInterface {
+    name = 'Init1754101626596'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
@@ -16,7 +16,7 @@ export class Init1753969088627 implements MigrationInterface {
         )
         await queryRunner.query(`CREATE INDEX "IDX_a72a4814d9256fbb39bb12bffc" ON "posts" ("topicId", "id") `)
         await queryRunner.query(
-            `CREATE TABLE "users" ("id" SERIAL NOT NULL, "username" character varying(32) NOT NULL, "nickname" character varying(32), "password" character varying(255) NOT NULL, "email" character varying(320) NOT NULL, CONSTRAINT "UQ_fe0bb3f6520ee0469504521e710" UNIQUE ("username"), CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE ("email"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`,
+            `CREATE TABLE "users" ("id" SERIAL NOT NULL, "username" character varying(32) NOT NULL, "nickname" character varying(32), "password" character varying(255) NOT NULL, "email" character varying(320) NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_fe0bb3f6520ee0469504521e710" UNIQUE ("username"), CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE ("email"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`,
         )
         await queryRunner.query(
             `ALTER TABLE "topics" ADD CONSTRAINT "FK_62a84331503e467c317cc9396fe" FOREIGN KEY ("creatorId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,

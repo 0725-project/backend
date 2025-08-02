@@ -2,6 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common'
 import { SearchService } from './search.service'
 import { ApiTags, ApiOperation, ApiQuery, ApiResponse, ApiBadRequestResponse } from '@nestjs/swagger'
 import { SearchPostsQueryDto } from './dto/search-posts.dto'
+import { PostsResponseDto } from 'src/common/types/response.dto'
 
 @ApiTags('Search')
 @Controller('search')
@@ -24,9 +25,9 @@ export class SearchController {
     })
     @ApiQuery({ name: 'startDate', required: false, description: 'Start date (YYYY-MM-DD or ISO string)' })
     @ApiQuery({ name: 'endDate', required: false, description: 'End date (YYYY-MM-DD or ISO string)' })
-    @ApiResponse({ status: 200, description: 'Search results' })
+    @ApiResponse({ status: 200, description: 'Search results', type: PostsResponseDto })
     @ApiBadRequestResponse({ description: 'Invalid query parameters' })
-    search(@Query() query: SearchPostsQueryDto) {
+    search(@Query() query: SearchPostsQueryDto): Promise<PostsResponseDto> {
         return this.searchService.search(query)
     }
 }

@@ -22,6 +22,9 @@ export class User {
     @Column({ type: 'varchar', length: 320, unique: true })
     email: string
 
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    createdAt: Date
+
     @OneToMany(() => Post, (post) => post.author)
     posts: Post[]
 

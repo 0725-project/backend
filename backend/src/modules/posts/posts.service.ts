@@ -5,8 +5,8 @@ import { Repository } from 'typeorm'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { CreatePostDto } from './dto/create-post.dto'
 import { Topic } from '../topics/topics.entity'
-import { SELECT_POSTS_WITH_AUTHOR_AND_TOPIC } from 'src/common/constants'
 import { RedisService } from 'src/common/redis/redis.service'
+import { selectUserColumns, selectTopicColumns } from 'src/common/constants'
 
 @Injectable()
 export class PostsService {
@@ -38,7 +38,7 @@ export class PostsService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
-            .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
+            .select(['post', ...selectUserColumns('author'), ...selectTopicColumns('topic')])
             .orderBy('post.id', 'DESC')
             .take(limit)
 
@@ -57,7 +57,7 @@ export class PostsService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
-            .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
+            .select(['post', ...selectUserColumns('author'), ...selectTopicColumns('topic')])
             .where('post.id = :id', { id })
             .getOne()
         if (!post) {
@@ -72,7 +72,7 @@ export class PostsService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
-            .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
+            .select(['post', ...selectUserColumns('author'), ...selectTopicColumns('topic')])
             .where('post.id = :id', { id })
             .getOne()
         if (!post) {
@@ -92,7 +92,7 @@ export class PostsService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
-            .select(SELECT_POSTS_WITH_AUTHOR_AND_TOPIC)
+            .select(['post', ...selectUserColumns('author'), ...selectTopicColumns('topic')])
             .where('post.id = :id', { id })
             .getOne()
         if (!post) {
