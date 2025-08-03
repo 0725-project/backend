@@ -9,6 +9,8 @@
 > [!IMPORTANT]
 > 프로젝트의 구조, 개발 현황 및 기타 정보를 확인하려면 위의 Notion 링크를 클릭하세요.
 
+![image](./static/diagram.drawio.png)
+
 # Source Code Tree
 
 ```
