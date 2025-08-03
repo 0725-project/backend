@@ -12,7 +12,7 @@
 # Source Code Tree
 
 ```
-.
+backend/src
 ├── app.controller.ts
 ├── app.module.ts
 ├── common
@@ -95,6 +95,14 @@
     │   ├── topics.entity.ts
     │   ├── topics.module.ts
     │   └── topics.service.ts
+    ├── upload
+    │   ├── dto
+    │   │   ├── index.ts
+    │   │   ├── request.dto.ts
+    │   │   └── response.dto.ts
+    │   ├── upload.controller.ts
+    │   ├── upload.module.ts
+    │   └── upload.service.ts
     └── users
         ├── dto
         │   ├── base.dto.ts
@@ -104,4 +112,13 @@
         ├── users.entity.ts
         ├── users.module.ts
         └── users.service.ts
+frontend/src
+├── api
+│   ├── client.ts
+│   └── types.ts
+└── app
+    ├── favicon.ico
+    ├── globals.css
+    ├── layout.tsx
+    └── page.tsx
 ```
