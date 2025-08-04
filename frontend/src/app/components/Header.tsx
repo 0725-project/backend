@@ -1,4 +1,6 @@
-import { Search, Plus, Menu, LogOut, LogIn, Key } from 'lucide-react'
+'use client'
+
+import { Search, Plus, Menu, LogOut } from 'lucide-react'
 import { useIsMobile } from '../hooks/useIsMobile'
 import { useAuth } from '@/app/context/AuthContext'
 import { useState } from 'react'

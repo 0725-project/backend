@@ -83,24 +83,9 @@ export interface CreateTopicResponse {
     createdAt: string
 }
 
-// GET /api/topics
-export interface GetTopicsResponse {
-    topics: {
-        id: number
-        name: string
-        description: string
-        creator: {
-            id: number
-            username: string
-            nickname: string
-        }
-        createdAt: string
-    }[]
-    nextCursor: number | null
-}
-
 // GET /api/topics/{topicName}
-export interface GetTopicResponse {
+// etc..
+export interface TopicResponse {
     id: number
     name: string
     description: string
@@ -110,6 +95,11 @@ export interface GetTopicResponse {
         nickname: string
     }
     createdAt: string
+}
+// GET /api/topics
+export interface GetTopicsResponse {
+    topics: TopicResponse[]
+    nextCursor: number | null
 }
 
 // GET /api/topic/{topicName}

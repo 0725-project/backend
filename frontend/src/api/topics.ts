@@ -3,7 +3,7 @@ import {
     CreateTopicResponse,
     GetTopicPostByLocalIdResponse,
     GetTopicPostsResponse,
-    GetTopicResponse,
+    TopicResponse,
     GetTopicsResponse,
 } from './types'
 
@@ -18,14 +18,14 @@ export const createTopic = async (topicName: string, description: string) => {
 }
 
 export const getTopics = async (cursor?: number, limit = 10) => {
-    const response = await client.get<GetTopicsResponse>('/${TOPICS_API_PREFIX}', {
+    const response = await client.get<GetTopicsResponse>(`/${TOPICS_API_PREFIX}`, {
         params: { cursor, limit },
     })
     return response.data
 }
 
 export const getTopic = async (topicName: string) => {
-    const response = await client.get<GetTopicResponse>(`/${TOPICS_API_PREFIX}/${topicName}`)
+    const response = await client.get<TopicResponse>(`/${TOPICS_API_PREFIX}/${topicName}`)
     return response.data
 }
 

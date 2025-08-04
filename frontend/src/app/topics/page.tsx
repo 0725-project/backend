@@ -1,12 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Header } from './components/Header'
-import { LeftSidebar } from './components/LeftSidebar'
-import { MainContent } from './components/Main'
-import { RightSidebar } from './components/RightSidebar'
+import { Header } from '../components/Header'
+import { LeftSidebar } from '../components/LeftSidebar'
+import { RightSidebar } from '../components/RightSidebar'
+import TopicsList from '../components/Topics/TopicsList'
 
-const Home = () => {
+const TopicsPage = () => {
     const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -47,13 +47,15 @@ const Home = () => {
                     isMobile={isMobile}
                     isSidebarOpen={isSidebarOpen}
                     closeSidebar={() => setIsSidebarOpen(false)}
-                    currentItem='home'
+                    currentItem='topics'
                 />
-                <MainContent />
+                <main className='flex-1 transition-all duration-300 min-h-[calc(100vh-4rem)] overflow-y-auto'>
+                    <TopicsList />
+                </main>
                 <RightSidebar />
             </div>
         </div>
     )
 }
 
-export default Home
+export default TopicsPage
