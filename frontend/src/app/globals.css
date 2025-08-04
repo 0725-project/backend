@@ -9,12 +9,30 @@
     font-style: normal;
 }
 
+
 html, body {
     font-family: 'Pretendard-Regular', sans-serif;
     line-height: 1.5;
     letter-spacing: 0.03em;
     color: var(--foreground);
     background-color: var(--background);
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 15px;
+        padding: 0;
+        margin: 0;
+        min-width: 0;
+        overscroll-behavior-y: contain;
+    }
+    input, button {
+        font-size: 1em;
+        min-height: 40px;
+        touch-action: manipulation;
+    }
 }
 
 :root {

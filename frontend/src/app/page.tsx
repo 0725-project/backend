@@ -1,11 +1,10 @@
 'use client'
-import { useState, useEffect } from 'react'
 
+import { useState, useEffect } from 'react'
 import { Header } from './components/Header'
 import { LeftSidebar } from './components/LeftSidebar'
 import { MainContent } from './components/Main'
 import { RightSidebar } from './components/RightSidebar'
-import { List } from 'lucide-react'
 
 const RedditClone = () => {
     const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(false)
@@ -30,7 +29,7 @@ const RedditClone = () => {
 
     return (
         <div className='min-h-screen bg-gray-50'>
-            <Header />
+            <Header onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
             <div className='flex'>
                 {isMobile && isSidebarOpen && (
                     <div
@@ -52,14 +51,6 @@ const RedditClone = () => {
                 <MainContent />
                 <RightSidebar />
             </div>
-            {isMobile && !isSidebarOpen && (
-                <button
-                    className='fixed top-25 z-50 p-2 bg-white rounded-r-3xl shadow-md border border-gray-200 md:hidden'
-                    onClick={() => setIsSidebarOpen(true)}
-                >
-                    <List className='w-4 h-4 text-gray-600' />
-                </button>
-            )}
         </div>
     )
 }

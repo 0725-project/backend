@@ -1,5 +1,5 @@
 const RightSidebar = () => (
-    <aside className='w-80 bg-white border-l border-gray-200 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto hidden lg:block'>
+    <aside className='hidden lg:block md:w-80 bg-white border-l border-gray-200 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto'>
         <section className='p-4'>
             <header className='flex items-center justify-between mb-4'>
                 <h2 className='text-sm font-medium text-gray-500 uppercase tracking-wide'>Recent Posts</h2>
@@ -53,7 +53,7 @@ const RecentPostItem = ({ subreddit, timeAgo, title, upvotes, comments, thumbnai
         </div>
         <div className='flex-1 min-w-0'>
             <div className='flex items-center space-x-1 mb-1'>
-                <span className='w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center'>
+                <span className='w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center'>
                     <span className='text-white text-xs'>r</span>
                 </span>
                 <span className='text-xs text-gray-500'>{subreddit}</span>
