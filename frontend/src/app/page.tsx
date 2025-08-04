@@ -5,6 +5,7 @@ import { Header } from './components/Header'
 import { LeftSidebar } from './components/sidebar/Left'
 import { MainContent } from './components/Main'
 import { RightSidebar } from './components/sidebar/Right'
+import { List } from 'lucide-react'
 
 const RedditClone = () => {
     const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(false)
@@ -53,27 +54,10 @@ const RedditClone = () => {
             </div>
             {isMobile && !isSidebarOpen && (
                 <button
-                    className='fixed top-20 left-2 z-50 p-2 bg-white rounded shadow-md border border-gray-200 md:hidden'
+                    className='fixed top-25 z-50 p-2 bg-white rounded-r-3xl shadow-md border border-gray-200 md:hidden'
                     onClick={() => setIsSidebarOpen(true)}
                 >
-                    <span className='sr-only'>Open sidebar</span>
-                    <svg
-                        width='24'
-                        height='24'
-                        fill='none'
-                        stroke='currentColor'
-                        strokeWidth='2'
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        className='lucide lucide-list'
-                    >
-                        <line x1='8' x2='21' y1='6' y2='6' />
-                        <line x1='8' x2='21' y1='12' y2='12' />
-                        <line x1='8' x2='21' y1='18' y2='18' />
-                        <line x1='3' x2='3.01' y1='6' y2='6' />
-                        <line x1='3' x2='3.01' y1='12' y2='12' />
-                        <line x1='3' x2='3.01' y1='18' y2='18' />
-                    </svg>
+                    <List className='w-4 h-4 text-gray-600' />
                 </button>
             )}
         </div>
