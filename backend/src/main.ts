@@ -23,6 +23,11 @@ const bootstrap = async () => {
     app.useGlobalFilters(new TypeOrmExceptionFilter())
     app.use(cookieParser())
 
+    app.enableCors({
+        origin: IS_PRODUCTION ? 'https://example.com' : 'http://localhost:4000',
+        credentials: true,
+    })
+
     const logger = new Logger('Bootstrap')
 
     if (!IS_PRODUCTION) {
