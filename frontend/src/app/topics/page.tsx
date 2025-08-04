@@ -1,6 +1,6 @@
 'use client'
 
-import TopicsList from '../components/Topics/TopicsList'
+import TopicsList from '../components/Topics'
 import { PageLayout } from '../components/PageLayout'
 
 const TopicsPage = () => (

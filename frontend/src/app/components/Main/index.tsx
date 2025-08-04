@@ -1,6 +1,7 @@
 import { ChevronDown } from 'lucide-react'
 import { PostCard } from './PostCard'
 import { useInfiniteScrollPosts } from '../../hooks/useInfiniteScrollPosts'
+import Link from 'next/link'
 
 const MainContent = () => {
     const { posts, loading, hasMore } = useInfiniteScrollPosts()
@@ -15,15 +16,16 @@ const MainContent = () => {
                 </div>
                 <div className='space-y-2 md:space-y-4'>
                     {posts.map((post, index) => (
-                        <PostCard
-                            key={index}
-                            topic={post.topic?.name ?? 'No Topic'}
-                            username={post.author?.username ?? 'Unknown'}
-                            createdAt={post.createdAt}
-                            title={post.title}
-                            likes={post.viewCount}
-                            comments={0}
-                        />
+                        <Link href={`/topics/${post.topic?.name}/${post.topicLocalId}`} key={index} className='block'>
+                            <PostCard
+                                topic={post.topic?.name ?? 'No Topic'}
+                                username={post.author?.username ?? 'Unknown'}
+                                createdAt={post.createdAt}
+                                title={post.title}
+                                likes={post.viewCount}
+                                comments={0}
+                            />
+                        </Link>
                     ))}
                     {loading && <div className='text-center text-gray-400 py-4'>Loading...</div>}
                     {!hasMore && <div className='text-center text-gray-400 py-4'>모든 글을 불러왔습니다.</div>}

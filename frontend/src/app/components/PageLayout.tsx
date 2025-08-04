@@ -1,3 +1,4 @@
+'use client'
 import { ReactNode, useState, useEffect } from 'react'
 import { Header } from './Header'
 import { LeftSidebar } from './LeftSidebar'
@@ -5,7 +6,7 @@ import { RightSidebar } from './RightSidebar'
 
 interface PageLayoutProps {
     children: ReactNode
-    currentItem: string
+    currentItem?: string
 }
 
 export const PageLayout = ({ children, currentItem }: PageLayoutProps) => {

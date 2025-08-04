@@ -3,7 +3,7 @@
 import React from 'react'
 import { useInfiniteScrollTopics } from '@/app/hooks/useInfiniteScrollTopics'
 
-const TopicsList: React.FC = () => {
+const TopicsList = () => {
     const { topics, loading, hasMore } = useInfiniteScrollTopics()
 
     return (
