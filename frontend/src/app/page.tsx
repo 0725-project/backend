@@ -2,9 +2,9 @@
 import { useState, useEffect } from 'react'
 
 import { Header } from './components/Header'
-import { LeftSidebar } from './components/sidebar/Left'
+import { LeftSidebar } from './components/LeftSidebar'
 import { MainContent } from './components/Main'
-import { RightSidebar } from './components/sidebar/Right'
+import { RightSidebar } from './components/RightSidebar'
 import { List } from 'lucide-react'
 
 const RedditClone = () => {

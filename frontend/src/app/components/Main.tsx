@@ -9,9 +9,6 @@ export function MainContent() {
                         Best
                         <ChevronDown className='w-4 h-4 ml-1' />
                     </button>
-                    <button className='px-2 py-1 rounded-md hover:bg-gray-100'>
-                        <div className='w-4 h-4 border border-gray-400 mr-1'></div>
-                    </button>
                 </div>
 
                 <div className='space-y-4'>
