@@ -4,6 +4,7 @@ interface LeftSidebarItemProps {
     isActive?: boolean
     isCollapsed: boolean
 }
+
 const SidebarItem = (props: LeftSidebarItemProps) => {
     const { isCollapsed, isActive, icon, label } = props
 
