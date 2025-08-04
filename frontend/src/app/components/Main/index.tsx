@@ -1,52 +1,9 @@
-import { useEffect, useState, useCallback } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { PostCard } from './PostCard'
-import { getPosts } from '../../../api/client'
-import { PostResponse } from '@/api/types'
+import { useInfiniteScrollPosts } from '../../hooks/useInfiniteScrollPosts'
 
 const MainContent = () => {
-    const [posts, setPosts] = useState<PostResponse[]>([])
-    const [loading, setLoading] = useState(false)
-    const [nextCursor, setNextCursor] = useState<number | null>(null)
-    const [hasMore, setHasMore] = useState(true)
-
-    const fetchPosts = useCallback(
-        async (cursor?: number) => {
-            if (loading || !hasMore) return
-            setLoading(true)
-            try {
-                const res = await getPosts(cursor)
-                setPosts((prev) => [...prev, ...res.posts])
-                setNextCursor(res.nextCursor)
-                setHasMore(res.nextCursor !== null)
-            } catch (e) {
-                console.error('Failed to fetch posts:', e)
-                setHasMore(false)
-            } finally {
-                setLoading(false)
-            }
-        },
-        [loading, hasMore],
-    )
-
-    useEffect(() => {
-        fetchPosts()
-    }, [])
-
-    useEffect(() => {
-        const handleScroll = () => {
-            if (loading || !hasMore) return
-            const scrollY = window.scrollY
-            const innerHeight = window.innerHeight
-            const bodyHeight = document.body.offsetHeight
-            if (bodyHeight - (scrollY + innerHeight) < 200) {
-                fetchPosts(nextCursor || undefined)
-            }
-        }
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [fetchPosts, loading, hasMore, nextCursor])
-
+    const { posts, loading, hasMore } = useInfiniteScrollPosts()
     return (
         <main className='flex-1 transition-all duration-300 min-h-[calc(100vh-4rem)] overflow-y-auto'>
             <div className='max-w-full md:max-w-5xl mx-auto px-2 md:px-4 py-2 md:py-4'>
@@ -57,9 +14,9 @@ const MainContent = () => {
                     </button>
                 </div>
                 <div className='space-y-2 md:space-y-4'>
-                    {posts.map((post) => (
+                    {posts.map((post, index) => (
                         <PostCard
-                            key={post.id}
+                            key={index}
                             topic={post.topic?.name ?? 'No Topic'}
                             username={post.author?.username ?? 'Unknown'}
                             createdAt={post.createdAt}

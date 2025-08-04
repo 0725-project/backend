@@ -6,7 +6,6 @@ import {
     HelpCircle,
     Compass,
     List,
-    ChevronDown,
     BarChart3,
     Info,
     Tag,
@@ -35,7 +34,7 @@ const LeftSidebar = ({ isCollapsed, onToggle, isMobile, isSidebarOpen, closeSide
                     isMobile
                         ? `fixed top-0 left-0 z-[60] h-full w-64 bg-white border-r border-gray-200 shadow-lg transition-transform duration-300 ease-in-out
                             ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`
-                        : `relative z-30 bg-white border-r border-gray-200 transition-all duration-300 w-[${isCollapsed ? '56px' : '256px'}] h-[calc(100vh-4rem)]`
+                        : `sticky top-16 z-30 bg-white border-r border-gray-200 transition-all duration-300 w-[${isCollapsed ? '56px' : '256px'}] h-[calc(100vh-4rem)]`
                 }
                 style={
                     isMobile

@@ -1,5 +1,6 @@
 import { ChevronDown } from 'lucide-react'
-import { ReactNode, useRef, useState, useEffect } from 'react'
+import { ReactNode } from 'react'
+import { useAccordion } from '../../hooks/useAccordion'
 
 interface SidebarSectionProps {
     title: string
@@ -8,17 +9,7 @@ interface SidebarSectionProps {
 }
 
 export const SidebarSection = ({ title, children, defaultOpen = true }: SidebarSectionProps) => {
-    const [isOpen, setIsOpen] = useState(defaultOpen)
-    const [height, setHeight] = useState<number | 'auto'>(defaultOpen ? 'auto' : 0)
-    const contentRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        if (isOpen) {
-            setHeight(contentRef.current?.scrollHeight || 'auto')
-        } else {
-            setHeight(0)
-        }
-    }, [isOpen])
+    const { isOpen, setIsOpen, height, contentRef } = useAccordion(defaultOpen)
 
     return (
         <div className='mt-6'>

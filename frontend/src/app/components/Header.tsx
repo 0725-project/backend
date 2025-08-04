@@ -1,18 +1,8 @@
-import { Search, Plus, Bell, MessageSquare, Calendar, Menu } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { Search, Plus, Menu } from 'lucide-react'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
-    const [isMobile, setIsMobile] = useState(false)
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768)
-        }
-        handleResize()
-        window.addEventListener('resize', handleResize)
-        return () => window.removeEventListener('resize', handleResize)
-    }, [])
-
+    const isMobile = useIsMobile(768)
     return (
         <header className='bg-white border-b border-gray-200 sticky top-0 z-50 w-full'>
             <div className='flex items-center justify-between px-2 md:px-4 py-2 gap-2'>
