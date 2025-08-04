@@ -31,6 +31,6 @@ export const logout = async () => {
 }
 
 export const getMe = async () => {
-    const response = await client.get<GetMeResponse>(`/${AUTH_API_PREFIX}/me`)
+    const response = await client.post<GetMeResponse>(`/${AUTH_API_PREFIX}/me`)
     return response.data
 }

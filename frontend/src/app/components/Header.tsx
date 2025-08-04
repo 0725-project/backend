@@ -1,8 +1,11 @@
 import { Search, Plus, Menu } from 'lucide-react'
 import { useIsMobile } from '../hooks/useIsMobile'
+import { useAuth } from '@/app/context/AuthContext'
+import Link from 'next/link'
 
 export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
     const isMobile = useIsMobile(768)
+    const { user, logout, loading } = useAuth()
     return (
         <header className='bg-white border-b border-gray-200 sticky top-0 z-50 w-full'>
             <div className='flex items-center justify-between px-2 md:px-4 py-2 gap-2'>
@@ -41,7 +44,32 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                         <Plus className='w-6 h-6' />
                         <span className='hidden sm:inline'>Create</span>
                     </button>
-                    <div className='w-8 h-8 bg-gray-500 rounded-full'></div>
+                    {loading ? null : user ? (
+                        <>
+                            <span className='text-sm font-medium'>{user.nickname || user.username}</span>
+                            <button
+                                className='ml-2 px-3 py-1 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm'
+                                onClick={logout}
+                            >
+                                로그아웃
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <Link
+                                href='/auth/login'
+                                className='ml-2 px-3 py-1 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-700 text-sm'
+                            >
+                                로그인
+                            </Link>
+                            <Link
+                                href='/auth/register'
+                                className='ml-2 px-3 py-1 rounded-full bg-green-100 hover:bg-green-200 text-green-700 text-sm'
+                            >
+                                회원가입
+                            </Link>
+                        </>
+                    )}
                 </div>
             </div>
         </header>
