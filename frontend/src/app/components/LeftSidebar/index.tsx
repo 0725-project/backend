@@ -1,20 +1,6 @@
 'use client'
 
-import {
-    Home,
-    TrendingUp,
-    HelpCircle,
-    Compass,
-    List,
-    BarChart3,
-    Info,
-    Tag,
-    Newspaper,
-    Briefcase,
-    FileText,
-    ChevronsRight,
-    ChevronsDown,
-} from 'lucide-react'
+import { Home, TrendingUp, HelpCircle, Compass, List, Info, ChevronsRight, ChevronsDown } from 'lucide-react'
 import { SidebarItem } from './LeftSidebarItems'
 import { SidebarSection } from './SidebarSection'
 
@@ -65,22 +51,13 @@ const LeftSidebar = ({ isCollapsed, onToggle, isMobile, isSidebarOpen, closeSide
                 )}
                 <div className={`flex flex-col h-full ${isCollapsed ? 'p-2' : 'p-4'} overflow-y-auto`}>
                     <div className='space-y-1 flex-shrink-0'>
-                        <SidebarItem icon={Home} label='Home' isActive isCollapsed={isCollapsed} />
-                        <SidebarItem icon={TrendingUp} label='Popular' isCollapsed={isCollapsed} />
-                        <SidebarItem icon={HelpCircle} label='Answers' isCollapsed={isCollapsed} />
-                        <SidebarItem icon={Compass} label='Explore' isCollapsed={isCollapsed} />
-                        <SidebarItem icon={List} label='All' isCollapsed={isCollapsed} />
+                        <SidebarItem icon={Home} label='홈' isActive isCollapsed={isCollapsed} />
+                        <SidebarItem icon={Compass} label='토픽 탐색' isCollapsed={isCollapsed} />
                     </div>
                     {!isCollapsed && (
                         <div className='mt-6 flex-shrink-0'>
-                            <SidebarSection title='RESOURCES'>
-                                <SidebarItem icon={Info} label='About Reddit' isCollapsed={false} />
-                                <SidebarItem icon={Tag} label='Advertise' isCollapsed={false} />
-                                <SidebarItem icon={BarChart3} label='Reddit Pro' isCollapsed={false} />
-                                <SidebarItem icon={HelpCircle} label='Help' isCollapsed={false} />
-                                <SidebarItem icon={Newspaper} label='Blog' isCollapsed={false} />
-                                <SidebarItem icon={Briefcase} label='Careers' isCollapsed={false} />
-                                <SidebarItem icon={FileText} label='Press' isCollapsed={false} />
+                            <SidebarSection title='정보'>
+                                <SidebarItem icon={Info} label='정보' isCollapsed={isCollapsed} />
                             </SidebarSection>
                         </div>
                     )}

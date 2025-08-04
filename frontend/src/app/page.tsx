@@ -6,7 +6,7 @@ import { LeftSidebar } from './components/LeftSidebar'
 import { MainContent } from './components/Main'
 import { RightSidebar } from './components/RightSidebar'
 
-const RedditClone = () => {
+const Home = () => {
     const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -55,4 +55,4 @@ const RedditClone = () => {
     )
 }
 
-export default RedditClone
+export default Home

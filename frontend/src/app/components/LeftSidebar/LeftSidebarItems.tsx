@@ -13,7 +13,7 @@ const SidebarItem = (props: LeftSidebarItemProps) => {
             className={`
                 ${isCollapsed ? 'w-10 h-10 justify-center' : 'w-full justify-start px-4 py-2'}
                 flex items-center space-x-2 rounded-md
-                ${isActive ? 'bg-gray-100' : 'hover:bg-gray-100'}
+                ${isActive ? 'bg-gray-100' : 'hover:bg-gray-100 transition-colors duration-200'}
             `}
         >
             {icon && <props.icon className='w-4 h-4' />}
