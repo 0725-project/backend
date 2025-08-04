@@ -85,7 +85,6 @@ const LeftSidebar = ({ isCollapsed, onToggle, isMobile, isSidebarOpen, closeSide
                         </div>
                     )}
                 </div>
-                {/* 데스크탑에서만 사이드바 토글 버튼 */}
                 {!isMobile && (
                     <button
                         onClick={onToggle}
