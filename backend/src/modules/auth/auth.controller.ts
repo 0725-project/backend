@@ -13,7 +13,7 @@ import { REFRESH_TOKEN_EXPIRES_IN_SECONDS } from 'src/common/constants'
 import { Request, Response } from 'express'
 import { JwtService } from '@nestjs/jwt'
 
-import { AccessTokenDto, LoginDto, LoginResponseDto, RegisterDto, RegisterResponseDto } from './dto'
+import { AccessTokenDto, GetMeResponseDto, LoginDto, LoginResponseDto, RegisterDto, RegisterResponseDto } from './dto'
 
 @ApiTags('Authorization')
 @Controller('auth')
@@ -73,6 +73,15 @@ export class AuthController {
         await this.authService.logout(userId)
 
         res.clearCookie('refresh_token')
+    }
+
+    @Post('me')
+    @ApiOperation({ summary: 'Get current user information' })
+    @ApiResponse({ status: 200, description: 'Returns current user information.', type: RegisterResponseDto })
+    @ApiUnauthorizedResponse({ description: 'User is not authenticated.' })
+    async getMe(@Req() req: Request): Promise<GetMeResponseDto> {
+        const userId = this.extractUserIdFromRefreshToken(req)
+        return this.authService.getMe(userId)
     }
 
     private extractUserIdFromRefreshToken(req: Request): number {

@@ -54,4 +54,12 @@ export class AuthService {
     async logout(userId: number) {
         await this.redisService.del(`user:${userId}:refresh`)
     }
+
+    async getMe(userId: number): Promise<User> {
+        const user = await this.usersService.findById(userId)
+        if (!user) {
+            throw new UnauthorizedException('User not found')
+        }
+        return user
+    }
 }

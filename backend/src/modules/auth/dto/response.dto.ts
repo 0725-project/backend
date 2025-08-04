@@ -6,3 +6,4 @@ import { AccessTokenDto } from '.'
 
 export class LoginResponseDto extends IntersectionType(IdDto, AccessTokenDto) {}
 export class RegisterResponseDto extends IntersectionType(UserResponseDto) {}
+export class GetMeResponseDto extends IntersectionType(UserResponseDto) {}
