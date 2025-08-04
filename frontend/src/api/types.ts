@@ -21,6 +21,9 @@ export interface RefreshResponse {
 // POST /api/auth/logout
 export interface LogoutResponse {}
 
+// GET /api/auth/me
+export type GetMeResponse = GetUserResponse
+
 // GET /api/users/id/{id}
 // GET /api/users/username/{username}
 export interface GetUserResponse {

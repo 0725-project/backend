@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { getPosts } from '@/api/client'
+import { getPosts } from '@/api/posts'
 import { PostResponse } from '@/api/types'
 
 const useInfiniteScrollPosts = () => {
