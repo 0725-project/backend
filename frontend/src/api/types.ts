@@ -31,42 +31,10 @@ export interface GetUserResponse {
     createdAt: string
 }
 
-// POST /api/posts
-export interface CreatePostResponse {
-    id: number
-    title: string
-    content: string
-    createdAt: string
-    topicLocalId: number
-    viewCount: number
-}
-
-// GET /api/posts
-export interface GetPostsResponse {
-    posts: {
-        id: number
-        title: string
-        content: string
-        createdAt: string
-        topicLocalId: number
-        viewCount: number
-        author: {
-            id: number
-            username: string
-            nickname: string
-        }
-        topic: {
-            id: number
-            name: string
-            description: string
-        }
-    }[]
-    nextCursor: number | null
-}
-
 // GET /api/posts/{id}
 // PUT /api/posts/{id}
-export interface RUPostResponse {
+// etc..
+export interface PostResponse {
     id: number
     title: string
     content: string
@@ -83,6 +51,22 @@ export interface RUPostResponse {
         name: string
         description: string
     }
+}
+
+// POST /api/posts
+export interface CreatePostResponse {
+    id: number
+    title: string
+    content: string
+    createdAt: string
+    topicLocalId: number
+    viewCount: number
+}
+
+// GET /api/posts
+export interface GetPostsResponse {
+    posts: PostResponse[]
+    nextCursor: number | null
 }
 
 // DELETE /api/posts/{id}
@@ -144,7 +128,7 @@ export interface GetTopicPostsResponse {
 }
 
 // GET /api/topic/{topicName}/{topicLocalId}
-export type GetTopicPostByLocalIdResponse = RUPostResponse
+export type GetTopicPostByLocalIdResponse = PostResponse
 
 // GET /api/search
 export type SearchPostsResponse = GetPostsResponse

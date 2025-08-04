@@ -11,11 +11,11 @@ import {
     GetTopicPostsResponse,
     CreateCommentResponse,
     LogoutResponse,
-    RUPostResponse,
     DeletePostResponse,
     GetTopicResponse,
     GetTopicPostByLocalIdResponse,
     GetPostCommentsResponse,
+    PostResponse,
 } from './types'
 
 export const BASE_URL = 'http://localhost:3000/api'
@@ -81,12 +81,12 @@ export const getPosts = async (cursor?: number, limit = 10) => {
 }
 
 export const getPost = async (postId: number) => {
-    const response = await client.get<RUPostResponse>(`/posts/${postId}`)
+    const response = await client.get<PostResponse>(`/posts/${postId}`)
     return response.data
 }
 
 export const updatePost = async (postId: number, title: string, content: string) => {
-    const response = await client.put<RUPostResponse>(`/posts/${postId}`, {
+    const response = await client.put<PostResponse>(`/posts/${postId}`, {
         title,
         content,
     })
