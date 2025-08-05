@@ -27,8 +27,8 @@ export class SearchService {
             query.andWhere('author.username ILIKE :author', { author: `%${dto.author}%` })
         }
 
-        if (dto.topicName) {
-            query.andWhere('topic.name ILIKE :topicName', { topicName: `%${dto.topicName}%` })
+        if (dto.topicSlug) {
+            query.andWhere('topic.slug ILIKE :topicSlug', { topicSlug: `%${dto.topicSlug}%` })
         }
 
         if (dto.cursor) {

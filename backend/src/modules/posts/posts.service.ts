@@ -19,7 +19,7 @@ export class PostsService {
     ) {}
 
     async create(createPostDto: CreatePostDto, userId: number, ip: string) {
-        const topic = await this.topicRepo.findOne({ where: { name: createPostDto.topicName } })
+        const topic = await this.topicRepo.findOne({ where: { slug: createPostDto.topicSlug } })
         if (!topic) throw new NotFoundException('Topic not found')
 
         const count = await this.postRepo.count({ where: { topic: { id: topic.id } } })

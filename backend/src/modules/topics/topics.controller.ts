@@ -14,7 +14,7 @@ import {
 } from '@nestjs/swagger'
 
 import { CursorPaginationDto } from 'src/common/dto'
-import { CreateTopicResponseDto, TopicResponseDto, TopicsResponseDto, CreateTopicDto, TopicNameDto } from './dto'
+import { CreateTopicResponseDto, TopicResponseDto, TopicsResponseDto, CreateTopicDto, TopicSlugDto } from './dto'
 
 @ApiTags('Topics')
 @Controller('topics')
@@ -54,11 +54,11 @@ export class TopicsController {
         return this.topicService.findAll(cursor, limit)
     }
 
-    @Get(':topicName')
-    @ApiOperation({ summary: 'Get a single topic by name' })
+    @Get(':topicSlug')
+    @ApiOperation({ summary: 'Get a single topic by slug' })
     @ApiResponse({ status: 200, description: 'Return a single topic', type: TopicResponseDto })
     @ApiNotFoundResponse({ description: 'Topic not found' })
-    findByName(@Param() { topicName }: TopicNameDto): Promise<TopicResponseDto> {
-        return this.topicService.findByName(topicName)
+    findBySlug(@Param() { topicSlug }: TopicSlugDto): Promise<TopicResponseDto> {
+        return this.topicService.findBySlug(topicSlug)
     }
 }

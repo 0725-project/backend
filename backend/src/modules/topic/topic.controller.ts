@@ -12,7 +12,7 @@ import { TopicService } from './topic.service'
 
 import { CursorPaginationDto } from 'src/common/dto'
 import { PostResponseDto } from 'src/modules/posts/dto'
-import { TopicNameDto } from 'src/modules/topics/dto'
+import { TopicSlugDto } from 'src/modules/topics/dto'
 import { GetTopicPostParamDto, TopicPostsResponseDto } from './dto'
 
 @ApiTags('Topic')
@@ -20,9 +20,9 @@ import { GetTopicPostParamDto, TopicPostsResponseDto } from './dto'
 export class TopicController {
     constructor(private readonly topicService: TopicService) {}
 
-    @Get(':topicName')
-    @ApiOperation({ summary: 'Get posts by topic name' })
-    @ApiParam({ name: 'topicName', description: 'The topic name associated with the post.' })
+    @Get(':topicSlug')
+    @ApiOperation({ summary: 'Get posts by topic slug' })
+    @ApiParam({ name: 'topicSlug', description: 'The topic slug associated with the post.' })
     @ApiQuery({
         name: 'cursor',
         required: false,
@@ -41,20 +41,20 @@ export class TopicController {
     @ApiNotFoundResponse({ description: 'Topic not found' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
     async findByTopic(
-        @Param() { topicName }: TopicNameDto,
+        @Param() { topicSlug }: TopicSlugDto,
         @Query() { cursor, limit }: CursorPaginationDto,
     ): Promise<TopicPostsResponseDto> {
-        return this.topicService.postsFindByTopicName(topicName, cursor, limit)
+        return this.topicService.postsFindByTopicSlug(topicSlug, cursor, limit)
     }
 
-    @Get(':topicName/:topicLocalId')
-    @ApiOperation({ summary: 'Get a post by topicName and topicLocalId' })
-    @ApiParam({ name: 'topicName', description: 'The topic name associated with the post.' })
+    @Get(':topicSlug/:topicLocalId')
+    @ApiOperation({ summary: 'Get a post by topicSlug and topicLocalId' })
+    @ApiParam({ name: 'topicSlug', description: 'The topic slug associated with the post.' })
     @ApiParam({ name: 'topicLocalId', description: 'The local ID of the post within the topic.' })
     @ApiResponse({ status: 200, description: 'Return a single post in topic by topicLocalId', type: PostResponseDto })
     @ApiNotFoundResponse({ description: 'Post not found' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
-    findByTopicLocalId(@Param() { topicName, topicLocalId }: GetTopicPostParamDto): Promise<PostResponseDto> {
-        return this.topicService.postFindByTopicLocalId(topicName, topicLocalId)
+    findByTopicLocalId(@Param() { topicSlug, topicLocalId }: GetTopicPostParamDto): Promise<PostResponseDto> {
+        return this.topicService.postFindByTopicLocalId(topicSlug, topicLocalId)
     }
 }

@@ -14,8 +14,8 @@ export class TopicService {
         private readonly topicRepo: Repository<Topic>,
     ) {}
 
-    async postsFindByTopicName(topicName: string, cursor?: number, limit = 10) {
-        const topic = await this.topicRepo.findOne({ where: { name: topicName } })
+    async postsFindByTopicSlug(topicSlug: string, cursor?: number, limit = 10) {
+        const topic = await this.topicRepo.findOne({ where: { slug: topicSlug } })
         if (!topic) throw new NotFoundException('Topic not found')
 
         const query = this.postRepo
@@ -37,8 +37,8 @@ export class TopicService {
         return { posts, nextCursor }
     }
 
-    async postFindByTopicLocalId(topicName: string, topicLocalId: number) {
-        const topic = await this.topicRepo.findOne({ where: { name: topicName } })
+    async postFindByTopicLocalId(topicSlug: string, topicLocalId: number) {
+        const topic = await this.topicRepo.findOne({ where: { slug: topicSlug } })
         if (!topic) throw new NotFoundException('Topic not found')
 
         const post = await this.postRepo

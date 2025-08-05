@@ -1,5 +1,5 @@
 import { IntersectionType } from '@nestjs/swagger'
 
-import { TopicDescriptionDto, TopicNameDto } from '.'
+import { TopicDescriptionDto, TopicSlugDto } from '.'
 
-export class CreateTopicDto extends IntersectionType(TopicNameDto, TopicDescriptionDto) {}
+export class CreateTopicDto extends IntersectionType(TopicSlugDto, TopicDescriptionDto) {}

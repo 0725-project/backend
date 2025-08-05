@@ -5,19 +5,19 @@ import { CreatedAtDto, IdDto, CursorPaginationResponseDto } from 'src/common/dto
 import { UserBriefResponseDto } from 'src/modules/users/dto'
 import { TopicDescriptionDto } from '.'
 
-export class TopicNameResponseDto {
+export class TopicSlugResponseDto {
     @ApiProperty({
-        description: 'The topic name associated with the post.',
+        description: 'The topic slug associated with the post.',
         example: 'programming',
     })
     @IsString()
     @IsNotEmpty()
-    @Matches(/^[a-z]+$/, { message: 'The topic name must be in lowercase letters.' })
+    @Matches(/^[a-z]+$/, { message: 'The topic slug must be in lowercase letters.' })
     @MaxLength(32)
-    name: string
+    slug: string
 }
 
-export class TopicResponseDto extends IntersectionType(IdDto, TopicNameResponseDto, TopicDescriptionDto, CreatedAtDto) {
+export class TopicResponseDto extends IntersectionType(IdDto, TopicSlugResponseDto, TopicDescriptionDto, CreatedAtDto) {
     @ApiProperty({
         description: 'The creator of the topic.',
         type: UserBriefResponseDto,
@@ -33,5 +33,5 @@ export class TopicsResponseDto extends IntersectionType(CursorPaginationResponse
     topics: TopicResponseDto[]
 }
 
-export class TopicBriefResponseDto extends IntersectionType(IdDto, TopicNameResponseDto, TopicDescriptionDto) {}
+export class TopicBriefResponseDto extends IntersectionType(IdDto, TopicSlugResponseDto, TopicDescriptionDto) {}
 export class CreateTopicResponseDto extends IntersectionType(OmitType(TopicResponseDto, ['creator'])) {}

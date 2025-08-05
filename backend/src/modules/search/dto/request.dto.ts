@@ -23,13 +23,13 @@ export class SearchPostsQueryDto extends IntersectionType(CursorPaginationDto) {
     author?: string
 
     @ApiProperty({
-        description: 'Filter by topic name.',
+        description: 'Filter by topic slug.',
         required: false,
         example: 'programming',
     })
     @IsOptional()
     @IsString()
-    topicName?: string
+    topicSlug?: string
 
     @ApiProperty({
         description: 'Order of the results.',

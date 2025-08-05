@@ -38,7 +38,7 @@ export class LikesService {
         }
 
         await this.likeRepo.remove(like)
-        await this.postRepo.decrement({ id: postId }, 'likeCount', 1)        
+        await this.postRepo.decrement({ id: postId }, 'likeCount', 1)
     }
 
     async getLikesForPost(postId: number, cursor?: number, limit = 10) {

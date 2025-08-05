@@ -2,16 +2,16 @@ import { ApiProperty } from '@nestjs/swagger'
 import { IsInt, IsNotEmpty, IsString, MaxLength, Matches } from 'class-validator'
 import { Type } from 'class-transformer'
 
-export class TopicNameDto {
+export class TopicSlugDto {
     @ApiProperty({
-        description: 'The topic name associated with the post.',
+        description: 'The topic slug associated with the post.',
         example: 'programming',
     })
     @IsString()
     @IsNotEmpty()
-    @Matches(/^[a-z]+$/, { message: 'The topic name must be in lowercase letters.' })
+    @Matches(/^[a-z]+$/, { message: 'The topic slug must be in lowercase letters.' })
     @MaxLength(32)
-    topicName: string
+    topicSlug: string
 }
 
 export class TopicDescriptionDto {

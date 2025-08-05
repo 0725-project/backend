@@ -15,25 +15,25 @@ export class TopicsService {
     async create(createTopicDto: CreateTopicDto, creatorId: number) {
         const topic = this.topicRepo.create({
             ...createTopicDto,
-            name: createTopicDto.topicName,
+            slug: createTopicDto.topicSlug,
             creator: { id: creatorId },
         })
 
-        const { id, name, description, createdAt } = await this.topicRepo.save(topic)
+        const { id, slug, description, createdAt } = await this.topicRepo.save(topic)
         return {
             id,
-            name,
+            slug,
             description,
             createdAt,
         }
     }
 
-    async findByName(name: string) {
+    async findBySlug(slug: string) {
         const topic = await this.topicRepo
             .createQueryBuilder('topic')
             .leftJoinAndSelect('topic.creator', 'creator')
             .select(['topic', 'creator.id', 'creator.username', 'creator.nickname'])
-            .where('topic.name = :name', { name })
+            .where('topic.slug = :slug', { slug })
             .getOne()
         if (!topic) throw new NotFoundException('Topic not found')
 

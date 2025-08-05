@@ -1,4 +1,4 @@
 import { IntersectionType } from '@nestjs/swagger'
-import { TopicLocalIdDto, TopicNameDto } from 'src/modules/topics/dto'
+import { TopicLocalIdDto, TopicSlugDto } from 'src/modules/topics/dto'
 
-export class GetTopicPostParamDto extends IntersectionType(TopicNameDto, TopicLocalIdDto) {}
+export class GetTopicPostParamDto extends IntersectionType(TopicSlugDto, TopicLocalIdDto) {}
