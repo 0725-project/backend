@@ -40,7 +40,9 @@ backend/src
 │       └── setupSwagger.ts
 ├── main.ts
 ├── migrations
-│   └── 1754101626596-Init.ts
+│   ├── 1754101626596-Init.ts
+│   ├── 1754386946982-Init.ts
+│   └── 1754387093530-Init.ts
 └── modules
     ├── auth
     │   ├── auth.controller.ts
@@ -62,6 +64,14 @@ backend/src
     │       ├── index.ts
     │       ├── request.dto.ts
     │       └── response.dto.ts
+    ├── likes
+    │   ├── dto
+    │   │   ├── index.ts
+    │   │   └── response.dto.ts
+    │   ├── likes.controller.ts
+    │   ├── likes.entity.ts
+    │   ├── likes.module.ts
+    │   └── likes.service.ts
     ├── posts
     │   ├── dto
     │   │   ├── base.dto.ts
@@ -116,11 +126,61 @@ backend/src
         └── users.service.ts
 frontend/src
 ├── api
+│   ├── auth.ts
 │   ├── client.ts
-│   └── types.ts
-└── app
-    ├── favicon.ico
-    ├── globals.css
-    ├── layout.tsx
-    └── page.tsx
+│   ├── comments.ts
+│   ├── likes.ts
+│   ├── posts.ts
+│   ├── search.ts
+│   ├── topics.ts
+│   ├── types.ts
+│   └── users.ts
+├── app
+│   ├── components
+│   │   ├── Auth
+│   │   │   ├── AuthForm.tsx
+│   │   │   ├── AuthModal.tsx
+│   │   │   ├── LoginForm.tsx
+│   │   │   └── RegisterForm.tsx
+│   │   ├── Header.tsx
+│   │   ├── LeftSidebar
+│   │   │   ├── index.tsx
+│   │   │   ├── LeftSidebarItems.tsx
+│   │   │   └── SidebarSection.tsx
+│   │   ├── Main
+│   │   │   ├── index.tsx
+│   │   │   └── PostCard.tsx
+│   │   ├── PageLayout.tsx
+│   │   ├── Post
+│   │   │   ├── Comments.tsx
+│   │   │   └── index.tsx
+│   │   ├── RightSidebar
+│   │   │   ├── index.tsx
+│   │   │   └── RightSidebarItems.tsx
+│   │   ├── Topics
+│   │   │   └── index.tsx
+│   │   └── UserMenu.tsx
+│   ├── context
+│   │   └── AuthContext.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── hooks
+│   │   ├── useAccordion.ts
+│   │   ├── useForm.ts
+│   │   ├── useInfiniteScrollComments.ts
+│   │   ├── useInfiniteScrollPosts.ts
+│   │   ├── useInfiniteScrollTopics.ts
+│   │   └── useIsMobile.ts
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── topics
+│       ├── [topic]
+│       │   └── [topiclocalid]
+│       │       └── page.tsx
+│       └── page.tsx
+└── utils
+    ├── dateFormatter.ts
+    └── getAnchorHref.ts
+
+46 directories, 121 files
 ```

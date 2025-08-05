@@ -1,3 +1,5 @@
 .DS_Store
 **/*.bkp
+**/*.bak
+**/*.dtmp
 node_modules/
