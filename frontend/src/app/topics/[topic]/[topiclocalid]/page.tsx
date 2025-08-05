@@ -11,6 +11,7 @@ interface Params {
 
 export default async function Post({ params }: { params: Promise<Params> }) {
     const { topic, topiclocalid } = await params
+
     const id = Number(topiclocalid)
     if (isNaN(id)) return notFound()
 

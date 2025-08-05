@@ -67,9 +67,9 @@ const TopicsList = () => {
                     >
                         <div className='flex items-center gap-2 mb-2'>
                             <div className='w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg'>
-                                {topic.slug.charAt(0).toUpperCase()}
+                                {topic.name.charAt(0).toUpperCase()}
                             </div>
-                            <span className='text-lg font-semibold text-gray-900 truncate'>{topic.slug}</span>
+                            <span className='text-lg font-semibold text-gray-900 truncate'>{topic.name}</span>
                         </div>
                         <p className='text-gray-700 text-sm mb-2 line-clamp-2'>
                             {topic.description || '설명이 없습니다.'}

@@ -54,6 +54,7 @@ export interface PostResponse {
     topic: {
         id: number
         slug: string
+        name: string
         description: string
     }
 }
@@ -83,6 +84,7 @@ export interface DeletePostResponse {}
 export interface CreateTopicResponse {
     id: number
     slug: string
+    name: string
     description: string
     createdAt: string
 }
@@ -92,6 +94,7 @@ export interface CreateTopicResponse {
 export interface TopicResponse {
     id: number
     slug: string
+    name: string
     description: string
     creator: {
         id: number

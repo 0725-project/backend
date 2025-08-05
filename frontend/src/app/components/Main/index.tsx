@@ -70,7 +70,7 @@ const MainContent = () => {
                 </div>
                 <div className='space-y-2 md:space-y-4'>
                     {posts.map((post, index) => (
-                        <Link href={`/topics/${post.topic?.name}/${post.topicLocalId}`} key={index} className='block'>
+                        <Link href={`/topics/${post.topic?.slug}/${post.topicLocalId}`} key={index} className='block'>
                             <PostCard
                                 topic={post.topic?.name ?? 'No Topic'}
                                 username={post.author?.username ?? 'Unknown'}
