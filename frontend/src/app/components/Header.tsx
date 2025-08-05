@@ -43,7 +43,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                         <div className='relative'>
                             <Search className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4' />
                             <input
-                                placeholder='Search'
+                                placeholder='검색...'
                                 className='pl-10 bg-gray-100 border border-gray-200 rounded-full w-full py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200'
                             />
                         </div>

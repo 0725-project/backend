@@ -27,7 +27,7 @@ const PostCard = (props: PostCardProps) => {
                         <span className='text-gray-500'>•</span>
                         <span className='text-gray-500'>{props.createdAt}</span>
                         <span className='text-gray-500'>•</span>
-                        <span className='text-gray-500'>Views: {props.views}</span>
+                        <span className='text-gray-500'>조회수 {props.views}</span>
                     </div>
                 </div>
                 <div className='flex items-center space-x-1 md:space-x-2'>

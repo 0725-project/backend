@@ -1,24 +1,19 @@
 'use client'
 
 import { incrementPostViewCount } from '@/api/posts'
-import { PostResponse } from '@/api/types'
+import { GetPostCommentsResponse, PostResponse } from '@/api/types'
 import { formatDate } from '@/utils/dateFormatter'
 import { MoveLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import Comments from './Comments'
 
 interface PostProps {
     post: PostResponse
+    comments: GetPostCommentsResponse
 }
 
-const PostPage = ({ post }: PostProps) => {
-    // const [formatDate, setFormatDate] = useState<string>('')
-
-    // useEffect(() => {
-    //     const formattedDate = new Date(post.createdAt).toLocaleString()
-    //     setFormatDate(formattedDate)
-    // }, [post.createdAt])
-
+const PostPage = ({ post, comments }: PostProps) => {
     useEffect(() => {
         const incrementViewCount = async () => {
             try {
@@ -65,11 +60,7 @@ const PostPage = ({ post }: PostProps) => {
                 <div className='prose max-w-none text-gray-900 min-h-[200px]'>
                     <p>{post.content}</p>
                 </div>
-                <footer className='mt-8 flex flex-col md:flex-row items-center justify-between gap-2 border-t border-gray-100 pt-4'>
-                    <div className='flex items-center gap-4 text-sm text-gray-400'>
-                        <span>테스트</span>
-                    </div>
-                </footer>
+                <Comments post={post} initialComments={comments} />
             </article>
         </section>
     )

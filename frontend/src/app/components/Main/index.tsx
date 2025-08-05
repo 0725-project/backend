@@ -82,7 +82,7 @@ const MainContent = () => {
                             />
                         </Link>
                     ))}
-                    {loading && <div className='text-center text-gray-400 py-4'>Loading...</div>}
+                    {loading && <div className='text-center text-gray-400 py-4'>로딩 중...</div>}
                     {!hasMore && <div className='text-center text-gray-400 py-4'>모든 글을 불러왔습니다.</div>}
                 </div>
             </div>

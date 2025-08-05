@@ -8,8 +8,10 @@ export const createComment = async (postId: number, content: string) => {
     return response.data
 }
 
-export const getPostComments = async (postId: number) => {
-    const response = await client.get<GetPostCommentsResponse>(`/posts/${postId}/comments`)
+export const getPostComments = async (postId: number, cursor?: number, limit: number = 10) => {
+    const response = await client.get<GetPostCommentsResponse>(`/posts/${postId}/comments`, {
+        params: { cursor, limit },
+    })
     return response.data
 }
 
