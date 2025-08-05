@@ -1,16 +1,4 @@
-import {
-    Controller,
-    Get,
-    Body,
-    Param,
-    Delete,
-    Put,
-    Request,
-    UseGuards,
-    Post as HttpPost,
-    Query,
-    Ip,
-} from '@nestjs/common'
+import { Controller, Get, Body, Param, Delete, Put, Request, UseGuards, Post, Query, Ip } from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard'
 import {
@@ -36,7 +24,7 @@ export class PostsController {
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
-    @HttpPost()
+    @Post()
     @ApiOperation({ summary: 'Create a new post' })
     @ApiResponse({ status: 201, description: 'The post has been successfully created.', type: CreatePostResponseDto })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
@@ -76,11 +64,8 @@ export class PostsController {
     @ApiResponse({ status: 200, description: 'Return a single post.', type: PostResponseDto })
     @ApiBadRequestResponse({ description: 'Invalid ID.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
-    async findOne(@Param() { id }: IdDto, @Ip() ip: string): Promise<PostResponseDto> {
-        const post = await this.postsService.findOne(id)
-        await this.postsService.incrementViewCount(post.id, ip)
-
-        return post
+    findOne(@Param() { id }: IdDto, @Ip() ip: string): Promise<PostResponseDto> {
+        return this.postsService.findOne(id)
     }
 
     @UseGuards(JwtAuthGuard)
@@ -111,5 +96,14 @@ export class PostsController {
     @ApiForbiddenResponse({ description: 'You are not the author of this post.' })
     delete(@Param() { id }: IdDto, @Request() req: AuthenticatedRequest) {
         return this.postsService.delete(id, req.user.userId)
+    }
+
+    @Post(':id/view-count')
+    @ApiOperation({ summary: 'Increment view count of a post' })
+    @ApiResponse({ status: 200, description: 'View count incremented successfully.' })
+    @ApiBadRequestResponse({ description: 'Invalid ID.' })
+    @ApiNotFoundResponse({ description: 'Post not found.' })
+    incrementViewCount(@Param() { id }: IdDto, @Ip() ip: string): Promise<void> {
+        return this.postsService.incrementViewCount(id, ip)
     }
 }

@@ -119,7 +119,7 @@ export class PostsService {
         const key = `post:${postId}:viewer:${ip}`
         const exists = await this.redisService.get(key)
         if (!exists) {
-            await this.redisService.set(key, '1', 3600) // 1 hour TTL
+            await this.redisService.set(key, '1', 5) // 1 hour TTL TODO
             await this.postRepo.increment({ id: postId }, 'viewCount', 1)
         }
     }
