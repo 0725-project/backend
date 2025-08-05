@@ -6,6 +6,7 @@ interface PostCardProps {
     topic: string
     createdAt: string
     thumbnailUrl?: string
+    views: number
     likes: number
     comments: number
     color?: string
@@ -25,6 +26,8 @@ const PostCard = (props: PostCardProps) => {
                         <span className='font-medium'>{props.topic}</span>
                         <span className='text-gray-500'>•</span>
                         <span className='text-gray-500'>{props.createdAt}</span>
+                        <span className='text-gray-500'>•</span>
+                        <span className='text-gray-500'>Views: {props.views}</span>
                     </div>
                 </div>
                 <div className='flex items-center space-x-1 md:space-x-2'>

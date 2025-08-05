@@ -2,6 +2,7 @@
 
 import { incrementPostViewCount } from '@/api/posts'
 import { PostResponse } from '@/api/types'
+import { formatDate } from '@/utils/dateFormatter'
 import { MoveLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -11,12 +12,12 @@ interface PostProps {
 }
 
 const PostPage = ({ post }: PostProps) => {
-    const [formatDate, setFormatDate] = useState<string>('')
+    // const [formatDate, setFormatDate] = useState<string>('')
 
-    useEffect(() => {
-        const formattedDate = new Date(post.createdAt).toLocaleString()
-        setFormatDate(formattedDate)
-    }, [post.createdAt])
+    // useEffect(() => {
+    //     const formattedDate = new Date(post.createdAt).toLocaleString()
+    //     setFormatDate(formattedDate)
+    // }, [post.createdAt])
 
     useEffect(() => {
         const incrementViewCount = async () => {
@@ -51,7 +52,12 @@ const PostPage = ({ post }: PostProps) => {
                             <span className='font-medium text-gray-700'>{post.author.nickname}</span>
                         </div>
                         <span className='hidden md:inline'>·</span>
-                        <span>{formatDate}</span>
+                        <span>
+                            {formatDate(post.createdAt, {
+                                todayFormat: false,
+                                fullDateFormat: true,
+                            })}
+                        </span>
                         <span className='hidden md:inline'>·</span>
                         <span>조회수 {post.viewCount}</span>
                     </div>

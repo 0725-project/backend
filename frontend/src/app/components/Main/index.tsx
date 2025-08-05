@@ -4,6 +4,7 @@ import { useInfiniteScrollPosts } from '../../hooks/useInfiniteScrollPosts'
 import { useEffect, useRef } from 'react'
 import { getAnchorHref } from '@/utils/getAnchorHref'
 import Link from 'next/link'
+import { formatDate } from '@/utils/dateFormatter'
 
 const STORAGE_KEY = 'main_page_state'
 
@@ -73,10 +74,11 @@ const MainContent = () => {
                             <PostCard
                                 topic={post.topic?.name ?? 'No Topic'}
                                 username={post.author?.username ?? 'Unknown'}
-                                createdAt={post.createdAt}
+                                createdAt={formatDate(post.createdAt)}
                                 title={post.title}
-                                likes={post.viewCount}
-                                comments={0}
+                                likes={post.likeCount}
+                                comments={post.commentCount}
+                                views={post.viewCount}
                             />
                         </Link>
                     ))}

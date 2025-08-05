@@ -44,6 +44,8 @@ export interface PostResponse {
     createdAt: string
     topicLocalId: number
     viewCount: number
+    commentCount: number
+    likeCount: number
     author: {
         id: number
         username: string
@@ -64,6 +66,8 @@ export interface CreatePostResponse {
     createdAt: string
     topicLocalId: number
     viewCount: number
+    commentCount: number
+    likeCount: number
 }
 
 // GET /api/posts
@@ -111,6 +115,8 @@ export interface GetTopicPostsResponse {
         createdAt: string
         topicLocalId: number
         viewCount: number
+        commentCount: number
+        likeCount: number
         author: {
             id: number
             username: string
