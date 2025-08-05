@@ -1,10 +1,60 @@
 'use client'
 
-import React from 'react'
 import { useInfiniteScrollTopics } from '@/app/hooks/useInfiniteScrollTopics'
+import { getAnchorHref } from '@/utils/getAnchorHref'
+import { useEffect, useRef } from 'react'
+
+const STORAGE_KEY = 'topics_page_state'
 
 const TopicsList = () => {
-    const { topics, loading, hasMore } = useInfiniteScrollTopics()
+    const isRestored = useRef(false)
+    let initialState = undefined
+
+    if (typeof window !== 'undefined') {
+        const saved = sessionStorage.getItem(STORAGE_KEY)
+        if (saved) {
+            initialState = JSON.parse(saved)
+        }
+    }
+
+    const { topics, loading, hasMore, nextCursor } = useInfiniteScrollTopics({
+        initialTopics: initialState?.topics,
+        initialNextCursor: initialState?.nextCursor,
+        initialHasMore: initialState?.hasMore,
+    })
+
+    useEffect(() => {
+        if (initialState && !isRestored.current) {
+            setTimeout(() => {
+                window.scrollTo(0, initialState.scrollY || 0)
+                sessionStorage.removeItem(STORAGE_KEY)
+            }, 0)
+            isRestored.current = true
+        }
+    }, [initialState])
+
+    useEffect(() => {
+        const handleLinkClick = (e: MouseEvent) => {
+            const href = getAnchorHref(e.target as HTMLElement)
+            if (href && href !== '/topics') {
+                sessionStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify({
+                        topics,
+                        nextCursor,
+                        hasMore,
+                        scrollY: window.scrollY,
+                    }),
+                )
+            }
+        }
+
+        document.addEventListener('click', handleLinkClick, true)
+
+        return () => {
+            document.removeEventListener('click', handleLinkClick, true)
+        }
+    }, [topics, nextCursor, hasMore])
 
     return (
         <section className='max-w-5xl mx-auto px-2 md:px-4 py-4'>

@@ -2,11 +2,18 @@ import { useEffect, useState, useCallback } from 'react'
 import { getTopics } from '@/api/topics'
 import { TopicResponse } from '@/api/types'
 
-const useInfiniteScrollTopics = () => {
-    const [topics, setTopics] = useState<TopicResponse[]>([])
-    const [loading, setLoading] = useState(false)
-    const [nextCursor, setNextCursor] = useState<number | null>(null)
-    const [hasMore, setHasMore] = useState(true)
+interface UseInfiniteScrollTopicsOptions {
+    initialTopics?: TopicResponse[]
+    initialNextCursor?: number | null
+    initialHasMore?: boolean
+    initialLoading?: boolean
+}
+
+const useInfiniteScrollTopics = (options: UseInfiniteScrollTopicsOptions = {}) => {
+    const [topics, setTopics] = useState<TopicResponse[]>(options.initialTopics || [])
+    const [loading, setLoading] = useState(options.initialLoading ?? false)
+    const [nextCursor, setNextCursor] = useState<number | null>(options.initialNextCursor ?? null)
+    const [hasMore, setHasMore] = useState(options.initialHasMore ?? true)
 
     const fetchTopics = useCallback(
         async (cursor?: number) => {
@@ -44,7 +51,7 @@ const useInfiniteScrollTopics = () => {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [fetchTopics, loading, hasMore, nextCursor])
 
-    return { topics, loading, hasMore }
+    return { topics, loading, hasMore, nextCursor }
 }
 
 export { useInfiniteScrollTopics }

@@ -2,11 +2,18 @@ import { useEffect, useState, useCallback } from 'react'
 import { getPosts } from '@/api/posts'
 import { PostResponse } from '@/api/types'
 
-const useInfiniteScrollPosts = () => {
-    const [posts, setPosts] = useState<PostResponse[]>([])
-    const [loading, setLoading] = useState(false)
-    const [nextCursor, setNextCursor] = useState<number | null>(null)
-    const [hasMore, setHasMore] = useState(true)
+interface UseInfiniteScrollPostsOptions {
+    initialPosts?: PostResponse[]
+    initialNextCursor?: number | null
+    initialHasMore?: boolean
+    initialLoading?: boolean
+}
+
+const useInfiniteScrollPosts = (options: UseInfiniteScrollPostsOptions = {}) => {
+    const [posts, setPosts] = useState<PostResponse[]>(options.initialPosts || [])
+    const [loading, setLoading] = useState(options.initialLoading ?? false)
+    const [nextCursor, setNextCursor] = useState<number | null>(options.initialNextCursor ?? null)
+    const [hasMore, setHasMore] = useState(options.initialHasMore ?? true)
 
     const fetchPosts = useCallback(
         async (cursor?: number) => {
@@ -44,7 +51,7 @@ const useInfiniteScrollPosts = () => {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [fetchPosts, loading, hasMore, nextCursor])
 
-    return { posts, loading, hasMore }
+    return { posts, loading, hasMore, nextCursor }
 }
 
 export { useInfiniteScrollPosts }
