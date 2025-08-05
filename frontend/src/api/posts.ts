@@ -35,3 +35,7 @@ export const updatePost = async (postId: number, title: string, content: string)
 export const deletePost = async (postId: number) => {
     await client.delete<DeletePostResponse>(`/${POSTS_API_PREFIX}/${postId}`)
 }
+
+export const incrementPostViewCount = async (postId: number) => {
+    await client.post(`/${POSTS_API_PREFIX}/${postId}/view-count`)
+}

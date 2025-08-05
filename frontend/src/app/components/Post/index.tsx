@@ -1,5 +1,6 @@
 'use client'
 
+import { incrementPostViewCount } from '@/api/posts'
 import { PostResponse } from '@/api/types'
 import { MoveLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -16,6 +17,17 @@ const PostPage = ({ post }: PostProps) => {
         const formattedDate = new Date(post.createdAt).toLocaleString()
         setFormatDate(formattedDate)
     }, [post.createdAt])
+
+    useEffect(() => {
+        const incrementViewCount = async () => {
+            try {
+                await incrementPostViewCount(post.id)
+            } catch (error) {
+                console.error('Failed to increment view count:', error)
+            }
+        }
+        incrementViewCount()
+    }, [post.id])
 
     const router = useRouter()
 
