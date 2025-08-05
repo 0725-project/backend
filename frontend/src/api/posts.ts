@@ -3,11 +3,11 @@ import { CreatePostResponse, DeletePostResponse, GetPostsResponse, PostResponse 
 
 const POSTS_API_PREFIX = 'posts'
 
-export const createPost = async (title: string, content: string, topicName: string) => {
+export const createPost = async (title: string, content: string, topicSlug: string) => {
     const response = await client.post<CreatePostResponse>(`/${POSTS_API_PREFIX}`, {
         title,
         content,
-        topicName,
+        topicSlug,
     })
     return response.data
 }

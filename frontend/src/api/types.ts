@@ -53,7 +53,7 @@ export interface PostResponse {
     }
     topic: {
         id: number
-        name: string
+        slug: string
         description: string
     }
 }
@@ -82,16 +82,16 @@ export interface DeletePostResponse {}
 // POST /api/topics
 export interface CreateTopicResponse {
     id: number
-    name: string
+    slug: string
     description: string
     createdAt: string
 }
 
-// GET /api/topics/{topicName}
+// GET /api/topics/{topicSlug}
 // etc..
 export interface TopicResponse {
     id: number
-    name: string
+    slug: string
     description: string
     creator: {
         id: number
@@ -106,7 +106,7 @@ export interface GetTopicsResponse {
     nextCursor: number | null
 }
 
-// GET /api/topic/{topicName}
+// GET /api/topic/{topicSlug}
 export interface GetTopicPostsResponse {
     posts: {
         id: number
@@ -126,7 +126,7 @@ export interface GetTopicPostsResponse {
     nextCursor: number | null
 }
 
-// GET /api/topic/{topicName}/{topicLocalId}
+// GET /api/topic/{topicSlug}/{topicLocalId}
 export type GetTopicPostByLocalIdResponse = PostResponse
 
 // GET /api/search

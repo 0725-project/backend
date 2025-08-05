@@ -16,7 +16,7 @@ export default async function Post({ params }: { params: Promise<Params> }) {
 
     try {
         const post = await getTopicPostByLocalId(topic, id)
-        if (post.topic.name !== topic) return notFound()
+        if (post.topic.slug !== topic) return notFound()
 
         const comments = await getPostComments(post.id)
 

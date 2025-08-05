@@ -7,7 +7,7 @@ export interface SearchParams {
     startDate?: string
     endDate?: string
     order?: 'asc' | 'desc'
-    topicName?: string
+    topicSlug?: string
     author?: string
     q?: string
 }
