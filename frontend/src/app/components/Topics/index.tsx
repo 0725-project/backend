@@ -10,7 +10,7 @@ const TopicsList = () => {
     const isRestored = useRef(false)
     let initialState = undefined
 
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
         const saved = sessionStorage.getItem(STORAGE_KEY)
         if (saved) {
             initialState = JSON.parse(saved)

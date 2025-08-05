@@ -8,6 +8,8 @@ import AuthModal from './Auth/AuthModal'
 import LoginForm from './Auth/LoginForm'
 import RegisterForm from './Auth/RegisterForm'
 
+import UserMenu from './UserMenu'
+
 export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
     const isMobile = useIsMobile(768)
     const { user, logout, loading } = useAuth()
@@ -53,22 +55,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                             <span className='ml-1 hidden sm:inline'>작성하기</span>
                         </button>
                         {loading ? null : user ? (
-                            <>
-                                <div className='w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0'>
-                                    <span className='text-gray-600 font-medium text-sm'>
-                                        {user.nickname
-                                            ? user.nickname[0].toUpperCase()
-                                            : user.username[0].toUpperCase()}
-                                    </span>
-                                </div>
-                                <button
-                                    className='bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-full flex items-center space-x-1 text-sm'
-                                    onClick={logout}
-                                >
-                                    <LogOut className='w-6 h-6' />
-                                    <span className='ml-1 hidden sm:inline'>로그아웃</span>
-                                </button>
-                            </>
+                            <UserMenu user={user} onLogout={logout} />
                         ) : (
                             <>
                                 <button
