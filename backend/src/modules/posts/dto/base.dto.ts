@@ -44,3 +44,15 @@ export class ViewCountDto {
     @IsNotEmpty()
     viewCount: number
 }
+
+export class CommentCountDto {
+    @ApiProperty({
+        description: 'The number of comments on the post.',
+        example: 5,
+    })
+    @Type(() => Number)
+    @IsInt()
+    @IsNotEmpty()
+    commentCount: number
+}
+

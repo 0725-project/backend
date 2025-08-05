@@ -28,10 +28,11 @@ export class PostsService {
             topic,
             topicLocalId: count + 1,
             viewCount: 0,
+            commentCount: 0,
             ip,
         })
 
-        const { id, title, content, createdAt, topicLocalId, viewCount } = await this.postRepo.save(post)
+        const { id, title, content, createdAt, topicLocalId, viewCount, commentCount } = await this.postRepo.save(post)
         return {
             id,
             title,
@@ -39,6 +40,7 @@ export class PostsService {
             createdAt,
             topicLocalId,
             viewCount,
+            commentCount,
         }
     }
 

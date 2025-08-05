@@ -5,7 +5,7 @@ import { IsNotEmpty } from 'class-validator'
 import { CreatedAtDto, IdDto, CursorPaginationResponseDto } from 'src/common/dto'
 import { TopicLocalIdDto, TopicBriefResponseDto } from 'src/modules/topics/dto'
 import { UserBriefResponseDto } from 'src/modules/users/dto'
-import { PostContentDto, PostTitleDto, ViewCountDto } from '.'
+import { CommentCountDto, PostContentDto, PostTitleDto, ViewCountDto } from '.'
 
 export class PostResponseDto extends IntersectionType(
     IdDto,
@@ -14,6 +14,7 @@ export class PostResponseDto extends IntersectionType(
     CreatedAtDto,
     TopicLocalIdDto,
     ViewCountDto,
+    CommentCountDto
 ) {
     @ApiProperty({
         description: 'The author of the post.',

@@ -2,6 +2,7 @@ import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/commo
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Comment } from './comments.entity'
+import { Post } from '../posts/posts.entity'
 import { selectUserColumns } from 'src/common/constants'
 
 import { CursorPaginationDto } from 'src/common/dto'
@@ -12,6 +13,8 @@ export class CommentsService {
     constructor(
         @InjectRepository(Comment)
         private readonly commentRepo: Repository<Comment>,
+        @InjectRepository(Post)
+        private readonly postRepo: Repository<Post>,
     ) {}
 
     async create(postId: number, createCommentDto: CreateCommentDto, userId: number) {
@@ -22,6 +25,8 @@ export class CommentsService {
         })
 
         const { id, content, createdAt } = await this.commentRepo.save(comment)
+        await this.postRepo.increment({ id: postId }, 'commentCount', 1)
+
         return { id, content, createdAt }
     }
 
@@ -75,5 +80,6 @@ export class CommentsService {
         }
 
         await this.commentRepo.remove(comment)
+        await this.postRepo.decrement({ id: comment.post.id }, 'commentCount', 1)
     }
 }
