@@ -1,7 +1,7 @@
 import { RightSidebarItem } from './RightSidebarItems'
 
 const RightSidebar = () => (
-    <aside className='hidden lg:block md:w-80 bg-white border-l border-gray-200 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto'>
+    <aside className='hidden lg:block md:w-80 bg-white border-l border-gray-200 sticky top-14 h-[calc(100vh-4rem)] overflow-y-auto'>
         <section className='p-4'>
             <header className='flex items-center justify-between mb-4'>
                 <h2 className='text-sm font-medium text-gray-500 uppercase tracking-wide'>Recent Posts</h2>
