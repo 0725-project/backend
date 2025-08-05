@@ -27,6 +27,8 @@ export class LikesService {
 
         const like = this.likeRepo.create({ post, user })
         await this.likeRepo.save(like)
+
+        await this.postRepo.increment({ id: postId }, 'likeCount', 1)
     }
 
     async unlikePost(postId: number, userId: number) {
@@ -36,6 +38,7 @@ export class LikesService {
         }
 
         await this.likeRepo.remove(like)
+        await this.postRepo.decrement({ id: postId }, 'likeCount', 1)        
     }
 
     async getLikesForPost(postId: number, cursor?: number, limit = 10) {
