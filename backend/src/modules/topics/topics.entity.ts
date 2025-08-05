@@ -10,6 +10,9 @@ export class Topic {
     @Column({ type: 'varchar', length: 32, unique: true })
     slug: string
 
+    @Column({ type: 'varchar', length: 32, unique: true })
+    name: string
+
     @Column({ type: 'varchar', length: 255 })
     description: string
 

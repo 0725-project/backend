@@ -12,5 +12,6 @@ export const selectUserBriefColumns = (userColumn: string) => [
 export const selectTopicBriefColumns = (topicColumn: string) => [
     `${topicColumn}.id`,
     `${topicColumn}.name`,
+    `${topicColumn}.slug`,
     `${topicColumn}.description`,
 ]

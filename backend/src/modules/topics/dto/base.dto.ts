@@ -14,6 +14,17 @@ export class TopicSlugDto {
     topicSlug: string
 }
 
+export class TopicNameDto {
+    @ApiProperty({
+        description: 'The topic name associated with the post.',
+        example: 'Programming',
+    })
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(32)
+    topicName: string
+}
+
 export class TopicDescriptionDto {
     @ApiProperty({
         description: 'The description of the topic.',

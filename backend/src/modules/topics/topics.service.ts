@@ -4,6 +4,7 @@ import { Repository } from 'typeorm'
 import { Topic } from './topics.entity'
 
 import { CreateTopicDto } from './dto'
+import { selectUserBriefColumns } from 'src/common/constants'
 
 @Injectable()
 export class TopicsService {
@@ -16,13 +17,16 @@ export class TopicsService {
         const topic = this.topicRepo.create({
             ...createTopicDto,
             slug: createTopicDto.topicSlug,
+            name: createTopicDto.topicName,
+            description: createTopicDto.description,
             creator: { id: creatorId },
         })
 
-        const { id, slug, description, createdAt } = await this.topicRepo.save(topic)
+        const { id, slug, name, description, createdAt } = await this.topicRepo.save(topic)
         return {
             id,
             slug,
+            name,
             description,
             createdAt,
         }
@@ -32,7 +36,7 @@ export class TopicsService {
         const topic = await this.topicRepo
             .createQueryBuilder('topic')
             .leftJoinAndSelect('topic.creator', 'creator')
-            .select(['topic', 'creator.id', 'creator.username', 'creator.nickname'])
+            .select(['topic', ...selectUserBriefColumns('creator')])
             .where('topic.slug = :slug', { slug })
             .getOne()
         if (!topic) throw new NotFoundException('Topic not found')
@@ -44,7 +48,7 @@ export class TopicsService {
         const query = this.topicRepo
             .createQueryBuilder('topic')
             .leftJoinAndSelect('topic.creator', 'creator')
-            .select(['topic', 'creator.id', 'creator.username', 'creator.nickname'])
+            .select(['topic', ...selectUserBriefColumns('creator')])
             .orderBy('topic.id', 'DESC')
             .take(limit)
 

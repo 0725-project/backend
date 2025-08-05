@@ -17,7 +17,24 @@ export class TopicSlugResponseDto {
     slug: string
 }
 
-export class TopicResponseDto extends IntersectionType(IdDto, TopicSlugResponseDto, TopicDescriptionDto, CreatedAtDto) {
+export class TopicNameResponseDto {
+    @ApiProperty({
+        description: 'The topic name associated with the post.',
+        example: 'Programming',
+    })
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(32)
+    name: string
+}
+
+export class TopicResponseDto extends IntersectionType(
+    IdDto,
+    TopicSlugResponseDto,
+    TopicNameResponseDto,
+    TopicDescriptionDto,
+    CreatedAtDto,
+) {
     @ApiProperty({
         description: 'The creator of the topic.',
         type: UserBriefResponseDto,
@@ -33,5 +50,10 @@ export class TopicsResponseDto extends IntersectionType(CursorPaginationResponse
     topics: TopicResponseDto[]
 }
 
-export class TopicBriefResponseDto extends IntersectionType(IdDto, TopicSlugResponseDto, TopicDescriptionDto) {}
+export class TopicBriefResponseDto extends IntersectionType(
+    IdDto,
+    TopicSlugResponseDto,
+    TopicNameResponseDto,
+    TopicDescriptionDto,
+) {}
 export class CreateTopicResponseDto extends IntersectionType(OmitType(TopicResponseDto, ['creator'])) {}
