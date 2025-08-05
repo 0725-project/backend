@@ -162,3 +162,22 @@ export interface UpdateCommentResponse {
 
 // DELETE /api/comments/{id}
 export interface DeleteCommentResponse {}
+
+// POST /api/likes/{postId}
+export interface CreateLikeResponse {}
+
+// DELETE /api/likes/{postId}
+export interface DeleteLikeResponse {}
+
+// GET /api/likes/{postId}
+export interface GetLikesResponse {
+    likes: {
+        user: {
+            id: number
+            username: string
+            nickname: string
+        }
+        createdAt: string
+    }[]
+    nextCursor: number | null
+}
