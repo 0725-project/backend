@@ -10,6 +10,10 @@ export class TypeOrmExceptionFilter implements ExceptionFilter {
 
         const err = exception as unknown as { code: string; detail: string }
 
+        if (process.env.NODE_ENV !== 'production') {
+            console.error('TypeORM Error:', err)
+        }
+
         let statusCode = 500
         let message = `Database error: ${err.code}`
         let error = 'InternalServerError'

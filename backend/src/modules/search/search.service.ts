@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Post } from 'src/modules/posts/posts.entity'
-import { selectTopicColumns, selectUserColumns } from 'src/common/constants'
+import { selectTopicBriefColumns, selectUserBriefColumns } from 'src/common/constants'
 
 import { SearchPostsQueryDto } from './dto'
 
@@ -15,7 +15,7 @@ export class SearchService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
-            .select(['post', ...selectUserColumns('author'), ...selectTopicColumns('topic')])
+            .select(['post', ...selectUserBriefColumns('author'), ...selectTopicBriefColumns('topic')])
             .orderBy('post.id', dto.order!.toUpperCase() as 'ASC' | 'DESC')
             .take(dto.limit!)
 

@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Post } from './posts.entity'
-import { Repository } from 'typeorm'
 import { Topic } from 'src/modules/topics/topics.entity'
+import { User } from '../users/users.entity'
+import { Repository } from 'typeorm'
 import { RedisService } from 'src/common/redis/redis.service'
-import { selectUserColumns, selectTopicColumns } from 'src/common/constants'
+import { selectUserBriefColumns, selectTopicBriefColumns } from 'src/common/constants'
 
 import { CreatePostDto, UpdatePostDto } from './dto'
 
@@ -13,6 +14,7 @@ export class PostsService {
     constructor(
         @InjectRepository(Post) private postRepo: Repository<Post>,
         @InjectRepository(Topic) private topicRepo: Repository<Topic>,
+        @InjectRepository(User) private userRepo: Repository<User>,
         private redisService: RedisService,
     ) {}
 
@@ -49,7 +51,7 @@ export class PostsService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
-            .select(['post', ...selectUserColumns('author'), ...selectTopicColumns('topic')])
+            .select(['post', ...selectUserBriefColumns('author'), ...selectTopicBriefColumns('topic')])
             .orderBy('post.id', 'DESC')
             .take(limit)
 
@@ -68,7 +70,7 @@ export class PostsService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
-            .select(['post', ...selectUserColumns('author'), ...selectTopicColumns('topic')])
+            .select(['post', ...selectUserBriefColumns('author'), ...selectTopicBriefColumns('topic')])
             .where('post.id = :id', { id })
             .getOne()
         if (!post) {
@@ -83,7 +85,7 @@ export class PostsService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
-            .select(['post', ...selectUserColumns('author'), ...selectTopicColumns('topic')])
+            .select(['post', ...selectUserBriefColumns('author'), ...selectTopicBriefColumns('topic')])
             .where('post.id = :id', { id })
             .getOne()
         if (!post) {
@@ -103,7 +105,7 @@ export class PostsService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
-            .select(['post', ...selectUserColumns('author'), ...selectTopicColumns('topic')])
+            .select(['post', ...selectUserBriefColumns('author'), ...selectTopicBriefColumns('topic')])
             .where('post.id = :id', { id })
             .getOne()
         if (!post) {

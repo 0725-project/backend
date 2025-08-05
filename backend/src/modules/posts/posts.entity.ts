@@ -28,6 +28,9 @@ export class Post {
     @Column({ type: 'int', default: 0 })
     commentCount: number
 
+    @Column({ type: 'int', default: 0 })
+    likeCount: number
+
     @Exclude()
     @Column({ type: 'varchar', length: 15, nullable: true })
     ip: string

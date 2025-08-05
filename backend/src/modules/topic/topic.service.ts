@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { selectTopicColumns, selectUserColumns } from 'src/common/constants'
+import { selectTopicBriefColumns, selectUserBriefColumns } from 'src/common/constants'
 import { Post } from 'src/modules/posts/posts.entity'
 import { Topic } from 'src/modules/topics/topics.entity'
 import { Repository } from 'typeorm'
@@ -22,7 +22,7 @@ export class TopicService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
-            .select(['post', ...selectUserColumns('author')])
+            .select(['post', ...selectUserBriefColumns('author')])
             .where('topic.id = :topicId', { topicId: topic.id })
             .orderBy('post.id', 'DESC')
             .take(limit)
@@ -45,7 +45,7 @@ export class TopicService {
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
-            .select(['post', ...selectUserColumns('author'), ...selectTopicColumns('topic')])
+            .select(['post', ...selectUserBriefColumns('author'), ...selectTopicBriefColumns('topic')])
             .where('post.topic.id = :topicId', { topicId: topic.id })
             .andWhere('post.topicLocalId = :topicLocalId', { topicLocalId })
             .getOne()

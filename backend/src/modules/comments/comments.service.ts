@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Comment } from './comments.entity'
 import { Post } from '../posts/posts.entity'
-import { selectUserColumns } from 'src/common/constants'
+import { selectUserBriefColumns } from 'src/common/constants'
 
 import { CursorPaginationDto } from 'src/common/dto'
 import { CreateCommentDto, UpdateCommentDto } from './dto'
@@ -34,7 +34,7 @@ export class CommentsService {
         const query = this.commentRepo
             .createQueryBuilder('comment')
             .leftJoinAndSelect('comment.user', 'user')
-            .select(['comment', ...selectUserColumns('user')])
+            .select(['comment', ...selectUserBriefColumns('user')])
             .where('comment.postId = :postId', { postId })
             .orderBy('comment.createdAt', 'DESC')
             .take(dto.limit)
@@ -53,7 +53,7 @@ export class CommentsService {
         const comment = await this.commentRepo
             .createQueryBuilder('comment')
             .leftJoinAndSelect('comment.user', 'user')
-            .select(['comment', ...selectUserColumns('user')])
+            .select(['comment', ...selectUserBriefColumns('user')])
             .where('comment.id = :id', { id })
             .getOne()
         if (!comment) throw new NotFoundException('Comment not found')
@@ -70,7 +70,7 @@ export class CommentsService {
         const comment = await this.commentRepo
             .createQueryBuilder('comment')
             .leftJoinAndSelect('comment.user', 'user')
-            .select(['comment', ...selectUserColumns('user')])
+            .select(['comment', ...selectUserBriefColumns('user')])
             .where('comment.id = :id', { id })
             .getOne()
         if (!comment) throw new NotFoundException('Comment not found')

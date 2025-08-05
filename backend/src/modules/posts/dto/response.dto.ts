@@ -14,7 +14,7 @@ export class PostResponseDto extends IntersectionType(
     CreatedAtDto,
     TopicLocalIdDto,
     ViewCountDto,
-    CommentCountDto
+    CommentCountDto,
 ) {
     @ApiProperty({
         description: 'The author of the post.',
