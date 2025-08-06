@@ -3,7 +3,6 @@
 import { incrementPostViewCount } from '@/api/posts'
 import { GetPostCommentsResponse, PostResponse } from '@/api/types'
 import { formatDate } from '@/utils/dateFormatter'
-import { MoveLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Comments from './Comments'
@@ -30,11 +29,6 @@ const PostPage = ({ post, comments }: PostProps) => {
     return (
         <section className='bg-white w-full flex justify-center px-2 md:px-0'>
             <article className='bg-white rounded-2xl max-w-5xl w-full p-3 md:p-10'>
-                <MoveLeft
-                    className='mb-4 text-gray-500 hover:text-gray-700 cursor-pointer'
-                    onClick={() => router.back()}
-                    aria-label='Go back'
-                />
                 <header className='mb-6 border-b border-gray-100 pb-4 flex flex-col gap-2'>
                     <h1 className='text-2xl md:text-3xl font-bold text-gray-900 leading-tight break-words'>
                         {post.title}

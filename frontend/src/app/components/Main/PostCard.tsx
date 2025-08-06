@@ -14,7 +14,7 @@ interface PostCardProps {
 
 const PostCard = (props: PostCardProps) => {
     return (
-        <div className='bg-white rounded-lg border border-gray-200 overflow-hidden'>
+        <div className='bg-white overflow-hidden hover:bg-gray-50 rounded-lg transition-all duration-200 border border-gray-200   '>
             <div className='flex items-center justify-between p-2 md:p-3 pb-2'>
                 <div className='flex flex-col md:flex-row md:items-center space-y-1 md:space-y-0 md:space-x-2'>
                     <div className='flex items-center gap-2 text-xs md:text-sm'>
@@ -47,7 +47,7 @@ const PostCard = (props: PostCardProps) => {
                 </div>
             )}
 
-            <div className='flex items-center space-x-2 md:space-x-4 px-2 md:px-3 py-2 border-t border-gray-100'>
+            <div className='flex items-center space-x-2 md:space-x-4 px-2 md:px-3 py-2 border-t border-gray-200'>
                 <div className='flex items-center space-x-1'>
                     <button className='p-1 rounded-full hover:bg-gray-100'>
                         <ArrowUp className='w-4 h-4' />

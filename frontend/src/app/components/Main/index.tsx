@@ -70,17 +70,19 @@ const MainContent = () => {
                 </div>
                 <div className='space-y-2 md:space-y-4'>
                     {posts.map((post, index) => (
-                        <Link href={`/topics/${post.topic?.slug}/${post.topicLocalId}`} key={index} className='block'>
-                            <PostCard
-                                topic={post.topic?.name ?? 'No Topic'}
-                                username={post.author?.username ?? 'Unknown'}
-                                createdAt={formatDate(post.createdAt)}
-                                title={post.title}
-                                likes={post.likeCount}
-                                comments={post.commentCount}
-                                views={post.viewCount}
-                            />
-                        </Link>
+                        <div key={index}>
+                            <Link href={`/topics/${post.topic?.slug}/${post.topicLocalId}`} className='block'>
+                                <PostCard
+                                    topic={post.topic?.name ?? 'No Topic'}
+                                    username={post.author?.username ?? 'Unknown'}
+                                    createdAt={formatDate(post.createdAt)}
+                                    title={post.title}
+                                    likes={post.likeCount}
+                                    comments={post.commentCount}
+                                    views={post.viewCount}
+                                />
+                            </Link>
+                        </div>
                     ))}
                     {loading && <div className='text-center text-gray-400 py-4'>로딩 중...</div>}
                     {!hasMore && <div className='text-center text-gray-400 py-4'>모든 글을 불러왔습니다.</div>}

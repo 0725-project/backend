@@ -4,18 +4,14 @@ import { GetTopicPostsResponse } from '@/api/types'
 
 interface UseInfiniteScrollTopicPostsOptions {
     topicSlug: string
-    initialPosts?: GetTopicPostsResponse['posts']
-    initialNextCursor?: number | null
-    initialHasMore?: boolean
-    initialLoading?: boolean
 }
 
 const useInfiniteScrollTopicPosts = (options: UseInfiniteScrollTopicPostsOptions) => {
-    const { topicSlug, initialPosts, initialNextCursor, initialHasMore, initialLoading } = options
-    const [posts, setPosts] = useState<GetTopicPostsResponse['posts']>(initialPosts || [])
-    const [loading, setLoading] = useState(initialLoading ?? false)
-    const [nextCursor, setNextCursor] = useState<number | null>(initialNextCursor ?? null)
-    const [hasMore, setHasMore] = useState(initialHasMore ?? true)
+    const { topicSlug } = options
+    const [posts, setPosts] = useState<GetTopicPostsResponse['posts']>([])
+    const [loading, setLoading] = useState(false)
+    const [nextCursor, setNextCursor] = useState<number | null>(null)
+    const [hasMore, setHasMore] = useState(true)
 
     const fetchPosts = useCallback(
         async (cursor?: number) => {
@@ -36,6 +32,9 @@ const useInfiniteScrollTopicPosts = (options: UseInfiniteScrollTopicPostsOptions
     )
 
     useEffect(() => {
+        setPosts([])
+        setNextCursor(null)
+        setHasMore(true)
         fetchPosts()
     }, [topicSlug])
 
