@@ -12,12 +12,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ user, onLogout, onProfile }) => {
     const [visible, setVisible] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
 
-    // 열릴 때 DOM 표시
     useEffect(() => {
         if (open) setVisible(true)
     }, [open])
 
-    // 외부 클릭 시 닫기
     useEffect(() => {
         if (!open) return
         function handleClick(e: MouseEvent) {
