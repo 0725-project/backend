@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { PageLayout } from '@/app/components/PageLayout'
-import { useInfiniteScrollTopicPosts } from '@/app/hooks/useInfiniteScrollTopicPosts'
 import { getTopic } from '@/api/topics'
 import { TopicResponse } from '@/api/types'
 import TopicPostCard from '../../components/TopicsDetail/TopicPostCard'
@@ -15,9 +14,6 @@ interface TopicDetailProps {
 
 const TopicDetail = (props: TopicDetailProps) => {
     const [topic, setTopic] = useState<TopicResponse | null>(null)
-    const { posts, loading, hasMore, nextCursor } = useInfiniteScrollTopicPosts({
-        topicSlug: props.topicSlug,
-    })
 
     useEffect(() => {
         if (!props.topicSlug) return
@@ -41,7 +37,7 @@ const TopicDetail = (props: TopicDetailProps) => {
             )}
             <section className='max-w-5xl mx-auto px-2 md:px-4 py-4'>
                 <h3 className='text-xl font-bold mb-4 text-gray-800'>게시글 목록</h3>
-                {posts.length === 0 && !loading && (
+                {/* {posts.length === 0 && !loading && (
                     <div className='text-gray-500 text-center py-10'>게시글이 없습니다.</div>
                 )}
                 {posts.map((post, index) => (
@@ -54,11 +50,7 @@ const TopicDetail = (props: TopicDetailProps) => {
                     >
                         <TopicPostCard key={index} post={post} />
                     </Link>
-                ))}
-                {loading && <div className='text-center py-4 text-blue-500'>로딩 중...</div>}
-                {!hasMore && posts.length > 0 && (
-                    <div className='text-center py-4 text-gray-400'>더 이상 게시글이 없습니다.</div>
-                )}
+                ))} */}
             </section>
         </>
     )

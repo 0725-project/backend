@@ -1,5 +1,4 @@
 import { GetPostCommentsResponse, PostResponse } from '@/api/types'
-import { useInfiniteScrollComments } from '@/app/hooks/useInfiniteScrollComments'
 import { formatDate } from '@/utils/dateFormatter'
 import { MessageCircleMore } from 'lucide-react'
 
@@ -9,12 +8,6 @@ interface CommentsProps {
 }
 
 const Comments = ({ post, initialComments }: CommentsProps) => {
-    const { comments, loading } = useInfiniteScrollComments({
-        postId: post.id,
-        initialComments: initialComments.comments,
-        initialNextCursor: initialComments.nextCursor,
-    })
-
     return (
         <div className='mt-10'>
             <h2 className='text-xl font-bold mb-6 text-gray-800 border-b pb-3 flex items-center gap-2'>
@@ -22,7 +15,7 @@ const Comments = ({ post, initialComments }: CommentsProps) => {
                 <span className='text-gray-700'>댓글 ({post.commentCount})</span>
             </h2>
             <ul className='space-y-5'>
-                {comments.map((comment, index) => (
+                {/* {comments.map((comment, index) => (
                     <li key={index} className='px-5 py-4'>
                         {index > 0 && <hr className='border-gray-200 mb-4' />}
                         <div className='flex items-center gap-3 mb-2'>
@@ -38,9 +31,8 @@ const Comments = ({ post, initialComments }: CommentsProps) => {
                             {comment.content}
                         </div>
                     </li>
-                ))}
+                ))} */}
             </ul>
-            {loading && <div className='mt-6 text-center text-blue-400 text-sm animate-pulse'>불러오는 중...</div>}
         </div>
     )
 }
