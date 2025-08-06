@@ -31,7 +31,7 @@ export const PageLayout = ({ children, currentItem }: PageLayoutProps) => {
     }, [])
 
     return (
-        <div className='min-h-screen bg-gray-50'>
+        <div className='min-h-screen'>
             <Header onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
             <div className='flex'>
                 {isMobile && isSidebarOpen && (
