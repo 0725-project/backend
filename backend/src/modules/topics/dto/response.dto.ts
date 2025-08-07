@@ -40,6 +40,13 @@ export class TopicResponseDto extends IntersectionType(
         type: UserBriefResponseDto,
     })
     creator: UserBriefResponseDto
+
+    @ApiProperty({
+        description: 'The number of posts associated with the topic.',
+        example: 42,
+    })
+    @IsNotEmpty()
+    postCount: number
 }
 
 export class TopicsResponseDto extends IntersectionType(PaginationResponseDto) {
@@ -56,4 +63,4 @@ export class TopicBriefResponseDto extends IntersectionType(
     TopicNameResponseDto,
     TopicDescriptionDto,
 ) {}
-export class CreateTopicResponseDto extends IntersectionType(OmitType(TopicResponseDto, ['creator'])) {}
+export class CreateTopicResponseDto extends IntersectionType(OmitType(TopicResponseDto, ['creator', 'postCount'])) {}

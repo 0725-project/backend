@@ -35,6 +35,8 @@ export class PostsService {
             ip,
         })
 
+        await this.topicRepo.increment({ id: topic.id }, 'postCount', 1)
+
         const { id, title, content, createdAt, topicLocalId, viewCount, commentCount } = await this.postRepo.save(post)
         return {
             id,
@@ -119,6 +121,7 @@ export class PostsService {
         }
 
         await this.postRepo.remove(post)
+        await this.topicRepo.decrement({ id: post.topic.id }, 'postCount', 1)
     }
 
     async incrementViewCount(postId: number, ip: string) {

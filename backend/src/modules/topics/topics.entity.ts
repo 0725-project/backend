@@ -16,6 +16,9 @@ export class Topic {
     @Column({ type: 'varchar', length: 255 })
     description: string
 
+    @Column({ type: 'int', default: 0 })
+    postCount: number
+
     @ManyToOne(() => User, (user) => user.topics)
     creator: User
 
