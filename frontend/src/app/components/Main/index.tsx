@@ -1,14 +1,15 @@
 'use client'
 
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
+import Pagination from '../Pagination'
 import { PostCard } from './PostCard'
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getPosts, PostResponse, PostsResponse } from '@/api/posts'
 import { formatDate } from '@/utils/dateFormatter'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
 import { getClosestAllowedValue } from '@/utils/getClosestAllowedValue'
+import Link from 'next/link'
 
 const MAX_PAGE_BUTTONS = 5
 const LIMIT_OPTIONS = [5, 10, 15, 20]
@@ -41,21 +42,19 @@ const MainContent = () => {
     })
 
     const posts: PostResponse[] = data?.posts ?? []
-    const total: number = data?.total ?? 0
+    const total = data?.total ?? 0
     const totalPages = Math.ceil(total / limit)
 
-    const startPage = Math.max(1, page - Math.floor(MAX_PAGE_BUTTONS / 2))
-    const endPage = Math.min(totalPages, startPage + MAX_PAGE_BUTTONS - 1)
-    const visiblePages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
-
-    const handleLimitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newLimit = parseInt(e.target.value, 10)
+    const handleLimitChange = (newLimit: number) => {
         setLimit(newLimit)
         setPage(1)
         router.push(`?page=1&limit=${newLimit}`)
     }
 
-    const makePageLink = (p: number) => `?page=${p}&limit=${limit}`
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage)
+        router.push(`?page=${newPage}&limit=${limit}`)
+    }
 
     return (
         <main className='flex-1 transition-all duration-300 min-h-[calc(100vh-4rem)] overflow-y-auto'>
@@ -65,24 +64,6 @@ const MainContent = () => {
                         Best
                         <ChevronDown className='w-4 h-4 ml-1' />
                     </button>
-
-                    <div className='text-sm'>
-                        <label htmlFor='limit' className='mr-2 text-gray-700'>
-                            개수:
-                        </label>
-                        <select
-                            id='limit'
-                            value={limit}
-                            onChange={handleLimitChange}
-                            className='border rounded px-2 py-1 text-sm'
-                        >
-                            {LIMIT_OPTIONS.map((num) => (
-                                <option key={num} value={num}>
-                                    {num}개
-                                </option>
-                            ))}
-                        </select>
-                    </div>
                 </div>
 
                 <div className='space-y-2 md:space-y-4 min-h-[300px]'>
@@ -110,56 +91,17 @@ const MainContent = () => {
                         ))
                     )}
                 </div>
-
                 {totalPages > 1 && (
-                    <div className='flex justify-center items-center mt-6 space-x-2'>
-                        <button
-                            onClick={() => router.push(makePageLink(1))}
-                            disabled={page === 1 || isLoading}
-                            className='px-3 py-1 rounded-md border text-sm font-medium bg-white text-blue-600 border-gray-300 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
-                        >
-                            <ChevronsLeft className='w-4 h-4 inline' />
-                        </button>
-
-                        <button
-                            onClick={() => router.push(makePageLink(page - 1))}
-                            disabled={page === 1 || isLoading}
-                            className='px-3 py-1 rounded-md border text-sm font-medium bg-white text-blue-600 border-gray-300 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
-                        >
-                            <ChevronLeft className='w-4 h-4 inline' />
-                        </button>
-
-                        {visiblePages.map((p) => (
-                            <button
-                                key={p}
-                                className={`px-3 py-1 rounded-md border text-sm font-medium transition-all duration-150 ${
-                                    p === page
-                                        ? 'bg-blue-600 text-white border-blue-600'
-                                        : 'bg-white text-blue-600 border-gray-300 hover:bg-blue-50'
-                                }`}
-                                onClick={() => router.push(makePageLink(p))}
-                                disabled={isLoading}
-                            >
-                                {p}
-                            </button>
-                        ))}
-
-                        <button
-                            onClick={() => router.push(makePageLink(page + 1))}
-                            disabled={page === totalPages || isLoading}
-                            className='px-3 py-1 rounded-md border text-sm font-medium bg-white text-blue-600 border-gray-300 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
-                        >
-                            <ChevronRight className='w-4 h-4 inline' />
-                        </button>
-
-                        <button
-                            onClick={() => router.push(makePageLink(totalPages))}
-                            disabled={page === totalPages || isLoading}
-                            className='px-3 py-1 rounded-md border text-sm font-medium bg-white text-blue-600 border-gray-300 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
-                        >
-                            <ChevronsRight className='w-4 h-4 inline' />
-                        </button>
-                    </div>
+                    <Pagination
+                        page={page}
+                        limit={limit}
+                        total={total}
+                        limitOptions={LIMIT_OPTIONS}
+                        onLimitChange={handleLimitChange}
+                        onPageChange={handlePageChange}
+                        isLoading={isLoading}
+                        maxPageButtons={MAX_PAGE_BUTTONS}
+                    />
                 )}
             </div>
         </main>
