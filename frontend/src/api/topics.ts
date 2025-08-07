@@ -9,6 +9,7 @@ export interface TopicResponse {
     name: string
     description: string
     createdAt: string
+    postCount: number
     creator: UserBriefResponse
 }
 

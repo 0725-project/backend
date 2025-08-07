@@ -77,6 +77,9 @@ const TopicsList = () => {
                                 <p className='text-gray-700 text-sm mb-2 line-clamp-2'>
                                     {topic.description || '설명이 없습니다.'}
                                 </p>
+                                <div className='flex items-center justify-between text-xs text-gray-500 mt-auto'>
+                                    <span>게시글 수: {topic.postCount}</span>
+                                </div>
                                 <div className='flex items-center text-xs text-gray-500 mt-auto'>
                                     <span>by {topic.creator?.nickname || topic.creator?.username || '알 수 없음'}</span>
                                     <span className='mx-1'>•</span>
