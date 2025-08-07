@@ -7,7 +7,7 @@ import { Repository } from 'typeorm'
 import { RedisService } from 'src/common/redis/redis.service'
 import { selectUserBriefColumns, selectTopicBriefColumns } from 'src/common/constants'
 
-import { CreatePostDto, UpdatePostDto } from './dto'
+import { CreatePostDto, GetPostsQueryDto, UpdatePostDto } from './dto'
 import { PaginationDto } from 'src/common/dto'
 
 @Injectable()
@@ -49,23 +49,49 @@ export class PostsService {
         }
     }
 
-    async findAll(pdto: PaginationDto) {
+    async findAll(dto: GetPostsQueryDto) {
         const query = this.postRepo
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
             .select(['post', ...selectUserBriefColumns('author'), ...selectTopicBriefColumns('topic')])
-            .orderBy('post.id', 'DESC')
-            .skip((pdto.page! - 1) * pdto.limit!)
-            .take(pdto.limit!)
+
+        const sortBy = dto.sortBy || 'createdAt'
+        const order = (dto.order || 'DESC').toUpperCase() as 'ASC' | 'DESC'
+        query.orderBy(`post.${sortBy}`, order)
+
+        query.skip((dto.page! - 1) * dto.limit!)
+        query.take(dto.limit!)
+
+        if (dto.q) {
+            query.andWhere('(post.title ILIKE :q OR post.content ILIKE :q)', { q: `%${dto.q}%` })
+        }
+
+        if (dto.author) {
+            query.andWhere('author.username ILIKE :author', { author: `%${dto.author}%` })
+        }
+
+        if (dto.topicSlug) {
+            query.andWhere('topic.slug ILIKE :topicSlug', { topicSlug: `%${dto.topicSlug}%` })
+        }
+
+        if (dto.startDate) {
+            query.andWhere('post.createdAt >= :startDate', { startDate: new Date(dto.startDate) })
+        }
+
+        if (dto.endDate) {
+            const endDateObj = new Date(dto.endDate)
+            endDateObj.setSeconds(endDateObj.getSeconds() + 1)
+            query.andWhere('post.createdAt <= :endDate', { endDate: endDateObj })
+        }
 
         const [posts, total] = await query.getManyAndCount()
 
         return {
             posts,
             total,
-            page: pdto.page!,
-            limit: pdto.limit!,
+            page: dto.page!,
+            limit: dto.limit!,
         }
     }
 

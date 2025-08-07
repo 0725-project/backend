@@ -14,7 +14,7 @@ import {
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
 import { IdDto, PaginationDto } from 'src/common/dto'
-import { CreatePostDto, UpdatePostDto, CreatePostResponseDto, PostResponseDto, PostsResponseDto } from './dto'
+import { CreatePostDto, UpdatePostDto, CreatePostResponseDto, PostResponseDto, PostsResponseDto, GetPostsQueryDto } from './dto'
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -40,8 +40,8 @@ export class PostsController {
     @ApiOperation({ summary: 'Get posts with page pagination' })
     @ApiResponse({ status: 200, description: 'Return paginated posts.', type: PostsResponseDto })
     @ApiBadRequestResponse({ description: 'Invalid pagination parameters.' })
-    findAll(@Query() pdto: PaginationDto): Promise<PostsResponseDto> {
-        return this.postsService.findAll(pdto)
+    findAll(@Query() dto: GetPostsQueryDto): Promise<PostsResponseDto> {
+        return this.postsService.findAll(dto)
     }
 
     @Get(':id')

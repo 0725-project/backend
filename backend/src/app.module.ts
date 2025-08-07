@@ -7,7 +7,6 @@ import { UsersModule } from './modules/users/users.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { PostsModule } from './modules/posts/posts.module'
 import { LikesModule } from './modules/likes/likes.module'
-import { SearchModule } from './modules/search/search.module'
 import { TopicModule } from './modules/topic/topic.module'
 import { TopicsModule } from './modules/topics/topics.module'
 import { CommentsModule } from './modules/comments/comments.module'
@@ -34,7 +33,6 @@ import { AppController } from './app.controller'
         LikesModule,
         TopicModule,
         TopicsModule,
-        SearchModule,
         CommentsModule,
         UploadModule,
     ],
