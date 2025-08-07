@@ -1,6 +1,7 @@
 import localFont from 'next/font/local'
 import { AuthProvider } from './context/AuthContext'
 import { SidebarProvider } from './context/SidebarContext'
+import { ReactQueryProvider } from './ReactQueryProvider'
 
 import './globals.css'
 
@@ -14,9 +15,11 @@ const pretendard = localFont({
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
     <html lang='en' className={`${pretendard.variable}`}>
         <body className={pretendard.className}>
-            <AuthProvider>
-                <SidebarProvider>{children}</SidebarProvider>
-            </AuthProvider>
+            <ReactQueryProvider>
+                <AuthProvider>
+                    <SidebarProvider>{children}</SidebarProvider>
+                </AuthProvider>
+            </ReactQueryProvider>
         </body>
     </html>
 )
