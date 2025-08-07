@@ -34,9 +34,20 @@ export const createPost = async (title: string, content: string, topicSlug: stri
     return response.data
 }
 
-export const getPosts = async (page?: number, limit = 10) => {
+export interface GetPostsRequest {
+    page?: number
+    limit?: number
+    startDate?: string
+    endDate?: string
+    order?: 'asc' | 'desc'
+    topicSlug?: string
+    author?: string
+    q?: string
+}
+
+export const getPosts = async (params: GetPostsRequest = {}) => {
     const response = await client.get<PostsResponse>(`/${POSTS_API_PREFIX}`, {
-        params: { page, limit },
+        params,
     })
     return response.data
 }

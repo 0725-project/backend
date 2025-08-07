@@ -17,7 +17,7 @@ const MainPage = () => {
 
     const { data, isLoading, isError } = useQuery<{ posts: PostResponse[] }, Error>({
         queryKey: ['latest-posts', 1, 10],
-        queryFn: () => getPosts(1, 10),
+        queryFn: () => getPosts({ page: 1, limit: 10 }),
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,

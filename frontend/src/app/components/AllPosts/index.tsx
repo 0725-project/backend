@@ -34,7 +34,7 @@ const AllPosts = () => {
 
     const { data, isLoading, isError } = useQuery<PostsResponse, Error>({
         queryKey: ['posts', page, limit],
-        queryFn: () => getPosts(page, limit),
+        queryFn: () => getPosts({ page, limit }),
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
