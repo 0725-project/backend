@@ -107,11 +107,9 @@ const TopicDetail = (props: TopicDetailProps) => {
                     ) : (
                         posts.map((post, index) => (
                             <Link
-                                href={`/topics/${props.topicSlug}/${post.id}`}
+                                href={`/topics/${props.topicSlug}/${post.topicLocalId}`}
                                 key={index}
                                 className='no-underline'
-                                target='_blank'
-                                rel='noopener noreferrer'
                             >
                                 <TopicPostCard key={index} post={post} />
                             </Link>
