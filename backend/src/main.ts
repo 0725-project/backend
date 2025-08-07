@@ -24,7 +24,7 @@ const bootstrap = async () => {
     app.use(cookieParser())
 
     app.enableCors({
-        origin: IS_PRODUCTION ? process.env.FRONTEND_URL : ['http://localhost:4000', 'http://192.168.0.10:4000'],
+        origin: IS_PRODUCTION ? process.env.FRONTEND_URL : 'http://localhost:4000',
         credentials: true,
     })
 

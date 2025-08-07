@@ -1,4 +1,4 @@
-import { Body, Controller, Post, BadRequestException, Res, Req, UnauthorizedException } from '@nestjs/common'
+import { Body, Controller, Post, BadRequestException, Res, Req, UnauthorizedException, UseGuards } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import {
     ApiOperation,
@@ -8,12 +8,15 @@ import {
     ApiBadRequestResponse,
     ApiConflictResponse,
     ApiBody,
+    ApiBearerAuth,
 } from '@nestjs/swagger'
 import { REFRESH_TOKEN_EXPIRES_IN_SECONDS } from 'src/common/constants'
 import { Request, Response } from 'express'
 import { JwtService } from '@nestjs/jwt'
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard'
 
 import { AccessTokenDto, GetMeResponseDto, LoginDto, LoginResponseDto, RegisterDto, RegisterResponseDto } from './dto'
+import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
 @ApiTags('Authorization')
 @Controller('auth')
@@ -75,13 +78,14 @@ export class AuthController {
         res.clearCookie('refresh_token')
     }
 
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     @Post('me')
     @ApiOperation({ summary: 'Get current user information' })
     @ApiResponse({ status: 200, description: 'Returns current user information.', type: RegisterResponseDto })
     @ApiUnauthorizedResponse({ description: 'User is not authenticated.' })
-    async getMe(@Req() req: Request): Promise<GetMeResponseDto> {
-        const userId = this.extractUserIdFromRefreshToken(req)
-        return this.authService.getMe(userId)
+    async getMe(@Req() req: AuthenticatedRequest): Promise<GetMeResponseDto> {
+        return this.authService.getMe(req.user.userId)
     }
 
     private extractUserIdFromRefreshToken(req: Request): number {
