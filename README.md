@@ -14,7 +14,7 @@
 # Source Code Tree
 
 ```
-backend/src
+./backend/src
 ├── app.controller.ts
 ├── app.module.ts
 ├── common
@@ -42,7 +42,8 @@ backend/src
 ├── migrations
 │   ├── 1754101626596-Init.ts
 │   ├── 1754386946982-Init.ts
-│   └── 1754387093530-Init.ts
+│   ├── 1754387093530-Init.ts
+│   └── 1754401128588-Init.ts
 └── modules
     ├── auth
     │   ├── auth.controller.ts
@@ -124,7 +125,7 @@ backend/src
         ├── users.entity.ts
         ├── users.module.ts
         └── users.service.ts
-frontend/src
+./frontend/src
 ├── api
 │   ├── auth.ts
 │   ├── client.ts
@@ -159,28 +160,32 @@ frontend/src
 │   │   │   └── RightSidebarItems.tsx
 │   │   ├── Topics
 │   │   │   └── index.tsx
+│   │   ├── TopicsDetail
+│   │   │   ├── index.tsx
+│   │   │   └── TopicPostCard.tsx
 │   │   └── UserMenu.tsx
 │   ├── context
-│   │   └── AuthContext.tsx
+│   │   ├── AuthContext.tsx
+│   │   └── SidebarContext.tsx
 │   ├── favicon.ico
 │   ├── globals.css
 │   ├── hooks
 │   │   ├── useAccordion.ts
 │   │   ├── useForm.ts
-│   │   ├── useInfiniteScrollComments.ts
-│   │   ├── useInfiniteScrollPosts.ts
-│   │   ├── useInfiniteScrollTopics.ts
 │   │   └── useIsMobile.ts
 │   ├── layout.tsx
 │   ├── page.tsx
+│   ├── profile
+│   │   └── page.tsx
 │   └── topics
 │       ├── [topic]
-│       │   └── [topiclocalid]
-│       │       └── page.tsx
+│       │   ├── [topiclocalid]
+│       │   │   └── page.tsx
+│       │   └── page.tsx
 │       └── page.tsx
 └── utils
     ├── dateFormatter.ts
     └── getAnchorHref.ts
 
-46 directories, 121 files
+48 directories, 124 files
 ```
