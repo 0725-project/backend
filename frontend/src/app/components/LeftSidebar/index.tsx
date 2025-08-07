@@ -19,8 +19,7 @@ const LeftSidebar = (props: LeftSidebarProps) => {
             <nav
                 className={
                     props.isMobile
-                        ? `fixed top-0 left-0 z-[60] h-full w-64 bg-white border-r border-gray-200 shadow-lg transition-transform duration-300 ease-in-out
-                            ${props.isSidebarOpen ? 'translate-700-0' : '-translate-700-full'}`
+                        ? `fixed top-0 left-0 z-[60] h-full w-64 bg-white border-r border-gray-200 shadow-lg transition-transform duration-300 ease-in-out ${props.isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`
                         : `sticky top-14 z-30 bg-white border-r border-gray-200 transition-all duration-300 w-[${props.isCollapsed ? '56px' : '256px'}] h-[calc(100vh-4rem)]`
                 }
                 style={

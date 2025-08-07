@@ -112,13 +112,13 @@ const MainPage = () => {
 
                     <button
                         onClick={scrollPrev}
-                        className='absolute left-[-10px] top-1/2 transform -translate-y-1/2 z-10 p-2 bg-white border shadow rounded-full'
+                        className='absolute left-[-10px] top-1/2 transform -translate-y-15 z-10 p-2 bg-white border shadow rounded-full hover:bg-gray-100 transition-all duration-150'
                     >
                         <ChevronLeft />
                     </button>
                     <button
                         onClick={scrollNext}
-                        className='absolute right-[-10px] top-1/2 transform -translate-y-1/2 z-10 p-2 bg-white border shadow rounded-full'
+                        className='absolute right-[-10px] top-1/2 transform -translate-y-15 z-10 p-2 bg-white border shadow rounded-full hover:bg-gray-100 transition-all duration-150'
                     >
                         <ChevronRight />
                     </button>

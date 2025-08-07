@@ -55,9 +55,9 @@ const TopicsList = () => {
     }
 
     return (
-        <section className='max-w-5xl mx-auto px-2 md:px-4 py-4'>
+        <section className='max-w-7xl mx-auto px-2 md:px-4 py-4'>
             <h2 className='text-2xl font-bold mb-4 text-slate-700'>토픽 목록</h2>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4 min-h-[300px]'>
+            <div className='grid grid-cols-1 2xl:grid-cols-2 gap-4 min-h-[300px]'>
                 {isLoading ? (
                     <div className='text-center py-8 text-gray-400'>로딩 중...</div>
                 ) : isError ? (
