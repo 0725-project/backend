@@ -1,8 +1,8 @@
+import { PostResponse } from '@/api/posts'
 import { ArrowUp, ArrowDown, MessageSquare, MoreHorizontal } from 'lucide-react'
-import { GetTopicPostsResponse } from '@/api/types'
 
 interface TopicPostCardProps {
-    post: GetTopicPostsResponse['posts'][number]
+    post: Omit<PostResponse, 'topic'>
 }
 
 const TopicPostCard = ({ post }: TopicPostCardProps) => {
