@@ -3,9 +3,9 @@
 import { incrementPostViewCount, PostResponse } from '@/api/posts'
 import { PostCommentsResponse } from '@/api/comments'
 import { formatDate } from '@/utils/dateFormatter'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Comments from './Comments'
+import Link from 'next/link'
 
 interface PostProps {
     post: PostResponse
@@ -28,7 +28,16 @@ const PostPage = ({ post, comments }: PostProps) => {
         <section className='bg-white w-full flex justify-center px-2 md:px-0'>
             <article className='bg-white rounded-2xl max-w-5xl w-full p-3 md:p-10'>
                 <header className='mb-6 border-b border-gray-100 pb-4 flex flex-col gap-2'>
-                    <h1 className='text-2xl md:text-3xl font-bold text-gray-900 leading-tight break-words'>
+                    <Link href={`/topics/${post.topic?.slug}`}>
+                        <div className='flex items-center gap-2 text-sm text-gray-500'>
+                            <span className='font-semibold'>
+                                Topic/<span className='text-gray-800'>{post.topic?.name}</span>
+                            </span>
+                            <span className='hidden md:inline'>·</span>
+                            <span>{post.topic?.description}</span>
+                        </div>
+                    </Link>
+                    <h1 className='text-2xl md:text-3xl font-bold text-gray-900 leading-tight break-words mb-3'>
                         {post.title}
                     </h1>
                     <div className='flex items-center gap-3 text-sm text-gray-500'>

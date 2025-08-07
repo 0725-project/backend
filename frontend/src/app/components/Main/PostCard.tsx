@@ -16,7 +16,7 @@ const PostCard = ({ post }: PostCardProps) => (
                             {post.topic?.name?.charAt(0).toUpperCase() ?? '?'}
                         </span>
                     </div>
-                    <span className='font-medium'>TOPIC/{post.topic?.name ?? 'No Topic'}</span>
+                    <span className='font-medium'>Topic/{post.topic?.name ?? 'No Topic'}</span>
                 </div>
             </div>
             <div className='flex items-center space-x-1'>

@@ -24,28 +24,26 @@ const Pagination = (props: PaginationProps) => {
     }
 
     return (
-        <div className='flex justify-center items-center mt-6 space-x-2'>
+        <div className='flex justify-center items-center mt-15 space-x-2 mb-20'>
             <button
                 onClick={() => props.onPageChange?.(1)}
                 disabled={props.page === 1 || props.isLoading}
-                className='px-3 py-1 rounded-md border text-sm font-medium bg-white text-blue-600 border-gray-300 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
+                className='px-3 py-1 rounded-md text-sm font-medium bg-white text-blue-600 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
             >
                 <ChevronsLeft className='w-4 h-4 inline' />
             </button>
             <button
                 onClick={() => props.onPageChange(props.page - 1)}
                 disabled={props.page === 1 || props.isLoading}
-                className='px-3 py-1 rounded-md border text-sm font-medium bg-white text-blue-600 border-gray-300 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
+                className='px-3 py-1 rounded-md text-sm font-medium bg-white text-blue-600 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
             >
                 <ChevronLeft className='w-4 h-4 inline' />
             </button>
             {visiblePages.map((p) => (
                 <button
                     key={p}
-                    className={`px-3 py-1 rounded-md border text-sm font-medium transition-all duration-150 ${
-                        p === props.page
-                            ? 'bg-blue-600 text-white border-blue-600'
-                            : 'bg-white text-blue-600 border-gray-300 hover:bg-blue-50'
+                    className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-150 ${
+                        p === props.page ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 hover:bg-blue-50'
                     }`}
                     onClick={() => props.onPageChange(p)}
                     disabled={props.isLoading}
@@ -56,21 +54,18 @@ const Pagination = (props: PaginationProps) => {
             <button
                 onClick={() => props.onPageChange(props.page + 1)}
                 disabled={props.page === totalPages || props.isLoading}
-                className='px-3 py-1 rounded-md border text-sm font-medium bg-white text-blue-600 border-gray-300 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
+                className='px-3 py-1 rounded-md text-sm font-medium bg-white text-blue-600 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
             >
                 <ChevronRight className='w-4 h-4 inline' />
             </button>
             <button
                 onClick={() => props.onPageChange(totalPages)}
                 disabled={props.page === totalPages || props.isLoading}
-                className='px-3 py-1 rounded-md border text-sm font-medium bg-white text-blue-600 border-gray-300 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
+                className='px-3 py-1 rounded-md text-sm font-medium bg-white text-blue-600 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
             >
                 <ChevronsRight className='w-4 h-4 inline' />
             </button>
             <div className='ml-4 text-sm'>
-                <label htmlFor='limit' className='mr-2 text-gray-700'>
-                    개수:
-                </label>
                 <select
                     id='limit'
                     value={props.limit}

@@ -7,7 +7,7 @@ interface TopicPostCardProps {
 
 const TopicPostCard = ({ post }: TopicPostCardProps) => {
     return (
-        <div className='bg-white rounded-lg border border-gray-200 overflow-hidden mb-4 hover:shadow-lg transition cursor-pointer'>
+        <div className='bg-white rounded-lg border border-gray-200 overflow-hidden mb-4 hover:bg-gray-50 transition-colors duration-200'>
             <div className='flex items-center justify-between p-2 md:p-3 pb-2'>
                 <div className='flex flex-col md:flex-row md:items-center space-y-1 md:space-y-0 md:space-x-2'>
                     <div className='flex items-center gap-2 text-xs md:text-sm'>
