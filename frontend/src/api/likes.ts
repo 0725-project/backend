@@ -24,9 +24,9 @@ export const deleteLike = async (postId: number) => {
     return response.data
 }
 
-export const getLikes = async (postId: number, cursor?: number, limit = 10) => {
+export const getLikes = async (postId: number, page?: number, limit = 10) => {
     const response = await client.get<LikesResponse>(`/${LIKES_API_PREFIX}/${postId}`, {
-        params: { cursor, limit },
+        params: { page, limit },
     })
     return response.data
 }

@@ -39,9 +39,9 @@ export const createTopic = async (topicSlug: string, description: string) => {
     return response.data
 }
 
-export const getTopics = async (cursor?: number, limit = 10) => {
+export const getTopics = async (page?: number, limit = 10) => {
     const response = await client.get<TopicsResponse>(`/${TOPICS_API_PREFIX}`, {
-        params: { cursor, limit },
+        params: { page, limit },
     })
     return response.data
 }
@@ -51,9 +51,9 @@ export const getTopic = async (topicSlug: string) => {
     return response.data
 }
 
-export const getTopicPosts = async (topicSlug: string, cursor?: number, limit = 10) => {
+export const getTopicPosts = async (topicSlug: string, page?: number, limit = 10) => {
     const response = await client.get<TopicPostsResponse>(`/topic/${topicSlug}`, {
-        params: { cursor, limit },
+        params: { page, limit },
     })
     return response.data
 }

@@ -2,7 +2,7 @@ import { client } from './client'
 import { PostsResponse } from './posts'
 
 export interface SearchParams {
-    cursor?: number
+    page?: number
     limit?: number
     startDate?: string
     endDate?: string

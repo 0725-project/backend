@@ -34,9 +34,9 @@ export const createPost = async (title: string, content: string, topicSlug: stri
     return response.data
 }
 
-export const getPosts = async (cursor?: number, limit = 10) => {
+export const getPosts = async (page?: number, limit = 10) => {
     const response = await client.get<PostsResponse>(`/${POSTS_API_PREFIX}`, {
-        params: { cursor, limit },
+        params: { page, limit },
     })
     return response.data
 }
