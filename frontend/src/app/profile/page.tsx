@@ -2,6 +2,7 @@
 
 import { getMe } from '@/api/auth'
 import { useEffect, useState } from 'react'
+import { useAuth } from '@/app/context/AuthContext'
 
 interface UserInfo {
     id: number
@@ -12,16 +13,8 @@ interface UserInfo {
 }
 
 export default function MePage() {
-    const [user, setUser] = useState<UserInfo | null>(null)
-    const [loading, setLoading] = useState(true)
+    const { user, loading } = useAuth()
     const [error, setError] = useState<string | null>(null)
-
-    useEffect(() => {
-        getMe()
-            .then(setUser)
-            .catch(() => setError('유저 정보를 불러오지 못했습니다.'))
-            .finally(() => setLoading(false))
-    }, [])
 
     if (loading) return <div style={{ padding: 32, textAlign: 'center' }}>로딩 중...</div>
     if (error) return <div style={{ padding: 32, color: 'red', textAlign: 'center' }}>{error}</div>

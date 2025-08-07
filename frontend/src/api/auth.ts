@@ -49,7 +49,15 @@ export const logout = async () => {
     await client.post<LogoutResponse>(`/${AUTH_API_PREFIX}/logout`)
 }
 
-export const getMe = async () => {
-    const response = await client.post<UserResponse>(`/${AUTH_API_PREFIX}/me`)
+export const getMe = async (accessToken: string) => {
+    const response = await client.post<UserResponse>(
+        `/${AUTH_API_PREFIX}/me`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        },
+    )
     return response.data
 }

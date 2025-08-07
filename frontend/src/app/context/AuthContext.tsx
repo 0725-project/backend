@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const fetchMe = async () => {
         try {
-            const me = await getMe()
+            const me = await getMe(localStorage.getItem('accessToken') ?? '')
             setUser(me)
         } catch {
             setUser(null)
@@ -44,7 +44,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const login = async (username: string, password: string) => {
         setLoading(true)
         try {
-            await loginUser(username, password)
+            const result = await loginUser(username, password)
+            localStorage.setItem('accessToken', result.accessToken)
+
             await fetchMe()
         } finally {
             setLoading(false)
@@ -75,6 +77,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         try {
             await logout()
             setUser(null)
+            localStorage.removeItem('accessToken')
         } finally {
             setLoading(false)
         }
