@@ -1,5 +1,30 @@
 import { client } from './client'
-import { CreateCommentResponse, GetPostCommentsResponse, UpdateCommentResponse } from './types'
+import { PaginationResponse } from './types'
+import { UserBriefResponse } from './users'
+
+export interface PostCommentsResponse extends PaginationResponse {
+    comments: {
+        id: number
+        content: string
+        createdAt: string
+        user: UserBriefResponse
+    }[]
+}
+
+export interface CreateCommentResponse {
+    id: number
+    content: string
+    createdAt: string
+}
+
+export interface UpdateCommentResponse {
+    id: number
+    content: string
+    createdAt: string
+    user: UserBriefResponse
+}
+
+export interface DeleteCommentResponse {}
 
 export const createComment = async (postId: number, content: string) => {
     const response = await client.post<CreateCommentResponse>(`/posts/${postId}/comments`, {
@@ -9,7 +34,7 @@ export const createComment = async (postId: number, content: string) => {
 }
 
 export const getPostComments = async (postId: number, cursor?: number, limit: number = 10) => {
-    const response = await client.get<GetPostCommentsResponse>(`/posts/${postId}/comments`, {
+    const response = await client.get<PostCommentsResponse>(`/posts/${postId}/comments`, {
         params: { cursor, limit },
     })
     return response.data

@@ -2,8 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { PageLayout } from '@/app/components/PageLayout'
-import { getTopic } from '@/api/topics'
-import { TopicResponse } from '@/api/types'
+import { getTopic, TopicResponse } from '@/api/topics'
 import TopicPostCard from '../../components/TopicsDetail/TopicPostCard'
 import { formatDate } from '@/utils/dateFormatter'
 import Link from 'next/link'

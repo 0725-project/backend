@@ -1,10 +1,11 @@
-import { GetPostCommentsResponse, PostResponse } from '@/api/types'
+import { PostCommentsResponse } from '@/api/comments'
+import { PostResponse } from '@/api/posts'
 import { formatDate } from '@/utils/dateFormatter'
 import { MessageCircleMore } from 'lucide-react'
 
 interface CommentsProps {
     post: PostResponse
-    initialComments: GetPostCommentsResponse
+    initialComments: PostCommentsResponse
 }
 
 const Comments = ({ post, initialComments }: CommentsProps) => {

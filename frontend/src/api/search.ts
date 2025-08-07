@@ -1,5 +1,5 @@
 import { client } from './client'
-import { GetPostsResponse } from './types'
+import { PostsResponse } from './posts'
 
 export interface SearchParams {
     cursor?: number
@@ -13,7 +13,7 @@ export interface SearchParams {
 }
 
 export const search = async (params: SearchParams) => {
-    const response = await client.get<GetPostsResponse>('/search', {
+    const response = await client.get<PostsResponse>('/search', {
         params,
     })
     return response.data

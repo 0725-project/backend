@@ -1,5 +1,27 @@
 import { client } from './client'
-import { CreatePostResponse, DeletePostResponse, GetPostsResponse, PostResponse } from './types'
+import { TopicBriefResponse } from './topics'
+import { PaginationResponse } from './types'
+import { UserBriefResponse } from './users'
+
+export interface PostResponse {
+    id: number
+    title: string
+    content: string
+    createdAt: string
+    topicLocalId: number
+    viewCount: number
+    commentCount: number
+    likeCount: number
+    author: UserBriefResponse
+    topic: TopicBriefResponse
+}
+
+export interface PostsResponse extends PaginationResponse {
+    posts: PostResponse[]
+}
+
+export interface CreatePostResponse extends Omit<PostResponse, 'author' | 'topic'> {}
+export interface DeletePostResponse {}
 
 const POSTS_API_PREFIX = 'posts'
 
@@ -13,7 +35,7 @@ export const createPost = async (title: string, content: string, topicSlug: stri
 }
 
 export const getPosts = async (cursor?: number, limit = 10) => {
-    const response = await client.get<GetPostsResponse>(`/${POSTS_API_PREFIX}`, {
+    const response = await client.get<PostsResponse>(`/${POSTS_API_PREFIX}`, {
         params: { cursor, limit },
     })
     return response.data

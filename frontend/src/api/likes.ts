@@ -1,5 +1,16 @@
 import { client } from './client'
-import { CreateLikeResponse, DeleteLikeResponse, GetLikesResponse } from './types'
+import { PaginationResponse } from './types'
+import { UserBriefResponse } from './users'
+
+export interface LikesResponse extends PaginationResponse {
+    likes: {
+        user: UserBriefResponse
+        createdAt: string
+    }[]
+}
+
+export interface CreateLikeResponse {}
+export interface DeleteLikeResponse {}
 
 const LIKES_API_PREFIX = 'likes'
 
@@ -14,7 +25,7 @@ export const deleteLike = async (postId: number) => {
 }
 
 export const getLikes = async (postId: number, cursor?: number, limit = 10) => {
-    const response = await client.get<GetLikesResponse>(`/${LIKES_API_PREFIX}/${postId}`, {
+    const response = await client.get<LikesResponse>(`/${LIKES_API_PREFIX}/${postId}`, {
         params: { cursor, limit },
     })
     return response.data

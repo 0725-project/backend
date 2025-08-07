@@ -1,11 +1,33 @@
 import { client } from './client'
-import {
-    CreateTopicResponse,
-    GetTopicPostByLocalIdResponse,
-    GetTopicPostsResponse,
-    TopicResponse,
-    GetTopicsResponse,
-} from './types'
+import { PostResponse } from './posts'
+import { PaginationResponse } from './types'
+import { UserBriefResponse } from './users'
+
+export interface TopicResponse {
+    id: number
+    slug: string
+    name: string
+    description: string
+    createdAt: string
+    creator: UserBriefResponse
+}
+
+export interface TopicBriefResponse {
+    id: number
+    slug: string
+    name: string
+    description: string
+}
+
+export interface TopicsResponse extends PaginationResponse {
+    topics: TopicResponse[]
+}
+
+export type CreateTopicResponse = Omit<TopicResponse, 'creator'>
+
+export interface TopicPostsResponse extends PaginationResponse {
+    posts: Omit<PostResponse, 'topic'>[]
+}
 
 const TOPICS_API_PREFIX = 'topics'
 
@@ -18,7 +40,7 @@ export const createTopic = async (topicSlug: string, description: string) => {
 }
 
 export const getTopics = async (cursor?: number, limit = 10) => {
-    const response = await client.get<GetTopicsResponse>(`/${TOPICS_API_PREFIX}`, {
+    const response = await client.get<TopicsResponse>(`/${TOPICS_API_PREFIX}`, {
         params: { cursor, limit },
     })
     return response.data
@@ -30,13 +52,13 @@ export const getTopic = async (topicSlug: string) => {
 }
 
 export const getTopicPosts = async (topicSlug: string, cursor?: number, limit = 10) => {
-    const response = await client.get<GetTopicPostsResponse>(`/topic/${topicSlug}`, {
+    const response = await client.get<TopicPostsResponse>(`/topic/${topicSlug}`, {
         params: { cursor, limit },
     })
     return response.data
 }
 
 export const getTopicPostByLocalId = async (topicSlug: string, topicLocalId: number) => {
-    const response = await client.get<GetTopicPostByLocalIdResponse>(`/topic/${topicSlug}/${topicLocalId}`)
+    const response = await client.get<PostResponse>(`/topic/${topicSlug}/${topicLocalId}`)
     return response.data
 }

@@ -1,5 +1,24 @@
 import { client } from './client'
-import { GetMeResponse, LoginResponse, LogoutResponse, RefreshResponse, RegisterResponse } from './types'
+import { UserResponse } from './users'
+
+export interface RegisterResponse {
+    id: number
+    username: string
+    nickname: string
+    email: string
+    createdAt: string
+}
+
+export interface LoginResponse {
+    id: number
+    accessToken: string
+}
+
+export interface RefreshResponse {
+    accessToken: string
+}
+
+export interface LogoutResponse {}
 
 const AUTH_API_PREFIX = 'auth'
 
@@ -31,6 +50,6 @@ export const logout = async () => {
 }
 
 export const getMe = async () => {
-    const response = await client.post<GetMeResponse>(`/${AUTH_API_PREFIX}/me`)
+    const response = await client.post<UserResponse>(`/${AUTH_API_PREFIX}/me`)
     return response.data
 }
