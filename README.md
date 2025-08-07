@@ -43,7 +43,8 @@
 │   ├── 1754101626596-Init.ts
 │   ├── 1754386946982-Init.ts
 │   ├── 1754387093530-Init.ts
-│   └── 1754401128588-Init.ts
+│   ├── 1754401128588-Init.ts
+│   └── 1754545150879-Init.ts
 └── modules
     ├── auth
     │   ├── auth.controller.ts
@@ -83,13 +84,6 @@
     │   ├── posts.entity.ts
     │   ├── posts.module.ts
     │   └── posts.service.ts
-    ├── search
-    │   ├── dto
-    │   │   ├── index.ts
-    │   │   └── request.dto.ts
-    │   ├── search.controller.ts
-    │   ├── search.module.ts
-    │   └── search.service.ts
     ├── topic
     │   ├── dto
     │   │   ├── index.ts
@@ -132,12 +126,14 @@
 │   ├── comments.ts
 │   ├── likes.ts
 │   ├── posts.ts
-│   ├── search.ts
 │   ├── topics.ts
 │   ├── types.ts
 │   └── users.ts
 ├── app
 │   ├── components
+│   │   ├── AllPosts
+│   │   │   ├── index.tsx
+│   │   │   └── PostCard.tsx
 │   │   ├── Auth
 │   │   │   ├── AuthForm.tsx
 │   │   │   ├── AuthModal.tsx
@@ -150,14 +146,17 @@
 │   │   │   └── SidebarSection.tsx
 │   │   ├── Main
 │   │   │   ├── index.tsx
-│   │   │   └── PostCard.tsx
+│   │   │   ├── PostCard.tsx
+│   │   │   └── PostCarousel.tsx
 │   │   ├── PageLayout.tsx
+│   │   ├── Pagination
+│   │   │   └── index.tsx
 │   │   ├── Post
 │   │   │   ├── Comments.tsx
 │   │   │   └── index.tsx
 │   │   ├── RightSidebar
-│   │   │   ├── index.tsx
-│   │   │   └── RightSidebarItems.tsx
+│   │   │   ├── CommentItem.tsx
+│   │   │   └── index.tsx
 │   │   ├── Topics
 │   │   │   └── index.tsx
 │   │   ├── TopicsDetail
@@ -175,8 +174,11 @@
 │   │   └── useIsMobile.ts
 │   ├── layout.tsx
 │   ├── page.tsx
+│   ├── posts
+│   │   └── page.tsx
 │   ├── profile
 │   │   └── page.tsx
+│   ├── ReactQueryProvider.tsx
 │   └── topics
 │       ├── [topic]
 │       │   ├── [topiclocalid]
@@ -185,7 +187,8 @@
 │       └── page.tsx
 └── utils
     ├── dateFormatter.ts
-    └── getAnchorHref.ts
+    ├── getAnchorHref.ts
+    └── getClosestAllowedValue.ts
 
-48 directories, 124 files
+49 directories, 126 files
 ```
