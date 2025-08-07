@@ -1,6 +1,6 @@
 'use client'
 
-import { Search, Plus, Menu, LogOut } from 'lucide-react'
+import { Search, Plus, Menu, LogIn, KeyRound } from 'lucide-react'
 import { useIsMobile } from '../hooks/useIsMobile'
 import { useAuth } from '@/app/context/AuthContext'
 import { useState } from 'react'
@@ -11,7 +11,7 @@ import RegisterForm from './Auth/RegisterForm'
 import UserMenu from './UserMenu'
 
 export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
-    const isMobile = useIsMobile(768)
+    // const isMobile = useIsMobile(768)
     const { user, logout, loading } = useAuth()
     const [modal, setModal] = useState<'login' | 'register' | null>(null)
 
@@ -20,7 +20,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             <header className='bg-white border-b border-gray-200 sticky top-0 z-50 w-full'>
                 <div className='flex items-center justify-between px-2 md:px-4 py-2 gap-2'>
                     <div className='flex items-center gap-2 min-w-0'>
-                        {isMobile && onMenuClick && (
+                        {onMenuClick && (
                             <button
                                 className='p-2 rounded-full hover:bg-gray-100 md:hidden flex items-center justify-center'
                                 aria-label='Open menu'
@@ -29,14 +29,15 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                                 <Menu className='w-6 h-6 text-gray-700' />
                             </button>
                         )}
-                        {!isMobile && (
+
+                        <div className='hidden md:flex items-center space-x-2'>
                             <a href='/' className='flex items-center space-x-2'>
                                 <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0'>
                                     <span className='text-white font-bold text-sm'>7</span>
                                 </div>
                                 <span className='text-lg md:text-xl font-bold text-blue-500 truncate'>0725</span>
                             </a>
-                        )}
+                        </div>
                     </div>
 
                     <div className='flex-1 max-w-xs md:max-w-2xl mx-2 md:mx-8'>
@@ -49,26 +50,21 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                         </div>
                     </div>
 
-                    <div className='flex items-center gap-2 md:gap-2'>
-                        <button className='bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full flex items-center space-x-1 text-sm'>
+                    <div className='flex items-center gap-2'>
+                        <button className='w-9 h-9 flex-shrink-0 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center'>
                             <Plus className='w-4 h-4' />
-                            <span className='ml-1 hidden sm:inline'>작성하기</span>
                         </button>
                         {loading ? null : user ? (
                             <UserMenu user={user} onLogout={logout} />
                         ) : (
                             <>
                                 <button
-                                    className='bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-full flex items-center space-x-1 text-sm'
+                                    className='w-9 md:w-auto h-9 flex-shrink-0 flex items-center justify-center gap-1 md:px-3 md:py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-700'
                                     onClick={() => setModal('login')}
+                                    aria-label='로그인'
                                 >
-                                    <span className='ml-1 hidden sm:inline'>로그인</span>
-                                </button>
-                                <button
-                                    className='bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-full flex items-center space-x-1 text-sm'
-                                    onClick={() => setModal('register')}
-                                >
-                                    <span className='ml-1 hidden sm:inline'>회원가입</span>
+                                    <LogIn className='w-4 h-4' />
+                                    <span className='hidden md:inline ml-1.5'>로그인/회원가입</span>
                                 </button>
                             </>
                         )}

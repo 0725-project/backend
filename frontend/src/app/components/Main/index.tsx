@@ -108,8 +108,8 @@ const MainPage = () => {
                 <div className='text-gray-400 text-lg'>게시글이 없습니다.</div>
             ) : (
                 <div className='relative w-full max-w-6xl'>
-                    <div className="pointer-events-none absolute left-0 top-0 h-full w-12 bg-gradient-to-r from-white to-transparent z-10" />
-                    <div className="pointer-events-none absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-white to-transparent z-10" />
+                    <div className='pointer-events-none absolute left-0 top-0 h-full w-12 bg-gradient-to-r from-white to-transparent z-10' />
+                    <div className='pointer-events-none absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-white to-transparent z-10' />
 
                     <button
                         onClick={scrollPrev}

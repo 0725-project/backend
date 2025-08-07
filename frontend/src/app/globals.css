@@ -28,8 +28,6 @@ html, body {
         overscroll-behavior-y: contain;
     }
     input, button {
-        font-size: 1em;
-        min-height: 40px;
         touch-action: manipulation;
     }
 }

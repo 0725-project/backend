@@ -30,11 +30,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ user, onLogout, onProfile }) => {
     return (
         <div className='relative' ref={menuRef}>
             <button
-                className='w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0 focus:outline-none'
+                className='w-9 h-9 min-w-9 min-h-9 flex-none rounded-full bg-gray-200 flex items-center justify-center overflow-hidden'
                 onClick={() => setOpen((v) => !v)}
                 aria-label='유저 메뉴 열기'
             >
-                <span className='text-gray-600 font-medium text-sm'>
+                <span className='text-gray-600 font-medium text-sm leading-none'>
                     {user.nickname ? user.nickname[0].toUpperCase() : user.username[0].toUpperCase()}
                 </span>
             </button>
