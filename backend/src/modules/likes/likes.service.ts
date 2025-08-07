@@ -49,7 +49,7 @@ export class LikesService {
             .leftJoinAndSelect('like.user', 'user')
             .select(['like', ...selectUserBriefColumns('user')])
             .where('like.post.id = :postId', { postId })
-            .orderBy('like.createdAt', 'DESC')
+            .orderBy('like.id', 'DESC')
             .skip((pdto.page! - 1) * pdto.limit!)
             .take(pdto.limit!)
 

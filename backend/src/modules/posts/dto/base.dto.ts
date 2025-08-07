@@ -55,3 +55,14 @@ export class CommentCountDto {
     @IsNotEmpty()
     commentCount: number
 }
+
+export class LikeCountDto {
+    @ApiProperty({
+        description: 'The number of likes on the post.',
+        example: 10,
+    })
+    @Type(() => Number)
+    @IsInt()
+    @IsNotEmpty()
+    likeCount: number
+}

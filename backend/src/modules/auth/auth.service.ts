@@ -1,5 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
-import { JWT_EXPIRES_IN_SECONDS, REFRESH_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN_SECONDS } from 'src/common/constants'
+import {
+    JWT_EXPIRES_IN_SECONDS,
+    REFRESH_TOKEN_EXPIRES_IN,
+    REFRESH_TOKEN_EXPIRES_IN_SECONDS,
+} from 'src/common/constants'
 import { JwtService } from '@nestjs/jwt'
 import { UsersService } from 'src/modules/users/users.service'
 import { RedisService } from 'src/common/redis/redis.service'

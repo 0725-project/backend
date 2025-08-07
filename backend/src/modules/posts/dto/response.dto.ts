@@ -1,11 +1,11 @@
-import { IntersectionType } from '@nestjs/swagger'
+import { IntersectionType, PickType } from '@nestjs/swagger'
 import { ApiProperty, OmitType } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 
 import { CreatedAtDto, IdDto, PaginationResponseDto } from 'src/common/dto'
 import { TopicLocalIdDto, TopicBriefResponseDto } from 'src/modules/topics/dto'
 import { UserBriefResponseDto } from 'src/modules/users/dto'
-import { CommentCountDto, PostContentDto, PostTitleDto, ViewCountDto } from '.'
+import { CommentCountDto, LikeCountDto, PostContentDto, PostTitleDto, ViewCountDto } from '.'
 
 export class PostResponseDto extends IntersectionType(
     IdDto,
@@ -15,6 +15,7 @@ export class PostResponseDto extends IntersectionType(
     TopicLocalIdDto,
     ViewCountDto,
     CommentCountDto,
+    LikeCountDto,
 ) {
     @ApiProperty({
         description: 'The author of the post.',
@@ -30,6 +31,8 @@ export class PostResponseDto extends IntersectionType(
     @IsNotEmpty()
     topic: TopicBriefResponseDto
 }
+
+export class PostBriefResponseDto extends IntersectionType(OmitType(PostResponseDto, ['content'])) {}
 
 export class PostsResponseDto extends IntersectionType(PaginationResponseDto) {
     @ApiProperty({

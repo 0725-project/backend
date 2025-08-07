@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Comment } from './comments.entity'
 import { Post } from '../posts/posts.entity'
-import { selectUserBriefColumns } from 'src/common/constants'
+import { selectPostBriefColumns, selectTopicBriefColumns, selectUserBriefColumns } from 'src/common/constants'
 
 import { PaginationDto } from 'src/common/dto'
 import { CreateCommentDto, UpdateCommentDto } from './dto'
@@ -82,5 +82,33 @@ export class CommentsService {
 
         await this.commentRepo.remove(comment)
         await this.postRepo.decrement({ id: comment.post.id }, 'commentCount', 1)
+    }
+
+    async getAllComments(pdto: PaginationDto) {
+        const query = this.commentRepo
+            .createQueryBuilder('comment')
+            .leftJoinAndSelect('comment.user', 'user')
+            .leftJoinAndSelect('comment.post', 'post')
+            .leftJoinAndSelect('post.topic', 'postTopic')
+            .leftJoinAndSelect('post.author', 'postAuthor')
+            .select([
+                'comment',
+                ...selectUserBriefColumns('user'),
+                ...selectPostBriefColumns('post'),
+                ...selectTopicBriefColumns('postTopic'),
+                ...selectUserBriefColumns('postAuthor'),
+            ])
+            .orderBy('comment.id', 'DESC')
+            .skip((pdto.page! - 1) * pdto.limit!)
+            .take(pdto.limit!)
+
+        const [comments, total] = await query.getManyAndCount()
+
+        return {
+            comments,
+            total,
+            page: pdto.page!,
+            limit: pdto.limit!,
+        }
     }
 }

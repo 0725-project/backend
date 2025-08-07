@@ -20,6 +20,7 @@ import {
     CreateCommentResponseDto,
     CreateCommentDto,
     UpdateCommentDto,
+    CommentsWithDetailsResponseDto,
 } from './dto'
 import { PostIdDto } from 'src/modules/posts/dto'
 
@@ -84,5 +85,17 @@ export class CommentsController {
     @ApiForbiddenResponse({ description: 'You do not have permission to delete this comment.' })
     delete(@Param() { id }: IdDto, @Req() req: AuthenticatedRequest) {
         return this.commentsService.delete(id, req.user.userId)
+    }
+
+    @Get('comments')
+    @ApiOperation({ summary: 'Get all comments with pagination' })
+    @ApiResponse({
+        status: 200,
+        description: 'Return paginated comments with details.',
+        type: CommentsWithDetailsResponseDto,
+    })
+    @ApiBadRequestResponse({ description: 'Invalid pagination parameters.' })
+    getAllComments(@Query() pdto: PaginationDto): Promise<CommentsWithDetailsResponseDto> {
+        return this.commentsService.getAllComments(pdto)
     }
 }

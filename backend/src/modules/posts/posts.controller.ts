@@ -14,7 +14,14 @@ import {
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
 import { IdDto, PaginationDto } from 'src/common/dto'
-import { CreatePostDto, UpdatePostDto, CreatePostResponseDto, PostResponseDto, PostsResponseDto, GetPostsQueryDto } from './dto'
+import {
+    CreatePostDto,
+    UpdatePostDto,
+    CreatePostResponseDto,
+    PostResponseDto,
+    PostsResponseDto,
+    GetPostsQueryDto,
+} from './dto'
 
 @ApiTags('Posts')
 @Controller('posts')

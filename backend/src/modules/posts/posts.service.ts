@@ -32,12 +32,14 @@ export class PostsService {
             topicLocalId: count + 1,
             viewCount: 0,
             commentCount: 0,
+            likeCount: 0,
             ip,
         })
 
         await this.topicRepo.increment({ id: topic.id }, 'postCount', 1)
 
-        const { id, title, content, createdAt, topicLocalId, viewCount, commentCount } = await this.postRepo.save(post)
+        const { id, title, content, createdAt, topicLocalId, viewCount, commentCount, likeCount } =
+            await this.postRepo.save(post)
         return {
             id,
             title,
@@ -46,6 +48,7 @@ export class PostsService {
             topicLocalId,
             viewCount,
             commentCount,
+            likeCount,
         }
     }
 

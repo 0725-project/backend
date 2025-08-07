@@ -15,3 +15,12 @@ export const selectTopicBriefColumns = (topicColumn: string) => [
     `${topicColumn}.slug`,
     `${topicColumn}.description`,
 ]
+
+export const selectPostBriefColumns = (postColumn: string) => [
+    `${postColumn}.id`,
+    `${postColumn}.title`,
+    `${postColumn}.createdAt`,
+    `${postColumn}.topicLocalId`,
+    `${postColumn}.viewCount`,
+    `${postColumn}.commentCount`,
+]

@@ -74,4 +74,3 @@ export class GetPostsQueryDto extends IntersectionType(PaginationDto) {
 
 export class CreatePostDto extends IntersectionType(PostTitleDto, PostContentDto, TopicSlugDto) {}
 export class UpdatePostDto extends PartialType(OmitType(CreatePostDto, ['topicSlug'])) {}
-
