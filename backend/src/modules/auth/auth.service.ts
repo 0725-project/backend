@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
-import { REFRESH_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN_SECONDS } from 'src/common/constants'
+import { JWT_EXPIRES_IN_SECONDS, REFRESH_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN_SECONDS } from 'src/common/constants'
 import { JwtService } from '@nestjs/jwt'
 import { UsersService } from 'src/modules/users/users.service'
 import { RedisService } from 'src/common/redis/redis.service'
@@ -23,7 +23,7 @@ export class AuthService {
         }
 
         const payload = { sub: user.id }
-        const accessToken = this.jwtService.sign(payload)
+        const accessToken = this.jwtService.sign(payload, { expiresIn: JWT_EXPIRES_IN_SECONDS })
         const refreshToken = this.jwtService.sign(payload, { expiresIn: REFRESH_TOKEN_EXPIRES_IN })
 
         await this.redisService.set(`user:${user.id}:refresh`, refreshToken, REFRESH_TOKEN_EXPIRES_IN_SECONDS)
