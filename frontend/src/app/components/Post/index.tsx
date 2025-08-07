@@ -1,7 +1,7 @@
 'use client'
 
-import { incrementPostViewCount } from '@/api/posts'
-import { GetPostCommentsResponse, PostResponse } from '@/api/types'
+import { incrementPostViewCount, PostResponse } from '@/api/posts'
+import { PostCommentsResponse } from '@/api/comments'
 import { formatDate } from '@/utils/dateFormatter'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -9,7 +9,7 @@ import Comments from './Comments'
 
 interface PostProps {
     post: PostResponse
-    comments: GetPostCommentsResponse
+    comments: PostCommentsResponse
 }
 
 const PostPage = ({ post, comments }: PostProps) => {

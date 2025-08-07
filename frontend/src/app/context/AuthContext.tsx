@@ -2,10 +2,10 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { getMe, loginUser, logout, refreshToken, registerUser } from '@/api/auth'
-import { GetMeResponse } from '@/api/types'
+import { UserResponse } from '@/api/users'
 
 interface AuthContextProps {
-    user: GetMeResponse | null
+    user: UserResponse | null
     loading: boolean
     login: (username: string, password: string) => Promise<void>
     register: (data: RegisterFormData) => Promise<void>
@@ -23,7 +23,7 @@ export interface RegisterFormData {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<GetMeResponse | null>(null)
+    const [user, setUser] = useState<UserResponse | null>(null)
     const [loading, setLoading] = useState(true)
 
     const fetchMe = async () => {
