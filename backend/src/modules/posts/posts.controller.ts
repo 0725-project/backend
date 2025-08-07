@@ -10,11 +10,10 @@ import {
     ApiNotFoundResponse,
     ApiForbiddenResponse,
     ApiBadRequestResponse,
-    ApiQuery,
 } from '@nestjs/swagger'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
-import { IdDto, CursorPaginationDto } from 'src/common/dto'
+import { IdDto, PaginationDto } from 'src/common/dto'
 import { CreatePostDto, UpdatePostDto, CreatePostResponseDto, PostResponseDto, PostsResponseDto } from './dto'
 
 @ApiTags('Posts')
@@ -38,25 +37,11 @@ export class PostsController {
     }
 
     @Get()
-    @ApiOperation({ summary: 'Get posts with page id cursor based pagination' })
+    @ApiOperation({ summary: 'Get posts with page pagination' })
     @ApiResponse({ status: 200, description: 'Return paginated posts.', type: PostsResponseDto })
-    @ApiBadRequestResponse({ description: 'Invalid cursor or limit.' })
-    @ApiQuery({
-        name: 'cursor',
-        required: false,
-        type: Number,
-        description: 'The ID of the last post from the previous page. Returns posts with smaller IDs.',
-        default: null,
-    })
-    @ApiQuery({
-        name: 'limit',
-        required: false,
-        type: Number,
-        description: 'The number of posts to return. Max is 20.',
-        default: 10,
-    })
-    findAll(@Query() { cursor, limit }: CursorPaginationDto): Promise<PostsResponseDto> {
-        return this.postsService.findAll(cursor, limit)
+    @ApiBadRequestResponse({ description: 'Invalid pagination parameters.' })
+    findAll(@Query() pdto: PaginationDto): Promise<PostsResponseDto> {
+        return this.postsService.findAll(pdto)
     }
 
     @Get(':id')
@@ -64,7 +49,7 @@ export class PostsController {
     @ApiResponse({ status: 200, description: 'Return a single post.', type: PostResponseDto })
     @ApiBadRequestResponse({ description: 'Invalid ID.' })
     @ApiNotFoundResponse({ description: 'Post not found.' })
-    findOne(@Param() { id }: IdDto, @Ip() ip: string): Promise<PostResponseDto> {
+    findOne(@Param() { id }: IdDto): Promise<PostResponseDto> {
         return this.postsService.findOne(id)
     }
 

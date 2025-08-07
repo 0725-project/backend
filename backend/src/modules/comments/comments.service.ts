@@ -5,7 +5,7 @@ import { Comment } from './comments.entity'
 import { Post } from '../posts/posts.entity'
 import { selectUserBriefColumns } from 'src/common/constants'
 
-import { CursorPaginationDto } from 'src/common/dto'
+import { PaginationDto } from 'src/common/dto'
 import { CreateCommentDto, UpdateCommentDto } from './dto'
 
 @Injectable()
@@ -30,23 +30,24 @@ export class CommentsService {
         return { id, content, createdAt }
     }
 
-    async getComments(postId: number, dto: CursorPaginationDto) {
+    async getComments(postId: number, pdto: PaginationDto) {
         const query = this.commentRepo
             .createQueryBuilder('comment')
             .leftJoinAndSelect('comment.user', 'user')
             .select(['comment', ...selectUserBriefColumns('user')])
-            .where('comment.postId = :postId', { postId })
+            .where('comment.post.id = :postId', { postId })
             .orderBy('comment.createdAt', 'DESC')
-            .take(dto.limit)
+            .skip((pdto.page! - 1) * pdto.limit!)
+            .take(pdto.limit!)
 
-        if (dto.cursor) {
-            query.andWhere('comment.id < :cursor', { cursor: dto.cursor })
+        const [comments, total] = await query.getManyAndCount()
+
+        return {
+            comments,
+            total,
+            page: pdto.page!,
+            limit: pdto.limit!,
         }
-
-        const comments = await query.getMany()
-        const nextCursor = comments.length < dto.limit! ? null : comments[comments.length - 1].id
-
-        return { comments, nextCursor }
     }
 
     async update(id: number, dto: UpdateCommentDto, userId: number) {

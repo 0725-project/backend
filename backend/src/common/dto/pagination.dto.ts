@@ -1,16 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNotEmpty, IsInt, IsOptional, Min, Max } from 'class-validator'
+import { IsInt, IsOptional, Min, Max } from 'class-validator'
 import { Type } from 'class-transformer'
 
-export class CursorPaginationDto {
+export class PaginationDto {
     @ApiProperty({
-        description: 'The cursor for pagination, used to fetch the next set of results.',
+        description: 'The page number for pagination, starting from 1.',
+        example: 1,
         required: false,
     })
     @IsOptional()
     @Type(() => Number)
     @IsInt()
-    cursor?: number
+    @Min(1)
+    page?: number = 1
 
     @ApiProperty({
         description: 'The number of items to return per page. Maximum is 20.',
@@ -25,15 +27,22 @@ export class CursorPaginationDto {
     limit?: number = 10
 }
 
-export class CursorPaginationResponseDto {
+export class PaginationResponseDto {
     @ApiProperty({
-        description: 'The next cursor for pagination, used to fetch the next set of results.',
-        required: false,
-        example: 2,
+        description: 'Total number of items available.',
+        example: 100,
     })
-    @IsOptional()
-    @Type(() => Number)
-    @IsInt()
-    @IsNotEmpty()
-    nextCursor?: number | null
+    total: number
+
+    @ApiProperty({
+        description: 'Current page number.',
+        example: 1,
+    })
+    page: number
+
+    @ApiProperty({
+        description: 'Number of items per page.',
+        example: 10,
+    })
+    limit: number
 }

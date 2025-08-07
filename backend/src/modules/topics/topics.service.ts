@@ -5,6 +5,7 @@ import { Topic } from './topics.entity'
 
 import { CreateTopicDto } from './dto'
 import { selectUserBriefColumns } from 'src/common/constants'
+import { PaginationDto } from 'src/common/dto'
 
 @Injectable()
 export class TopicsService {
@@ -44,21 +45,22 @@ export class TopicsService {
         return topic
     }
 
-    async findAll(cursor?: number, limit = 10) {
+    async findAll(pdto: PaginationDto) {
         const query = this.topicRepo
             .createQueryBuilder('topic')
             .leftJoinAndSelect('topic.creator', 'creator')
             .select(['topic', ...selectUserBriefColumns('creator')])
             .orderBy('topic.id', 'DESC')
-            .take(limit)
+            .skip((pdto.page! - 1) * pdto.limit!)
+            .take(pdto.limit!)
 
-        if (cursor) {
-            query.andWhere('topic.id < :cursor', { cursor })
+        const [topics, total] = await query.getManyAndCount()
+
+        return {
+            topics,
+            total,
+            page: pdto.page!,
+            limit: pdto.limit!,
         }
-
-        const topics = await query.getMany()
-        const nextCursor = topics.length < limit ? null : topics[topics.length - 1].id
-
-        return { topics, nextCursor }
     }
 }

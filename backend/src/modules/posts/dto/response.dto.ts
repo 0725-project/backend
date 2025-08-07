@@ -2,7 +2,7 @@ import { IntersectionType } from '@nestjs/swagger'
 import { ApiProperty, OmitType } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 
-import { CreatedAtDto, IdDto, CursorPaginationResponseDto } from 'src/common/dto'
+import { CreatedAtDto, IdDto, PaginationResponseDto } from 'src/common/dto'
 import { TopicLocalIdDto, TopicBriefResponseDto } from 'src/modules/topics/dto'
 import { UserBriefResponseDto } from 'src/modules/users/dto'
 import { CommentCountDto, PostContentDto, PostTitleDto, ViewCountDto } from '.'
@@ -31,7 +31,7 @@ export class PostResponseDto extends IntersectionType(
     topic: TopicBriefResponseDto
 }
 
-export class PostsResponseDto extends IntersectionType(CursorPaginationResponseDto) {
+export class PostsResponseDto extends IntersectionType(PaginationResponseDto) {
     @ApiProperty({
         description: 'List of posts.',
         type: [PostResponseDto],

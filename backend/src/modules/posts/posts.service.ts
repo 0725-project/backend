@@ -8,6 +8,7 @@ import { RedisService } from 'src/common/redis/redis.service'
 import { selectUserBriefColumns, selectTopicBriefColumns } from 'src/common/constants'
 
 import { CreatePostDto, UpdatePostDto } from './dto'
+import { PaginationDto } from 'src/common/dto'
 
 @Injectable()
 export class PostsService {
@@ -46,23 +47,24 @@ export class PostsService {
         }
     }
 
-    async findAll(cursor?: number, limit = 10) {
+    async findAll(pdto: PaginationDto) {
         const query = this.postRepo
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.author', 'author')
             .leftJoinAndSelect('post.topic', 'topic')
             .select(['post', ...selectUserBriefColumns('author'), ...selectTopicBriefColumns('topic')])
             .orderBy('post.id', 'DESC')
-            .take(limit)
+            .skip((pdto.page! - 1) * pdto.limit!)
+            .take(pdto.limit!)
 
-        if (cursor) {
-            query.andWhere('post.id < :cursor', { cursor })
+        const [posts, total] = await query.getManyAndCount()
+
+        return {
+            posts,
+            total,
+            page: pdto.page!,
+            limit: pdto.limit!,
         }
-
-        const posts = await query.getMany()
-        const nextCursor = posts.length < limit ? null : posts[posts.length - 1].id
-
-        return { posts, nextCursor }
     }
 
     async findOne(id: number) {

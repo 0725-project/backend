@@ -17,6 +17,7 @@ export class SearchService {
             .leftJoinAndSelect('post.topic', 'topic')
             .select(['post', ...selectUserBriefColumns('author'), ...selectTopicBriefColumns('topic')])
             .orderBy('post.id', dto.order!.toUpperCase() as 'ASC' | 'DESC')
+            .skip((dto.page! - 1) * dto.limit!)
             .take(dto.limit!)
 
         if (dto.q) {
@@ -31,10 +32,6 @@ export class SearchService {
             query.andWhere('topic.slug ILIKE :topicSlug', { topicSlug: `%${dto.topicSlug}%` })
         }
 
-        if (dto.cursor) {
-            query.andWhere(`post.id ${dto.order === 'desc' ? '<' : '>'} :cursor`, { cursor: dto.cursor })
-        }
-
         if (dto.startDate) {
             query.andWhere('post.createdAt >= :startDate', { startDate: new Date(dto.startDate) })
         }
@@ -45,9 +42,13 @@ export class SearchService {
             query.andWhere('post.createdAt <= :endDate', { endDate: endDateObj })
         }
 
-        const posts = await query.getMany()
-        const nextCursor = posts.length < dto.limit! ? null : posts[posts.length - 1].id
+        const [posts, total] = await query.getManyAndCount()
 
-        return { posts, nextCursor }
+        return {
+            posts,
+            total,
+            page: dto.page!,
+            limit: dto.limit!,
+        }
     }
 }

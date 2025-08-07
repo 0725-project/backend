@@ -1,10 +1,12 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Like } from './likes.entity'
 import { Post } from '../posts/posts.entity'
 import { User } from '../users/users.entity'
 import { selectUserBriefColumns } from 'src/common/constants'
+
+import { PaginationDto } from 'src/common/dto'
 
 @Injectable()
 export class LikesService {
@@ -41,30 +43,23 @@ export class LikesService {
         await this.postRepo.decrement({ id: postId }, 'likeCount', 1)
     }
 
-    async getLikesForPost(postId: number, cursor?: number, limit = 10) {
-        const post = await this.postRepo.findOne({ where: { id: postId } })
-        if (!post) {
-            throw new NotFoundException('Post not found')
-        }
-
+    async getLikesForPost(postId: number, pdto: PaginationDto) {
         const query = this.likeRepo
             .createQueryBuilder('like')
             .leftJoinAndSelect('like.user', 'user')
-            .where('like.post.id = :postId', { postId })
             .select(['like', ...selectUserBriefColumns('user')])
+            .where('like.post.id = :postId', { postId })
             .orderBy('like.createdAt', 'DESC')
-            .take(limit)
+            .skip((pdto.page! - 1) * pdto.limit!)
+            .take(pdto.limit!)
 
-        if (cursor) {
-            query.andWhere('like.id < :cursor', { cursor })
-        }
-
-        const likes = await query.getMany()
-        const nextCursor = likes.length ? likes[likes.length - 1].id : null
+        const [likes, total] = await query.getManyAndCount()
 
         return {
             likes,
-            nextCursor,
+            total,
+            page: pdto.page!,
+            limit: pdto.limit!,
         }
     }
 }

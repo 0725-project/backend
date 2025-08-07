@@ -1,7 +1,7 @@
 import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 
-import { CreatedAtDto, IdDto, CursorPaginationResponseDto } from 'src/common/dto'
+import { CreatedAtDto, IdDto, PaginationResponseDto } from 'src/common/dto'
 import { UserBriefResponseDto } from 'src/modules/users/dto'
 import { CommentContentDto } from '.'
 
@@ -14,7 +14,7 @@ export class CommentResponseDto extends IntersectionType(IdDto, CommentContentDt
     user: UserBriefResponseDto
 }
 
-export class CommentsResponseDto extends IntersectionType(CursorPaginationResponseDto) {
+export class CommentsResponseDto extends IntersectionType(PaginationResponseDto) {
     @ApiProperty({
         description: 'List of comments.',
         type: [CommentResponseDto],

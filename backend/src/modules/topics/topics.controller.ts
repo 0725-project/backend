@@ -10,10 +10,9 @@ import {
     ApiBadRequestResponse,
     ApiConflictResponse,
     ApiNotFoundResponse,
-    ApiQuery,
 } from '@nestjs/swagger'
 
-import { CursorPaginationDto } from 'src/common/dto'
+import { PaginationDto } from 'src/common/dto'
 import { CreateTopicResponseDto, TopicResponseDto, TopicsResponseDto, CreateTopicDto, TopicSlugDto } from './dto'
 
 @ApiTags('Topics')
@@ -35,23 +34,9 @@ export class TopicsController {
     @Get()
     @ApiOperation({ summary: 'Get all topics with pagination' })
     @ApiResponse({ status: 200, description: 'Return a list of topics', type: TopicsResponseDto })
-    @ApiBadRequestResponse({ description: 'Invalid cursor or limit.' })
-    @ApiQuery({
-        name: 'cursor',
-        required: false,
-        type: Number,
-        description: 'The ID of the last topic from the previous page. Returns topics with smaller IDs.',
-        default: null,
-    })
-    @ApiQuery({
-        name: 'limit',
-        required: false,
-        type: Number,
-        description: 'The number of topics to return. Max is 20.',
-        default: 10,
-    })
-    findAll(@Query() { cursor, limit }: CursorPaginationDto): Promise<TopicsResponseDto> {
-        return this.topicService.findAll(cursor, limit)
+    @ApiBadRequestResponse({ description: 'Invalid pagination parameters.' })
+    findAll(@Query() pdto: PaginationDto): Promise<TopicsResponseDto> {
+        return this.topicService.findAll(pdto)
     }
 
     @Get(':topicSlug')

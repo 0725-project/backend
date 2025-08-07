@@ -7,15 +7,13 @@ import {
     ApiUnauthorizedResponse,
     ApiNotFoundResponse,
     ApiBadRequestResponse,
-    ApiQuery,
-    ApiParam,
     ApiForbiddenResponse,
 } from '@nestjs/swagger'
 import { CommentsService } from './comments.service'
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
-import { IdDto, CursorPaginationDto } from 'src/common/dto'
+import { IdDto, PaginationDto } from 'src/common/dto'
 import {
     CommentResponseDto,
     CommentsResponseDto,
@@ -53,9 +51,9 @@ export class CommentsController {
     @Get('posts/:postId/comments')
     @ApiOperation({ summary: 'Get comments for a post' })
     @ApiResponse({ status: 200, description: 'Return paginated comments.', type: CommentsResponseDto })
-    @ApiBadRequestResponse({ description: 'Invalid cursor or limit.' })
-    getComments(@Param() { postId }: PostIdDto, @Query() dto: CursorPaginationDto): Promise<CommentsResponseDto> {
-        return this.commentsService.getComments(postId, dto)
+    @ApiBadRequestResponse({ description: 'Invalid pagination parameters.' })
+    getComments(@Param() { postId }: PostIdDto, @Query() pdto: PaginationDto): Promise<CommentsResponseDto> {
+        return this.commentsService.getComments(postId, pdto)
     }
 
     @Put('comments/:id')

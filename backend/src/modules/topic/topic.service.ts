@@ -5,6 +5,8 @@ import { Post } from 'src/modules/posts/posts.entity'
 import { Topic } from 'src/modules/topics/topics.entity'
 import { Repository } from 'typeorm'
 
+import { PaginationDto } from 'src/common/dto'
+
 @Injectable()
 export class TopicService {
     constructor(
@@ -14,7 +16,7 @@ export class TopicService {
         private readonly topicRepo: Repository<Topic>,
     ) {}
 
-    async postsFindByTopicSlug(topicSlug: string, cursor?: number, limit = 10) {
+    async postsFindByTopicSlug(topicSlug: string, pdto: PaginationDto) {
         const topic = await this.topicRepo.findOne({ where: { slug: topicSlug } })
         if (!topic) throw new NotFoundException('Topic not found')
 
@@ -25,16 +27,17 @@ export class TopicService {
             .select(['post', ...selectUserBriefColumns('author')])
             .where('topic.id = :topicId', { topicId: topic.id })
             .orderBy('post.id', 'DESC')
-            .take(limit)
+            .skip((pdto.page! - 1) * pdto.limit!)
+            .take(pdto.limit!)
 
-        if (cursor) {
-            query.andWhere('post.id < :cursor', { cursor })
+        const [posts, total] = await query.getManyAndCount()
+
+        return {
+            posts,
+            total,
+            page: pdto.page!,
+            limit: pdto.limit!,
         }
-
-        const posts = await query.getMany()
-        const nextCursor = posts.length < limit ? null : posts[posts.length - 1].id
-
-        return { posts, nextCursor }
     }
 
     async postFindByTopicLocalId(topicSlug: string, topicLocalId: number) {

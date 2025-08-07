@@ -1,9 +1,9 @@
 import { IsOptional, IsString, IsIn, IsISO8601 } from 'class-validator'
 import { ApiProperty, IntersectionType } from '@nestjs/swagger'
 
-import { CursorPaginationDto } from 'src/common/dto'
+import { PaginationDto } from 'src/common/dto'
 
-export class SearchPostsQueryDto extends IntersectionType(CursorPaginationDto) {
+export class SearchPostsQueryDto extends IntersectionType(PaginationDto) {
     @ApiProperty({
         description: 'Search query for post content.',
         required: false,

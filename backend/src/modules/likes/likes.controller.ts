@@ -8,15 +8,13 @@ import {
     ApiTags,
     ApiUnauthorizedResponse,
     ApiNotFoundResponse,
-    ApiForbiddenResponse,
     ApiBadRequestResponse,
-    ApiQuery,
     ApiConflictResponse,
 } from '@nestjs/swagger'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
 import { PostIdDto } from '../posts/dto'
-import { CursorPaginationDto } from 'src/common/dto'
+import { PaginationDto } from 'src/common/dto'
 import { GetLikesResponseDto } from './dto/response.dto'
 
 @ApiTags('Likes')
@@ -54,10 +52,7 @@ export class LikesController {
     @ApiResponse({ status: 200, description: 'Returns likes for the post.', type: GetLikesResponseDto })
     @ApiNotFoundResponse({ description: 'Post not found.' })
     @ApiBadRequestResponse({ description: 'Invalid post ID.' })
-    async getLikes(
-        @Param() { postId }: PostIdDto,
-        @Query() { cursor, limit }: CursorPaginationDto,
-    ): Promise<GetLikesResponseDto> {
-        return this.likesService.getLikesForPost(postId, cursor, limit)
+    async getLikes(@Param() { postId }: PostIdDto, @Query() pdto: PaginationDto): Promise<GetLikesResponseDto> {
+        return this.likesService.getLikesForPost(postId, pdto)
     }
 }
