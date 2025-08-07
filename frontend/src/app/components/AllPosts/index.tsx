@@ -14,7 +14,7 @@ import Link from 'next/link'
 const MAX_PAGE_BUTTONS = 5
 const LIMIT_OPTIONS = [5, 10, 15, 20]
 
-const MainContent = () => {
+const AllPosts = () => {
     const [page, setPage] = useState(1)
     const [limit, setLimit] = useState(10)
 
@@ -108,4 +108,4 @@ const MainContent = () => {
     )
 }
 
-export { MainContent }
+export { AllPosts }

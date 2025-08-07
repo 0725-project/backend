@@ -1,6 +1,6 @@
 'use client'
 
-import { Home, TrendingUp, HelpCircle, Compass, List, Info, ChevronsRight, ChevronsDown } from 'lucide-react'
+import { Home, Compass, Info, ChevronsRight, ChevronsDown, ListTree } from 'lucide-react'
 import { SidebarItem } from './LeftSidebarItems'
 import { SidebarSection } from './SidebarSection'
 
@@ -57,6 +57,13 @@ const LeftSidebar = (props: LeftSidebarProps) => {
                             label='홈'
                             url='/'
                             isActive={props.currentItem === 'home'}
+                            isCollapsed={props.isCollapsed}
+                        />
+                        <SidebarItem
+                            icon={ListTree}
+                            label='전체 게시글'
+                            url='/posts'
+                            isActive={props.currentItem === 'posts'}
                             isCollapsed={props.isCollapsed}
                         />
                         <SidebarItem
