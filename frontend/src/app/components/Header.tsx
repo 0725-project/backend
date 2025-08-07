@@ -32,10 +32,10 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
 
                         <div className='hidden md:flex items-center space-x-2'>
                             <a href='/' className='flex items-center space-x-2'>
-                                <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0'>
+                                <div className='w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center flex-shrink-0'>
                                     <span className='text-white font-bold text-sm'>7</span>
                                 </div>
-                                <span className='text-lg md:text-xl font-bold text-blue-500 truncate'>0725</span>
+                                <span className='text-lg md:text-xl font-bold text-slate-600 truncate'>0725</span>
                             </a>
                         </div>
                     </div>
@@ -45,13 +45,13 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                             <Search className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4' />
                             <input
                                 placeholder='검색...'
-                                className='pl-10 bg-gray-100 border border-gray-200 rounded-full w-full py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200'
+                                className='pl-10 bg-gray-100 border border-gray-200 rounded-full w-full py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-200'
                             />
                         </div>
                     </div>
 
                     <div className='flex items-center gap-2'>
-                        <button className='w-9 h-9 flex-shrink-0 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center'>
+                        <button className='w-9 h-9 flex-shrink-0 bg-slate-600 hover:bg-slate-700 text-white rounded-full flex items-center justify-center'>
                             <Plus className='w-4 h-4' />
                         </button>
                         {loading ? null : user ? (
@@ -75,7 +75,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             <AuthModal visible={modal === 'login'} onHide={() => setModal(null)}>
                 <LoginForm onSuccess={() => setModal(null)} />
                 <div className='flex justify-center mt-4 text-sm text-gray-500'>
-                    <button className='hover:underline text-blue-500' onClick={() => setModal('register')}>
+                    <button className='hover:underline text-slate-600' onClick={() => setModal('register')}>
                         회원가입
                     </button>
                 </div>
@@ -83,7 +83,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             <AuthModal visible={modal === 'register'} onHide={() => setModal(null)}>
                 <RegisterForm onSuccess={() => setModal('login')} />
                 <div className='flex justify-center mt-4 text-sm text-gray-500'>
-                    <button className='hover:underline text-blue-500' onClick={() => setModal('login')}>
+                    <button className='hover:underline text-slate-600' onClick={() => setModal('login')}>
                         로그인
                     </button>
                 </div>

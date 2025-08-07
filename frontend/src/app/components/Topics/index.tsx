@@ -56,7 +56,7 @@ const TopicsList = () => {
 
     return (
         <section className='max-w-5xl mx-auto px-2 md:px-4 py-4'>
-            <h2 className='text-2xl font-bold mb-4 text-blue-600'>토픽 목록</h2>
+            <h2 className='text-2xl font-bold mb-4 text-slate-700'>토픽 목록</h2>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4 min-h-[300px]'>
                 {isLoading ? (
                     <div className='text-center py-8 text-gray-400'>로딩 중...</div>
@@ -69,7 +69,7 @@ const TopicsList = () => {
                         <Link key={index} href={`/topics/${topic.slug}`} className='no-underline'>
                             <div className='bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col min-h-[160px]'>
                                 <div className='flex items-center gap-2 mb-2'>
-                                    <div className='w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg'>
+                                    <div className='w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center text-white font-bold text-lg'>
                                         {topic.name.charAt(0).toUpperCase()}
                                     </div>
                                     <span className='text-lg font-semibold text-gray-900 truncate'>{topic.name}</span>

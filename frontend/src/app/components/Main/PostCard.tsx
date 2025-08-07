@@ -11,7 +11,7 @@ const PostCard = ({ post }: PostCardProps) => (
         <div className='flex items-center justify-between p-2 pb-2'>
             <div className='flex flex-col space-y-1'>
                 <div className='flex items-center gap-2 text-xs'>
-                    <div className='w-6 h-6 rounded-full flex items-center justify-center bg-blue-500'>
+                    <div className='w-6 h-6 rounded-full flex items-center justify-center bg-slate-600'>
                         <span className='text-white text-xs font-bold'>
                             {post.topic?.name?.charAt(0).toUpperCase() ?? '?'}
                         </span>

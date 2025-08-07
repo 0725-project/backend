@@ -30,14 +30,14 @@ export default function AuthForm(props: AuthFormProps) {
                             value={field.value}
                             onChange={field.onChange}
                             autoComplete={field.name}
-                            className='w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 bg-gray-50 text-base transition placeholder-gray-400 outline-none'
+                            className='w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-slate-400 focus:ring-2 focus:ring-slate-100 bg-gray-50 text-base transition placeholder-gray-400 outline-none'
                         />
                         {field.error && <div className='text-red-500 text-xs mt-1 pl-1'>{field.error}</div>}
                     </div>
                 ))}
                 <button
                     type='submit'
-                    className='w-full py-3 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-semibold text-base shadow transition disabled:opacity-60 disabled:cursor-not-allowed'
+                    className='w-full py-3 rounded-lg bg-slate-600 hover:bg-slate-700 text-white font-semibold text-base shadow transition disabled:opacity-60 disabled:cursor-not-allowed'
                     disabled={props.loading}
                 >
                     {props.loading ? `${props.submitLabel} 중...` : props.submitLabel}

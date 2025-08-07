@@ -19,7 +19,7 @@ const PostCard = (props: PostCardProps) => {
                 <div className='flex flex-col md:flex-row md:items-center space-y-1 md:space-y-0 md:space-x-2'>
                     <div className='flex items-center gap-2 text-xs md:text-sm'>
                         <div
-                            className={`w-6 h-6 rounded-full flex items-center justify-center ${props.color ?? 'bg-blue-500'}`}
+                            className={`w-6 h-6 rounded-full flex items-center justify-center ${props.color ?? 'bg-slate-600'}`}
                         >
                             <span className='text-white text-xs font-bold'>{props.topic.charAt(0).toUpperCase()}</span>
                         </div>

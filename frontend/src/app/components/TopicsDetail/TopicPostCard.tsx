@@ -11,7 +11,7 @@ const TopicPostCard = ({ post }: TopicPostCardProps) => {
             <div className='flex items-center justify-between p-2 md:p-3 pb-2'>
                 <div className='flex flex-col md:flex-row md:items-center space-y-1 md:space-y-0 md:space-x-2'>
                     <div className='flex items-center gap-2 text-xs md:text-sm'>
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center bg-blue-500`}>
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center bg-slate-600`}>
                             <span className='text-white text-xs font-bold'>{post.topicLocalId}</span>
                         </div>
                         <span className='font-medium'>{post.author.nickname}</span>

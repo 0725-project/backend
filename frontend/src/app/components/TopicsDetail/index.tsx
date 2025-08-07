@@ -86,7 +86,7 @@ const TopicDetail = (props: TopicDetailProps) => {
                 <div className='text-center text-red-400 py-10'>토픽 정보를 불러오지 못했습니다.</div>
             ) : (
                 <section className='max-w-5xl mx-auto px-2 md:px-4 py-4'>
-                    <h2 className='text-2xl font-bold mb-2 text-blue-600'>{topic.name}</h2>
+                    <h2 className='text-2xl font-bold mb-2 text-slate-700'>{topic.name}</h2>
                     <p className='text-gray-700 mb-2'>{topic.description}</p>
                     <div className='text-sm text-gray-500 flex gap-2'>
                         <span>작성자: {topic.creator.nickname}</span>

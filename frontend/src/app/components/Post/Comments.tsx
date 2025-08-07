@@ -20,7 +20,7 @@ const Comments = ({ post, initialComments }: CommentsProps) => {
                     <li key={index} className='px-5 py-4'>
                         {index > 0 && <hr className='border-gray-200 mb-4' />}
                         <div className='flex items-center gap-3 mb-2'>
-                            <div className='w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-base'>
+                            <div className='w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 font-bold text-base'>
                                 {comment.user.nickname.charAt(0)}
                             </div>
                             <span className='font-semibold text-gray-800 mr-2'>{comment.user.nickname}</span>

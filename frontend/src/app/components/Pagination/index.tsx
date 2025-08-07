@@ -28,14 +28,14 @@ const Pagination = (props: PaginationProps) => {
             <button
                 onClick={() => props.onPageChange?.(1)}
                 disabled={props.page === 1 || props.isLoading}
-                className='px-3 py-1 rounded-md text-sm font-medium bg-white text-blue-600 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
+                className='px-3 py-1 rounded-md text-sm font-medium bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed'
             >
                 <ChevronsLeft className='w-4 h-4 inline' />
             </button>
             <button
                 onClick={() => props.onPageChange(props.page - 1)}
                 disabled={props.page === 1 || props.isLoading}
-                className='px-3 py-1 rounded-md text-sm font-medium bg-white text-blue-600 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
+                className='px-3 py-1 rounded-md text-sm font-medium bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed'
             >
                 <ChevronLeft className='w-4 h-4 inline' />
             </button>
@@ -43,7 +43,7 @@ const Pagination = (props: PaginationProps) => {
                 <button
                     key={p}
                     className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-150 ${
-                        p === props.page ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 hover:bg-blue-50'
+                        p === props.page ? 'bg-slate-700 text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
                     }`}
                     onClick={() => props.onPageChange(p)}
                     disabled={props.isLoading}
@@ -54,14 +54,14 @@ const Pagination = (props: PaginationProps) => {
             <button
                 onClick={() => props.onPageChange(props.page + 1)}
                 disabled={props.page === totalPages || props.isLoading}
-                className='px-3 py-1 rounded-md text-sm font-medium bg-white text-blue-600 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
+                className='px-3 py-1 rounded-md text-sm font-medium bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed'
             >
                 <ChevronRight className='w-4 h-4 inline' />
             </button>
             <button
                 onClick={() => props.onPageChange(totalPages)}
                 disabled={props.page === totalPages || props.isLoading}
-                className='px-3 py-1 rounded-md text-sm font-medium bg-white text-blue-600 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed'
+                className='px-3 py-1 rounded-md text-sm font-medium bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed'
             >
                 <ChevronsRight className='w-4 h-4 inline' />
             </button>

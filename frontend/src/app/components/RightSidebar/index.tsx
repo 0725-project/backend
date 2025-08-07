@@ -7,7 +7,7 @@ const RightSidebar = () => (
                 <h2 className='text-sm font-medium text-gray-500 uppercase tracking-wide'>Recent Posts</h2>
                 <button
                     type='button'
-                    className='text-blue-600 text-sm px-2 py-1 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-200'
+                    className='text-slate-700 text-sm px-2 py-1 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-slate-200'
                 >
                     Clear
                 </button>

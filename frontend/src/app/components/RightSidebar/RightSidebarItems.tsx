@@ -18,7 +18,7 @@ const RightSidebarItem = (props: RightSidebarItemProps) => (
     >
         <div className='flex-1 min-w-0'>
             <div className='flex items-center space-x-1 mb-1'>
-                <span className='w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center'>
+                <span className='w-4 h-4 bg-slate-600 rounded-full flex items-center justify-center'>
                     <span className='text-white text-xs'>r</span>
                 </span>
                 <span className='text-sm font-medium text-gray-900 truncate'>{props.topic}</span>
@@ -26,7 +26,7 @@ const RightSidebarItem = (props: RightSidebarItemProps) => (
                 <span className='text-xs text-gray-500'>{props.createdAt}</span>
             </div>
             <h3
-                className='text-sm text-gray-900 line-clamp-2 group-hover:text-blue-600 focus:text-blue-600'
+                className='text-sm text-gray-900 line-clamp-2 group-hover:text-slate-700 focus:text-slate-700'
                 aria-label={props.title}
             >
                 {props.title}
