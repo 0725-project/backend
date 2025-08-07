@@ -74,8 +74,8 @@ const AllPosts = () => {
                     ) : posts.length === 0 ? (
                         <div className='text-center py-8 text-gray-400'>게시글이 없습니다.</div>
                     ) : (
-                        posts.map((post: PostResponse) => (
-                            <div key={post.id}>
+                        posts.map((post: PostResponse, index) => (
+                            <div key={index}>
                                 <Link href={`/topics/${post.topic?.slug}/${post.topicLocalId}`} className='block'>
                                     <PostCard
                                         topic={post.topic?.name ?? 'No Topic'}

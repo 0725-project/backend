@@ -26,7 +26,8 @@ export default async function Post({ params }: { params: Promise<Params> }) {
                 <PostPage post={post} comments={comments} />
             </PageLayout>
         )
-    } catch {
+    } catch (error) {
+        console.error('Error fetching post:', error)
         return notFound()
     }
 }

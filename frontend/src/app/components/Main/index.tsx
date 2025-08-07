@@ -130,9 +130,9 @@ const MainPage = () => {
                         onMouseLeave={handleMouseLeave}
                     >
                         <div className='flex'>
-                            {posts.map((post) => (
+                            {posts.map((post, index) => (
                                 <Link
-                                    key={post.id}
+                                    key={index}
                                     href={`/topics/${post.topic?.slug}/${post.topicLocalId}`}
                                     className='min-w-[260px] max-w-[260px] h-[260px] flex flex-col px-2'
                                     style={{ flex: '0 0 auto' }}

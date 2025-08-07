@@ -24,8 +24,6 @@ const PostPage = ({ post, comments }: PostProps) => {
         incrementViewCount()
     }, [post.id])
 
-    const router = useRouter()
-
     return (
         <section className='bg-white w-full flex justify-center px-2 md:px-0'>
             <article className='bg-white rounded-2xl max-w-5xl w-full p-3 md:p-10'>
