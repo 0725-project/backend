@@ -2,10 +2,13 @@
 
 import TopicsList from '../components/Topics'
 import { PageLayout } from '../components/PageLayout'
+import { Suspense } from 'react'
 
 const TopicsPage = () => (
     <PageLayout currentItem='topics'>
-        <TopicsList />
+        <Suspense fallback={<div className='flex justify-center items-center h-full'>로딩 중...</div>}>
+            <TopicsList />
+        </Suspense>
     </PageLayout>
 )
 
