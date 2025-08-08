@@ -9,6 +9,7 @@ import Link from 'next/link'
 import Pagination from '../Pagination'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { getClosestAllowedValue } from '@/utils/getClosestAllowedValue'
+import { CreatePostForm } from './CreatePostForm'
 
 interface TopicDetailProps {
     topicSlug: string
@@ -95,6 +96,9 @@ const TopicDetail = (props: TopicDetailProps) => {
                     </div>
                 </section>
             )}
+            <section className='max-w-5xl mx-auto px-2 md:px-4 py-4'>
+                <CreatePostForm onSuccess={() => handlePageChange(1)} topicSlug={props.topicSlug} />
+            </section>
             <section className='max-w-5xl mx-auto px-2 md:px-4 py-4'>
                 <h3 className='text-xl font-bold mb-4 text-gray-800'>게시글 목록</h3>
                 <div className='space-y-2 md:space-y-4 min-h-[300px]'>

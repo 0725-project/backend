@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { getMe, loginUser, logout, refreshToken, registerUser } from '@/api/auth'
+import { clearAccessToken, getAccessToken, setAccessToken, withAuthRetry } from '@/api/token'
 import { UserResponse } from '@/api/users'
 
 interface AuthContextProps {
@@ -10,7 +11,6 @@ interface AuthContextProps {
     login: (username: string, password: string) => Promise<void>
     register: (data: RegisterFormData) => Promise<void>
     logout: () => Promise<void>
-    refresh: () => Promise<void>
 }
 
 export interface RegisterFormData {
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const fetchMe = async () => {
         try {
-            const me = await getMe(localStorage.getItem('accessToken') ?? '')
+            const me = await withAuthRetry(getMe)
             setUser(me)
         } catch {
             setUser(null)
@@ -38,15 +38,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     useEffect(() => {
-        fetchMe()
+        if (getAccessToken()) {
+            fetchMe()
+        } else {
+            setLoading(false)
+            setUser(null)
+        }
     }, [])
 
     const login = async (username: string, password: string) => {
         setLoading(true)
         try {
             const result = await loginUser(username, password)
-            localStorage.setItem('accessToken', result.accessToken)
-
+            setAccessToken(result.accessToken)
             await fetchMe()
         } finally {
             setLoading(false)
@@ -62,21 +66,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     }
 
-    const refresh = async () => {
-        setLoading(true)
-        try {
-            await refreshToken()
-            await fetchMe()
-        } finally {
-            setLoading(false)
-        }
-    }
-
     const handleLogout = async () => {
         setLoading(true)
         try {
             setUser(null)
-            localStorage.removeItem('accessToken')
+            clearAccessToken()
             await logout()
         } finally {
             setLoading(false)
@@ -84,7 +78,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout: handleLogout, refresh }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout: handleLogout }}>
             {children}
         </AuthContext.Provider>
     )

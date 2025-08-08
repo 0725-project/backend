@@ -1,4 +1,5 @@
 import { client } from './client'
+import { withAuthRetry } from './token'
 import { TopicBriefResponse } from './topics'
 import { PaginationResponse } from './types'
 import { UserBriefResponse } from './users'
@@ -28,12 +29,22 @@ export interface PostBriefResponse extends Omit<PostResponse, 'content'> {}
 const POSTS_API_PREFIX = 'posts'
 
 export const createPost = async (title: string, content: string, topicSlug: string) => {
-    const response = await client.post<CreatePostResponse>(`/${POSTS_API_PREFIX}`, {
-        title,
-        content,
-        topicSlug,
+    return withAuthRetry(async (accessToken) => {
+        const response = await client.post<CreatePostResponse>(
+            `/${POSTS_API_PREFIX}`,
+            {
+                title,
+                content,
+                topicSlug,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            },
+        )
+        return response.data
     })
-    return response.data
 }
 
 export interface GetPostsRequest {
