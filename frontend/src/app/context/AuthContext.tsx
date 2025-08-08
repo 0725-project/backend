@@ -75,9 +75,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const handleLogout = async () => {
         setLoading(true)
         try {
-            await logout()
             setUser(null)
             localStorage.removeItem('accessToken')
+            await logout()
         } finally {
             setLoading(false)
         }
