@@ -1,10 +1,19 @@
 import { client } from './client'
 
+export enum UserRole {
+    ADMIN = 0,
+    USER = 1,
+}
+
 export interface UserResponse {
     id: number
     username: string
     nickname: string
     email: string
+    role: UserRole
+    points: number
+    postCount: number
+    commentCount: number
     createdAt: string
 }
 

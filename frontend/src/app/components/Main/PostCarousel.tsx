@@ -129,7 +129,7 @@ export const PostCarousel = ({ query }: PostCarouselProps) => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                <div className='flex'>
+                <div className='flex p-1'>
                     {posts.map((post, index) => (
                         <Link
                             key={index}

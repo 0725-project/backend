@@ -2,14 +2,14 @@
 
 import { useState } from 'react'
 import { PostCarousel } from './PostCarousel'
-import { CalendarArrowUp, ChartNoAxesColumn, ChartNoAxesCombined } from 'lucide-react'
+import { CalendarArrowUp, ChartNoAxesCombined } from 'lucide-react'
 
 const MainPage = () => {
     const [search, setSearch] = useState('')
 
     return (
-        <section className='w-full flex flex-col items-center mt-20 p-5'>
-            <div className='w-full max-w-4xl flex flex-col items-center mb-20'>
+        <section className='w-full flex flex-col items-center mt-20 mb-10 p-5'>
+            <div className='w-full max-w-4xl flex flex-col items-center'>
                 <input
                     type='text'
                     value={search}
@@ -19,12 +19,8 @@ const MainPage = () => {
                 />
             </div>
 
-            <div className='relative w-full max-w-6xl my-10'>
-                <div className='flex items-center mb-10 ml-10'>
-                    <CalendarArrowUp className='w-8 h-8 text-gray-500' />
-                    <h2 className='ml-3 text-2xl font-bold'>최신 게시글</h2>
-                </div>
-                <PostCarousel query={{ page: 1, limit: 10 }} />
+            <div className='w-full flex flex-col items-center my-10'>
+                <UserCard />
             </div>
 
             <div className='relative w-full max-w-6xl my-10'>
@@ -34,8 +30,17 @@ const MainPage = () => {
                 </div>
                 <PostCarousel query={{ page: 1, limit: 10, sortBy: 'likeCount' }} />
             </div>
+
+            <div className='relative w-full max-w-6xl my-10'>
+                <div className='flex items-center mb-10 ml-10'>
+                    <CalendarArrowUp className='w-8 h-8 text-gray-500' />
+                    <h2 className='ml-3 text-2xl font-bold'>최신 게시글</h2>
+                </div>
+                <PostCarousel query={{ page: 1, limit: 10 }} />
+            </div>
         </section>
     )
 }
 
+import UserCard from './UserCard'
 export { MainPage }
