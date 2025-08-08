@@ -6,7 +6,8 @@ interface CommentItemProps {
     comment: CommentWithDetailsResponse
 }
 
-const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
+const CommentItem = (props: CommentItemProps) => {
+    const { comment } = props
     return (
         <div className='flex flex-col p-3 border-b border-gray-100 hover:bg-gray-50 transition'>
             <div className='flex items-center gap-2 mb-1'>
@@ -14,7 +15,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                 <span className='text-xs text-gray-400'>{formatDate(comment.createdAt)}</span>
             </div>
             <div className='text-sm text-gray-700 truncate'>{comment.content}</div>
-            <div className='text-xs text-blue-500 mt-1'>{comment.post?.title ?? '게시글'}</div>
+            <div className='text-xs text-gray-500 mt-3'>{comment.post?.title ?? '게시글'}</div>
         </div>
     )
 }
