@@ -58,6 +58,17 @@ export class UserDescriptionDto {
     description?: string
 }
 
+export class ProfileImageDto {
+    @ApiProperty({
+        description: 'The path to the user\'s profile image.',
+        example: 'uploads/profile/1/profile.png',
+    })
+    @IsString()
+    @IsOptional()
+    @Matches(/^uploads\/profile\/\d+\/profile\.(jpg|jpeg|png|gif)$/)
+    profileImage?: string
+}
+
 export class RoleDto {
     @ApiProperty({
         description: 'The role of the user. 0 for admin, 1 for user.',

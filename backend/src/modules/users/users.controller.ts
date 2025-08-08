@@ -1,29 +1,37 @@
-import { Controller, Get, Param } from '@nestjs/common'
+import { Body, Controller, Get, Param, Put, Req, Request, UseGuards } from '@nestjs/common'
 import { UsersService } from './users.service'
-import { ApiOperation, ApiResponse, ApiTags, ApiNotFoundResponse, ApiBadRequestResponse } from '@nestjs/swagger'
+import { ApiOperation, ApiResponse, ApiTags, ApiNotFoundResponse, ApiBearerAuth, ApiForbiddenResponse } from '@nestjs/swagger'
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard'
 
-import { IdDto } from 'src/common/dto'
 import { UsernameDto, UserResponseDto } from './dto'
+import { UserUpdateRequestDto } from './dto/request.dto'
+import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
     constructor(private usersService: UsersService) {}
 
-    @Get('/id/:id')
-    @ApiOperation({ summary: 'Get a single user by id' })
-    @ApiResponse({ status: 200, description: 'Return a single user.', type: UserResponseDto })
-    @ApiNotFoundResponse({ description: 'User not found.' })
-    @ApiBadRequestResponse({ description: 'Invalid ID.' })
-    findOne(@Param() { id }: IdDto): Promise<UserResponseDto> {
-        return this.usersService.findById(id)
-    }
-
-    @Get('/username/:username')
+    @Get(':username')
     @ApiOperation({ summary: 'Get a user by username' })
     @ApiResponse({ status: 200, description: 'Return a user by username.', type: UserResponseDto })
     @ApiNotFoundResponse({ description: 'User not found.' })
     findByUsername(@Param() { username }: UsernameDto): Promise<UserResponseDto> {
         return this.usersService.findByUsername(username)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @Put(':username')
+    @ApiOperation({ summary: 'Update a user by username' })
+    @ApiResponse({ status: 200, description: 'Return the updated user.', type: UserResponseDto })
+    @ApiNotFoundResponse({ description: 'User not found.' })
+    @ApiForbiddenResponse({ description: 'You are not allowed to update this user.' })
+    update(
+        @Param() { username }: UsernameDto,
+        @Body() updateUserDto: UserUpdateRequestDto,
+        @Request() req: AuthenticatedRequest,
+    ): Promise<UserResponseDto> {
+        return this.usersService.update(username, updateUserDto, req.user.userId)
     }
 }

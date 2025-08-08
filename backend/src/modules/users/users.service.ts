@@ -1,10 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from './users.entity'
 import { Repository } from 'typeorm'
 import * as bcrypt from 'bcrypt'
 
 import { RegisterDto } from 'src/modules/auth/dto'
+import { UserUpdateRequestDto } from './dto/request.dto'
 
 @Injectable()
 export class UsersService {
@@ -45,5 +46,16 @@ export class UsersService {
         }
 
         return user
+    }
+
+    async update(username: string, updateUserDto: UserUpdateRequestDto, userId: number) {
+        const user = await this.findByUsername(username)
+        if (user.id !== userId) {
+            throw new ForbiddenException('You are not allowed to update this user')
+        }
+
+        Object.assign(user, updateUserDto)
+
+        return await this.userRepo.save(user)
     }
 }
