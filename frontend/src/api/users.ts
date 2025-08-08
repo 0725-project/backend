@@ -10,6 +10,7 @@ export interface UserResponse {
     username: string
     nickname: string
     email: string
+    description?: string
     role: UserRole
     points: number
     postCount: number

@@ -22,15 +22,26 @@ const UserCard = () => {
                                     <div className='w-18 h-18 rounded-full bg-slate-200 flex items-center justify-center text-lg font-bold text-slate-500 shrink-0'>
                                         {user.nickname?.charAt(0).toUpperCase() || '?'}
                                     </div>
-                                    <div className='ml-6 text-2xl font-semibold flex flex-wrap items-center'>
-                                        {user.nickname ? (
-                                            <>
-                                                {user.nickname}
-                                                <span className='text-lg text-gray-500 ml-2'>(@{user.username})</span>
-                                            </>
-                                        ) : (
-                                            <span className='text-gray-500'>@{user.username}</span>
-                                        )}
+                                    <div className='ml-6 flex flex-col'>
+                                        <div className='text-2xl font-semibold flex flex-wrap items-center'>
+                                            {user.nickname ? (
+                                                <>
+                                                    {user.nickname}
+                                                    <span className='text-lg text-gray-500 ml-2'>
+                                                        (@{user.username})
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <span className='text-gray-500'>@{user.username}</span>
+                                            )}
+                                        </div>
+                                        <div className='mt-2 leading-snug'>
+                                            {user.description ? (
+                                                <span className='text-gray-600'>{user.description}</span>
+                                            ) : (
+                                                <span className='text-gray-400'>자기소개가 없습니다.</span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
 
