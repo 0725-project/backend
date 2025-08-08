@@ -11,6 +11,7 @@ export interface UserResponse {
     nickname: string
     email: string
     description?: string
+    profileImage?: string
     role: UserRole
     points: number
     postCount: number
@@ -22,16 +23,20 @@ export interface UserBriefResponse {
     id: number
     username: string
     nickname: string
+    description?: string
+    profileImage?: string
 }
 
 const USERS_API_PREFIX = 'users'
 
-export const getUserById = async (id: number) => {
-    const response = await client.get<UserResponse>(`/${USERS_API_PREFIX}/id/${id}`)
+export const getUserByUsername = async (username: string) => {
+    const response = await client.get<UserResponse>(`/${USERS_API_PREFIX}/${username}`)
     return response.data
 }
 
-export const getUserByUsername = async (username: string) => {
-    const response = await client.get<UserResponse>(`/${USERS_API_PREFIX}/username/${username}`)
+export type UserUpdateRequest = Partial<Pick<UserResponse, 'nickname' | 'description' | 'profileImage'>>
+
+export const updateUser = async (username: string, data: UserUpdateRequest) => {
+    const response = await client.put<UserResponse>(`/${USERS_API_PREFIX}/${username}`, data)
     return response.data
 }
