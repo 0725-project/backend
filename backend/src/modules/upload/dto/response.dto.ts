@@ -15,4 +15,9 @@ export class PresignedUrlResponseDto {
         example: 'uploads/UUID/example.jpg',
     })
     key: string
+
+    @ApiProperty({
+        description: 'The fields required for the presigned POST request.',
+    })
+    fields: Record<string, string>
 }

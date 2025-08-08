@@ -30,6 +30,9 @@ export class User {
     @Column({ type: 'varchar', length: 255, nullable: true })
     description?: string
 
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    profileImage?: string
+
     @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
     role: UserRole
 
