@@ -3,13 +3,17 @@
 import { useState } from 'react'
 import { PostCarousel } from './PostCarousel'
 import { CalendarArrowUp, ChartNoAxesCombined } from 'lucide-react'
+import UserCard from './UserCard'
+
+type Tab = 'popular' | 'latest'
 
 const MainPage = () => {
     const [search, setSearch] = useState('')
+    const [tab, setTab] = useState<Tab>('popular')
 
     return (
         <section className='w-full flex flex-col items-center mt-20 mb-10 p-5'>
-            <div className='w-full max-w-4xl flex flex-col items-center'>
+            <div className='w-full max-w-4xl flex flex-col items-center mb-10'>
                 <input
                     type='text'
                     value={search}
@@ -19,28 +23,36 @@ const MainPage = () => {
                 />
             </div>
 
-            <div className='w-full flex flex-col items-center my-10'>
+            <div className='w-full flex flex-col items-center mb-10'>
                 <UserCard />
             </div>
 
-            <div className='relative w-full max-w-6xl my-10'>
-                <div className='flex items-center mb-10 ml-10'>
-                    <ChartNoAxesCombined className='w-8 h-8 text-gray-500' />
-                    <h2 className='ml-3 text-2xl font-bold'>인기 게시글</h2>
-                </div>
-                <PostCarousel query={{ page: 1, limit: 10, sortBy: 'likeCount' }} />
-            </div>
+            <div className='relative w-full max-w-6xl mb-10'>
+                <div className='flex items-center mb-10 ml-10 gap-3'>
+                    {tab === 'popular' ? (
+                        <ChartNoAxesCombined className='w-8 h-8 text-gray-500' />
+                    ) : (
+                        <CalendarArrowUp className='w-8 h-8 text-gray-500' />
+                    )}
 
-            <div className='relative w-full max-w-6xl my-10'>
-                <div className='flex items-center mb-10 ml-10'>
-                    <CalendarArrowUp className='w-8 h-8 text-gray-500' />
-                    <h2 className='ml-3 text-2xl font-bold'>최신 게시글</h2>
+                    <select
+                        value={tab}
+                        onChange={(e) => setTab(e.target.value as Tab)}
+                        className='bg-transparent font-bold text-2xl focus:outline-none cursor-pointer'
+                    >
+                        <option value='popular'>인기 게시글</option>
+                        <option value='latest'>최신 게시글</option>
+                    </select>
                 </div>
-                <PostCarousel query={{ page: 1, limit: 10 }} />
+
+                {tab === 'popular' ? (
+                    <PostCarousel query={{ page: 1, limit: 10, sortBy: 'likeCount' }} />
+                ) : (
+                    <PostCarousel query={{ page: 1, limit: 10 }} />
+                )}
             </div>
         </section>
     )
 }
 
-import UserCard from './UserCard'
 export { MainPage }
