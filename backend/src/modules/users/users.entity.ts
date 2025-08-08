@@ -27,6 +27,9 @@ export class User {
     @Column({ type: 'varchar', length: 320, unique: true })
     email: string
 
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    description?: string
+
     @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
     role: UserRole
 

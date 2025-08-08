@@ -47,6 +47,17 @@ export class EmailDto {
     email: string
 }
 
+export class UserDescriptionDto {
+    @ApiProperty({
+        description: 'A brief description of the user.',
+        example: 'Hello, I am a software developer.',
+    })
+    @IsString()
+    @IsOptional()
+    @MaxLength(255)
+    description?: string
+}
+
 export class RoleDto {
     @ApiProperty({
         description: 'The role of the user. 0 for admin, 1 for user.',
