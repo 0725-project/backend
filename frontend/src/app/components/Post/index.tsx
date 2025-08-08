@@ -1,7 +1,6 @@
 'use client'
 
 import { incrementPostViewCount, PostResponse } from '@/api/posts'
-import { PostCommentsResponse } from '@/api/comments'
 import { formatDate } from '@/utils/dateFormatter'
 import { useEffect } from 'react'
 import Comments from './Comments'
@@ -9,10 +8,9 @@ import Link from 'next/link'
 
 interface PostProps {
     post: PostResponse
-    comments: PostCommentsResponse
 }
 
-const PostPage = ({ post, comments }: PostProps) => {
+const PostPage = ({ post }: PostProps) => {
     useEffect(() => {
         const incrementViewCount = async () => {
             try {
@@ -61,7 +59,7 @@ const PostPage = ({ post, comments }: PostProps) => {
                 <div className='prose max-w-none text-gray-900 min-h-[200px]'>
                     <p>{post.content}</p>
                 </div>
-                <Comments post={post} initialComments={comments} />
+                <Comments post={post} />
             </article>
         </section>
     )
