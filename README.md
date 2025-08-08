@@ -44,7 +44,10 @@
 │   ├── 1754386946982-Init.ts
 │   ├── 1754387093530-Init.ts
 │   ├── 1754401128588-Init.ts
-│   └── 1754545150879-Init.ts
+│   ├── 1754545150879-Init.ts
+│   ├── 1754631773474-Init.ts
+│   ├── 1754633357220-Init.ts
+│   └── 1754656698333-Init.ts
 └── modules
     ├── auth
     │   ├── auth.controller.ts
@@ -114,6 +117,7 @@
         ├── dto
         │   ├── base.dto.ts
         │   ├── index.ts
+        │   ├── request.dto.ts
         │   └── response.dto.ts
         ├── users.controller.ts
         ├── users.entity.ts
@@ -126,6 +130,7 @@
 │   ├── comments.ts
 │   ├── likes.ts
 │   ├── posts.ts
+│   ├── token.ts
 │   ├── topics.ts
 │   ├── types.ts
 │   └── users.ts
@@ -147,7 +152,8 @@
 │   │   ├── Main
 │   │   │   ├── index.tsx
 │   │   │   ├── PostCard.tsx
-│   │   │   └── PostCarousel.tsx
+│   │   │   ├── PostCarousel.tsx
+│   │   │   └── UserCard.tsx
 │   │   ├── PageLayout.tsx
 │   │   ├── Pagination
 │   │   │   └── index.tsx
@@ -160,6 +166,7 @@
 │   │   ├── Topics
 │   │   │   └── index.tsx
 │   │   ├── TopicsDetail
+│   │   │   ├── CreatePostForm.tsx
 │   │   │   ├── index.tsx
 │   │   │   └── TopicPostCard.tsx
 │   │   └── UserMenu.tsx
@@ -189,6 +196,4 @@
     ├── dateFormatter.ts
     ├── getAnchorHref.ts
     └── getClosestAllowedValue.ts
-
-49 directories, 126 files
 ```
