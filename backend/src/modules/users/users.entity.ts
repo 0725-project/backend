@@ -4,6 +4,11 @@ import { Post } from 'src/modules/posts/posts.entity'
 import { Topic } from 'src/modules/topics/topics.entity'
 import { Comment } from 'src/modules/comments/comments.entity'
 
+export enum UserRole {
+    ADMIN = 0,
+    USER = 1,
+}
+
 @Entity('users')
 export class User {
     @PrimaryGeneratedColumn()
@@ -21,6 +26,18 @@ export class User {
 
     @Column({ type: 'varchar', length: 320, unique: true })
     email: string
+
+    @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+    role: UserRole
+
+    @Column({ type: 'int', default: 0 })
+    points: number
+
+    @Column({ type: 'int', default: 0 })
+    postCount: number
+
+    @Column({ type: 'int', default: 0 })
+    commentCount: number
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date

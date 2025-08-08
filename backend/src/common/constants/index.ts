@@ -3,6 +3,10 @@ export const JWT_EXPIRES_IN_SECONDS = 60 * 60 * 24
 export const REFRESH_TOKEN_EXPIRES_IN = '7d'
 export const REFRESH_TOKEN_EXPIRES_IN_SECONDS = 60 * 60 * 24 * 7
 
+export const USER_POINT_PER_POST = 10
+export const USER_POINT_PER_POST_LIKE = 5
+export const USER_POINT_PER_COMMENT = 2
+
 export const selectUserBriefColumns = (userColumn: string) => [
     `${userColumn}.id`,
     `${userColumn}.username`,

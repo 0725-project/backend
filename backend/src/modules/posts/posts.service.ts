@@ -5,10 +5,9 @@ import { Topic } from 'src/modules/topics/topics.entity'
 import { User } from '../users/users.entity'
 import { Repository } from 'typeorm'
 import { RedisService } from 'src/common/redis/redis.service'
-import { selectUserBriefColumns, selectTopicBriefColumns } from 'src/common/constants'
+import { selectUserBriefColumns, selectTopicBriefColumns, USER_POINT_PER_POST } from 'src/common/constants'
 
 import { CreatePostDto, GetPostsQueryDto, UpdatePostDto } from './dto'
-import { PaginationDto } from 'src/common/dto'
 
 @Injectable()
 export class PostsService {
@@ -37,6 +36,9 @@ export class PostsService {
         })
 
         await this.topicRepo.increment({ id: topic.id }, 'postCount', 1)
+
+        await this.userRepo.increment({ id: userId }, 'postCount', 1)
+        await this.userRepo.increment({ id: userId }, 'points', USER_POINT_PER_POST)
 
         const { id, title, content, createdAt, topicLocalId, viewCount, commentCount, likeCount } =
             await this.postRepo.save(post)
@@ -150,7 +152,11 @@ export class PostsService {
         }
 
         await this.postRepo.remove(post)
+
         await this.topicRepo.decrement({ id: post.topic.id }, 'postCount', 1)
+
+        await this.userRepo.decrement({ id: userId }, 'postCount', 1)
+        await this.userRepo.decrement({ id: userId }, 'points', USER_POINT_PER_POST)
     }
 
     async incrementViewCount(postId: number, ip: string) {

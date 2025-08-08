@@ -4,7 +4,7 @@ import { Repository } from 'typeorm'
 import { Like } from './likes.entity'
 import { Post } from '../posts/posts.entity'
 import { User } from '../users/users.entity'
-import { selectUserBriefColumns } from 'src/common/constants'
+import { selectUserBriefColumns, USER_POINT_PER_POST_LIKE } from 'src/common/constants'
 
 import { PaginationDto } from 'src/common/dto'
 
@@ -31,6 +31,7 @@ export class LikesService {
         await this.likeRepo.save(like)
 
         await this.postRepo.increment({ id: postId }, 'likeCount', 1)
+        await this.userRepo.increment({ id: post.author.id }, 'points', USER_POINT_PER_POST_LIKE)
     }
 
     async unlikePost(postId: number, userId: number) {
@@ -40,7 +41,9 @@ export class LikesService {
         }
 
         await this.likeRepo.remove(like)
+
         await this.postRepo.decrement({ id: postId }, 'likeCount', 1)
+        await this.userRepo.decrement({ id: like.user.id }, 'points', USER_POINT_PER_POST_LIKE)
     }
 
     async getLikesForPost(postId: number, pdto: PaginationDto) {

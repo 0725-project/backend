@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsNotEmpty, MaxLength, Matches, IsOptional } from 'class-validator'
+import { IsString, IsNotEmpty, MaxLength, Matches, IsOptional, IsInt } from 'class-validator'
 
 export class UsernameDto {
     @ApiProperty({
@@ -45,4 +45,44 @@ export class EmailDto {
     @MaxLength(320)
     @Matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
     email: string
+}
+
+export class RoleDto {
+    @ApiProperty({
+        description: 'The role of the user. 0 for admin, 1 for user.',
+        example: 1,
+    })
+    @IsInt()
+    @IsNotEmpty()
+    role: number
+}
+
+export class PointsDto {
+    @ApiProperty({
+        description: 'The points of the user.',
+        example: 100,
+    })
+    @IsInt()
+    @IsNotEmpty()
+    points: number
+}
+
+export class PostCountDto {
+    @ApiProperty({
+        description: 'The number of posts created by the user.',
+        example: 10,
+    })
+    @IsInt()
+    @IsNotEmpty()
+    postCount: number
+}
+
+export class CommentCountDto {
+    @ApiProperty({
+        description: 'The number of comments made by the user.',
+        example: 5,
+    })
+    @IsInt()
+    @IsNotEmpty()
+    commentCount: number
 }

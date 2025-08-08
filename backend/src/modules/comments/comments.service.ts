@@ -1,9 +1,15 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+import {
+    selectPostBriefColumns,
+    selectTopicBriefColumns,
+    selectUserBriefColumns,
+    USER_POINT_PER_COMMENT,
+} from 'src/common/constants'
 import { Comment } from './comments.entity'
 import { Post } from '../posts/posts.entity'
-import { selectPostBriefColumns, selectTopicBriefColumns, selectUserBriefColumns } from 'src/common/constants'
+import { User } from '../users/users.entity'
 
 import { PaginationDto } from 'src/common/dto'
 import { CreateCommentDto, UpdateCommentDto } from './dto'
@@ -15,6 +21,8 @@ export class CommentsService {
         private readonly commentRepo: Repository<Comment>,
         @InjectRepository(Post)
         private readonly postRepo: Repository<Post>,
+        @InjectRepository(User)
+        private readonly userRepo: Repository<User>,
     ) {}
 
     async create(postId: number, createCommentDto: CreateCommentDto, userId: number) {
@@ -25,7 +33,11 @@ export class CommentsService {
         })
 
         const { id, content, createdAt } = await this.commentRepo.save(comment)
+
         await this.postRepo.increment({ id: postId }, 'commentCount', 1)
+
+        await this.userRepo.increment({ id: userId }, 'commentCount', 1)
+        await this.userRepo.increment({ id: userId }, 'points', USER_POINT_PER_COMMENT)
 
         return { id, content, createdAt }
     }
@@ -81,7 +93,11 @@ export class CommentsService {
         }
 
         await this.commentRepo.remove(comment)
+
         await this.postRepo.decrement({ id: comment.post.id }, 'commentCount', 1)
+
+        await this.userRepo.decrement({ id: userId }, 'commentCount', 1)
+        await this.userRepo.decrement({ id: userId }, 'points', USER_POINT_PER_COMMENT)
     }
 
     async getAllComments(pdto: PaginationDto) {
