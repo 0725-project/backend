@@ -91,7 +91,7 @@ const TopicDetail = (props: TopicDetailProps) => {
                     <div className='text-center text-red-400 py-10'>토픽 정보를 불러오지 못했습니다.</div>
                 ) : (
                     <>
-                        <div className='bg-white rounded-2xl border border-gray-200 shadow-sm px-6 py-6'>
+                        <div className='bg-white rounded-xl border border-gray-200 shadow-sm px-6 py-6'>
                             <div className='flex flex-col md:flex-row md:items-center mb-6'>
                                 <div className='w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center text-lg font-bold text-slate-500 shrink-0'>
                                     {topic.name.charAt(0).toUpperCase()}
@@ -125,7 +125,7 @@ const TopicDetail = (props: TopicDetailProps) => {
                         <div className='flex justify-end m-4'>
                             <button
                                 onClick={handleWriteButtonClick}
-                                className='px-5 py-2 rounded-xl bg-slate-700 text-white font-semibold shadow hover:bg-slate-800 transition'
+                                className='px-5 py-2 rounded-lg bg-slate-700 text-white font-semibold shadow hover:bg-slate-800 transition'
                             >
                                 글 쓰기
                             </button>

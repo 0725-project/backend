@@ -3,24 +3,27 @@
 import { useState } from 'react'
 import { PostCarousel } from './PostCarousel'
 import { CalendarArrowUp, ChartNoAxesCombined } from 'lucide-react'
+import { SearchBar, SearchValues } from './Search'
 
 type Tab = 'popular' | 'latest'
 
 const MainPage = () => {
-    const [search, setSearch] = useState('')
     const [tab, setTab] = useState<Tab>('popular')
 
+    const handleSearch = (values: SearchValues) => {
+        const { query, author, topic } = values
+        const searchParams = new URLSearchParams()
+
+        if (query) searchParams.set('query', query)
+        if (author) searchParams.set('author', author)
+        if (topic) searchParams.set('topic', topic)
+
+        window.location.href = `/search?${searchParams.toString()}`
+    }
+
     return (
-        <section className='w-full flex flex-col items-center mt-20 mb-10 p-5'>
-            <div className='w-full max-w-4xl flex flex-col items-center mb-30'>
-                <input
-                    type='text'
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder='/? 를 입력하여 자세히 알아보기'
-                    className='w-full h-20 px-6 py-4 rounded-2xl border border-gray-300 shadow focus:outline-none hover:scale-101 transition-transform duration-200'
-                />
-            </div>
+        <section className='w-full flex flex-col items-center mt-10 mb-10 p-5'>
+            <SearchBar onSearch={handleSearch} />
 
             <div className='relative w-full max-w-6xl mb-10'>
                 <div className='flex items-center mb-10 ml-10 gap-3'>

@@ -18,8 +18,9 @@ export function Header(props: HeaderProps) {
     const { user, logout, loading } = useAuth()
     const [modal, setModal] = useState<'login' | 'register' | null>(null)
     const [search, setSearch] = useState(props.searchQuery ?? '')
+
     const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && search.trim()) {
+        if (e.key === 'Enter' && search.trim().length > 0) {
             window.location.href = `/search?query=${encodeURIComponent(search.trim())}`
         }
     }
