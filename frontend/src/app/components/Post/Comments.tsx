@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getPostComments, PostCommentsResponse } from '@/api/comments'
 import { PostResponse } from '@/api/posts'
@@ -15,11 +15,13 @@ interface CommentsProps {
 
 const Comments = ({ post }: CommentsProps) => {
     const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(10)
+    const [limit, setLimit] = useState(5)
+    const [showForm, setShowForm] = useState(false)
+    const [refreshKey, setRefreshKey] = useState(0)
 
     const { data, isLoading, isError } = useQuery<PostCommentsResponse, Error>({
-        queryKey: ['postComments', post.id, page, limit],
-        queryFn: () => getPostComments(post.id, page, limit),
+        queryKey: ['postComments', post.id, page, limit, refreshKey],
+        queryFn: () => getPostComments(post.id, { page, limit, order: 'asc' }),
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
@@ -37,6 +39,12 @@ const Comments = ({ post }: CommentsProps) => {
 
     const handlePageChange = (newPage: number) => {
         setPage(newPage)
+    }
+
+    const handleCommentSuccess = () => {
+        setShowForm(false)
+        setPage(totalPages > 0 ? totalPages : 1)
+        setRefreshKey((prev) => prev + 1)
     }
 
     useEffect(() => {
@@ -81,6 +89,19 @@ const Comments = ({ post }: CommentsProps) => {
                             </li>
                         ))
                     )}
+                    <div className='mb-4 flex justify-end'>
+                        <button
+                            className='bg-slate-600 text-white px-4 py-2 rounded font-semibold hover:bg-slate-700 transition'
+                            onClick={() => setShowForm((prev) => !prev)}
+                        >
+                            {showForm ? '댓글 작성 취소' : '댓글 작성'}
+                        </button>
+                    </div>
+                    {showForm && (
+                        <React.Suspense fallback={<div>폼 로딩 중...</div>}>
+                            <CreateCommentForm postId={post.id} onSuccess={handleCommentSuccess} />
+                        </React.Suspense>
+                    )}
                 </ul>
                 {totalPages > 1 && (
                     <Pagination
@@ -99,4 +120,5 @@ const Comments = ({ post }: CommentsProps) => {
     )
 }
 
+import CreateCommentForm from './CreateCommentForm'
 export default Comments

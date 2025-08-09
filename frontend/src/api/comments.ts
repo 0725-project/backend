@@ -51,9 +51,15 @@ export const createComment = async (postId: number, content: string) => {
     })
 }
 
-export const getPostComments = async (postId: number, page?: number, limit: number = 10) => {
+export interface GetPostCommentsDto {
+    page?: number
+    limit?: number
+    order?: 'asc' | 'desc'
+}
+
+export const getPostComments = async (postId: number, dto: GetPostCommentsDto) => {
     const response = await client.get<PostCommentsResponse>(`/posts/${postId}/comments`, {
-        params: { page, limit },
+        params: { ...dto },
     })
     return response.data
 }

@@ -36,7 +36,12 @@ const CreatePostForm = (props: CreatePostFormProps) => {
 
     return (
         <form onSubmit={handleSubmit} className='flex flex-col gap-2'>
-            <input type='text' value={`Topic/${props.topicSlug}`} disabled className='border p-2 rounded text-gray-500' />
+            <input
+                type='text'
+                value={`Topic/${props.topicSlug}`}
+                disabled
+                className='border p-2 rounded text-gray-500'
+            />
             <input
                 type='text'
                 placeholder='제목'
