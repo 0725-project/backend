@@ -36,12 +36,12 @@ export class GetPostsQueryDto extends IntersectionType(PaginationDto) {
     @ApiProperty({
         description: 'Sort by field.',
         required: false,
-        enum: ['createdAt', 'viewCount', 'likeCount'],
-        default: 'createdAt',
+        enum: ['postId', 'viewCount', 'likeCount'],
+        default: 'postId',
     })
     @IsOptional()
-    @IsIn(['createdAt', 'viewCount', 'likeCount'])
-    sortBy?: 'createdAt' | 'viewCount' | 'likeCount' = 'createdAt'
+    @IsIn(['postId', 'viewCount', 'likeCount'])
+    sortBy?: 'postId' | 'viewCount' | 'likeCount' = 'postId'
 
     @ApiProperty({
         description: 'Order of the results.',

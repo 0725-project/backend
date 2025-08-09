@@ -61,7 +61,7 @@ export class PostsService {
             .leftJoinAndSelect('post.topic', 'topic')
             .select(['post', ...selectUserBriefColumns('author'), ...selectTopicBriefColumns('topic')])
 
-        const sortBy = (dto.sortBy ?? 'createdAt') === 'createdAt' ? 'id' : dto.sortBy
+        const sortBy = (dto.sortBy ?? 'postId') === 'postId' ? 'id' : dto.sortBy
         const order = (dto.order ?? 'DESC').toUpperCase() as 'ASC' | 'DESC'
         query.orderBy(`post.${sortBy}`, order)
 
