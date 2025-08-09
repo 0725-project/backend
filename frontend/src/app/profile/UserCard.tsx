@@ -46,7 +46,7 @@ const UserCard = () => {
     }
 
     return (
-        <div className='relative w-full max-w-4xl mx-auto my-10'>
+        <div className='relative w-full max-w-5xl mx-auto my-10'>
             <div className='bg-white rounded-2xl border border-gray-200 flex items-center justify-center min-h-[180px] px-6 py-4'>
                 {loading ? (
                     <div className='text-gray-400'>로딩중...</div>

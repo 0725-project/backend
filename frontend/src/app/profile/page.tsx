@@ -49,11 +49,9 @@ const ProfilePage = () => {
     return (
         <PageLayout currentItem='profile'>
             <section className='w-full flex flex-col items-center p-5'>
-                <div className='w-full max-w-4xl flex flex-col items-center mb-10'>
-                    <UserCard />
-                </div>
+                <UserCard />
                 {user ? (
-                    <div className='w-full max-w-5xl flex flex-col items-center'>
+                    <div className='w-full max-w-5xl flex flex-col mt-10'>
                         <h2 className='text-2xl font-bold mb-6'>작성 글</h2>
                         <div className='space-y-2 md:space-y-4 min-h-[300px] w-full'>
                             {isLoading ? (
