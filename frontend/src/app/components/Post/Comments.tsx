@@ -61,7 +61,7 @@ const Comments = ({ post }: CommentsProps) => {
 
     return (
         <div>
-            <div className='pt-20' id='comments'>
+            <div id='comments'>
                 <h2 className='text-xl font-bold mb-6 text-gray-800 border-b pb-3 flex items-center gap-2'>
                     <MessageCircleMore className='w-5 h-5 text-gray-500' />
                     <span className='text-gray-700'>댓글 ({total})</span>
@@ -94,7 +94,7 @@ const Comments = ({ post }: CommentsProps) => {
                     )}
                     <div className='mb-4 flex justify-end'>
                         <button
-                            className='bg-slate-600 text-white px-4 py-2 rounded font-semibold hover:bg-slate-700 transition'
+                            className='bg-slate-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-slate-700 transition'
                             onClick={() => {
                                 setShowForm((prev) => !prev)
                                 if (!showForm) {

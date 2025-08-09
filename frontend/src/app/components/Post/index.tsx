@@ -1,6 +1,7 @@
 'use client'
 
 import { incrementPostViewCount, PostResponse } from '@/api/posts'
+import LikeButton from './LikeButton'
 import { formatDate } from '@/utils/dateFormatter'
 import { useEffect } from 'react'
 import Comments from './Comments'
@@ -62,8 +63,10 @@ const PostPage = ({ post }: PostProps) => {
                     </div>
                 </header>
                 <div className='prose max-w-none text-gray-900 min-h-[200px]'>
-                    {/* <p>{post.content}</p> */}
                     <Markdown content={post.content} />
+                </div>
+                <div className='w-full flex justify-center my-6'>
+                    <LikeButton postId={post.id} likes={post.likeCount} />
                 </div>
                 <Comments post={post} />
             </article>
