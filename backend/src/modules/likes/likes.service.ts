@@ -17,7 +17,7 @@ export class LikesService {
     ) {}
 
     async likePost(postId: number, userId: number) {
-        const post = await this.postRepo.findOne({ where: { id: postId } })
+        const post = await this.postRepo.findOne({ where: { id: postId }, relations: ['author'] })
         if (!post) {
             throw new NotFoundException('Post not found')
         }
