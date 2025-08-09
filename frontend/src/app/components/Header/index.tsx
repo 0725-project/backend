@@ -16,7 +16,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
 
     return (
         <>
-            <header className='bg-white border-b border-gray-200 sticky top-0 z-50 w-full'>
+            <header className='bg-white border-b border-gray-200 sticky top-0 z-50 w-full px-0 lg:px-4'>
                 <div className='flex items-center justify-between px-2 md:px-4 py-2 gap-2'>
                     <div className='flex items-center gap-2 min-w-0'>
                         {onMenuClick && (

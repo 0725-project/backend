@@ -11,6 +11,7 @@ interface AuthContextProps {
     login: (username: string, password: string) => Promise<void>
     register: (data: RegisterFormData) => Promise<void>
     logout: () => Promise<void>
+    setUser: React.Dispatch<React.SetStateAction<UserResponse | null>>
 }
 
 export interface RegisterFormData {
@@ -78,7 +79,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout: handleLogout }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout: handleLogout, setUser }}>
             {children}
         </AuthContext.Provider>
     )
