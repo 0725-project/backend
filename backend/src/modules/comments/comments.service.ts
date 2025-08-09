@@ -12,7 +12,7 @@ import { Post } from '../posts/posts.entity'
 import { User } from '../users/users.entity'
 
 import { PaginationDto } from 'src/common/dto'
-import { CreateCommentDto, UpdateCommentDto } from './dto'
+import { CreateCommentDto, GetPostCommentsDto, UpdateCommentDto } from './dto'
 
 @Injectable()
 export class CommentsService {
@@ -42,23 +42,23 @@ export class CommentsService {
         return { id, content, createdAt }
     }
 
-    async getComments(postId: number, pdto: PaginationDto) {
+    async getComments(postId: number, dto: GetPostCommentsDto) {
         const query = this.commentRepo
             .createQueryBuilder('comment')
             .leftJoinAndSelect('comment.user', 'user')
             .select(['comment', ...selectUserBriefColumns('user')])
             .where('comment.post.id = :postId', { postId })
-            .orderBy('comment.createdAt', 'DESC')
-            .skip((pdto.page! - 1) * pdto.limit!)
-            .take(pdto.limit!)
+            .orderBy('comment.id', (dto.order ?? 'DESC').toUpperCase() as 'ASC' | 'DESC')
+            .skip((dto.page! - 1) * dto.limit!)
+            .take(dto.limit!)
 
         const [comments, total] = await query.getManyAndCount()
 
         return {
             comments,
             total,
-            page: pdto.page!,
-            limit: pdto.limit!,
+            page: dto.page!,
+            limit: dto.limit!,
         }
     }
 

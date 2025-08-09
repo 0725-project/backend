@@ -21,6 +21,7 @@ import {
     CreateCommentDto,
     UpdateCommentDto,
     CommentsWithDetailsResponseDto,
+    GetPostCommentsDto,
 } from './dto'
 import { PostIdDto } from 'src/modules/posts/dto'
 
@@ -53,8 +54,8 @@ export class CommentsController {
     @ApiOperation({ summary: 'Get comments for a post' })
     @ApiResponse({ status: 200, description: 'Return paginated comments.', type: CommentsResponseDto })
     @ApiBadRequestResponse({ description: 'Invalid pagination parameters.' })
-    getComments(@Param() { postId }: PostIdDto, @Query() pdto: PaginationDto): Promise<CommentsResponseDto> {
-        return this.commentsService.getComments(postId, pdto)
+    getComments(@Param() { postId }: PostIdDto, @Query() dto: GetPostCommentsDto): Promise<CommentsResponseDto> {
+        return this.commentsService.getComments(postId, dto)
     }
 
     @Put('comments/:id')
