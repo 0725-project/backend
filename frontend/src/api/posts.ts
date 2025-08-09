@@ -52,7 +52,7 @@ export interface GetPostsRequest {
     limit?: number
     startDate?: string
     endDate?: string
-    sortBy?: 'createdAt' | 'viewCount' | 'likeCount'
+    sortBy?: 'postId' | 'viewCount' | 'likeCount'
     order?: 'asc' | 'desc'
     topicSlug?: string
     author?: string
