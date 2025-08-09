@@ -26,7 +26,7 @@ export class UploadService {
                 ['content-length-range', 0, 3 * 1024 * 1024], // Max 3MB
                 ['starts-with', '$Content-Type', 'image/'],
             ],
-            Expires: 6000, // 10 minutes
+            Expires: 600, // 10 minutes
         })
 
         return { url, key, fields }
@@ -46,7 +46,7 @@ export class UploadService {
                 ['content-length-range', 0, 1 * 1024 * 1024], // Max 1MB
                 ['starts-with', '$Content-Type', 'image/'],
             ],
-            Expires: 6000, // 10 minutes
+            Expires: 600, // 10 minutes
         })
 
         return { url, key, fields }
