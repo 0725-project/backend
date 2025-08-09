@@ -10,8 +10,8 @@ interface LikeButtonProps {
 
 const LikeButton = (props: LikeButtonProps) => {
     const { user, loading } = useAuth()
-    const [ error, setError ] = useState<string | null>(null)
-    const [ likeCount, setLikeCount ] = useState(props.likes)
+    const [error, setError] = useState<string | null>(null)
+    const [likeCount, setLikeCount] = useState(props.likes)
     const isDisabled = !user || loading || Boolean(error)
 
     const handleLike = async () => {
@@ -31,7 +31,7 @@ const LikeButton = (props: LikeButtonProps) => {
     return (
         <div className='flex items-center gap-2 flex-col'>
             <button
-                className='w-32 px-4 py-2 bg-slate-600 text-white rounded-lg shadow hover:bg-slate-700 transition disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-none'
+                className='w-32 px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-none'
                 onClick={handleLike}
                 disabled={isDisabled}
                 aria-disabled={isDisabled}
