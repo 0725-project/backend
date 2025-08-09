@@ -36,6 +36,7 @@ const CreatePostForm = (props: CreatePostFormProps) => {
 
     return (
         <form onSubmit={handleSubmit} className='flex flex-col gap-2'>
+            <input type='text' value={`Topic/${props.topicSlug}`} disabled className='border p-2 rounded text-gray-500' />
             <input
                 type='text'
                 placeholder='제목'
@@ -49,9 +50,9 @@ const CreatePostForm = (props: CreatePostFormProps) => {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 required
-                className='border p-2 rounded'
+                className='border p-2 rounded h-64'
             />
-            <button type='submit' disabled={loading} className='bg-blue-500 text-white p-2 rounded'>
+            <button type='submit' disabled={loading} className='bg-slate-600 text-white p-2 rounded'>
                 {loading ? '작성 중...' : '게시글 작성'}
             </button>
         </form>

@@ -12,7 +12,7 @@ const MainPage = () => {
 
     return (
         <section className='w-full flex flex-col items-center mt-20 mb-10 p-5'>
-            <div className='w-full max-w-4xl flex flex-col items-center mb-10'>
+            <div className='w-full max-w-4xl flex flex-col items-center mb-30'>
                 <input
                     type='text'
                     value={search}

@@ -10,6 +10,7 @@ import { formatDate } from '@/utils/dateFormatter'
 import { useRouter } from 'next/navigation'
 import { PageLayout } from '../components/PageLayout'
 import UserCard from './UserCard'
+import Link from 'next/link'
 
 const LIMIT_OPTIONS = [5, 10, 15, 20]
 const MAX_PAGE_BUTTONS = 5
@@ -51,43 +52,52 @@ const ProfilePage = () => {
                 <div className='w-full max-w-4xl flex flex-col items-center mb-10'>
                     <UserCard />
                 </div>
-                <div className='w-full max-w-5xl flex flex-col items-center'>
-                    <h2 className='text-2xl font-bold mb-6'>내가 작성한 글</h2>
-                    <div className='space-y-2 md:space-y-4 min-h-[300px] w-full'>
-                        {isLoading ? (
-                            <div className='text-center py-8 text-gray-400'>로딩 중...</div>
-                        ) : isError ? (
-                            <div className='text-center py-8 text-red-400'>게시글을 불러오지 못했습니다.</div>
-                        ) : posts.length === 0 ? (
-                            <div className='text-center py-8 text-gray-400'>게시글이 없습니다.</div>
-                        ) : (
-                            posts.map((post: PostResponse, index) => (
-                                <PostCard
-                                    key={post.id}
-                                    topic={post.topic?.name ?? 'No Topic'}
-                                    username={post.author?.username ?? 'Unknown'}
-                                    createdAt={formatDate(post.createdAt)}
-                                    title={post.title}
-                                    likes={post.likeCount}
-                                    comments={post.commentCount}
-                                    views={post.viewCount}
-                                />
-                            ))
+                {user ? (
+                    <div className='w-full max-w-5xl flex flex-col items-center'>
+                        <h2 className='text-2xl font-bold mb-6'>작성 글</h2>
+                        <div className='space-y-2 md:space-y-4 min-h-[300px] w-full'>
+                            {isLoading ? (
+                                <div className='text-center py-8 text-gray-400'>로딩 중...</div>
+                            ) : isError ? (
+                                <div className='text-center py-8 text-red-400'>게시글을 불러오지 못했습니다.</div>
+                            ) : posts.length === 0 ? (
+                                <div className='text-center py-8 text-gray-400'>게시글이 없습니다.</div>
+                            ) : (
+                                posts.map((post, index) => (
+                                    <Link
+                                        key={index}
+                                        href={`/topics/${post.topic.slug}/${post.topicLocalId}`}
+                                        className='block'
+                                    >
+                                        <PostCard
+                                            topic={post.topic?.name ?? 'No Topic'}
+                                            username={post.author?.nickname ?? post.author?.username}
+                                            createdAt={formatDate(post.createdAt)}
+                                            title={post.title}
+                                            likes={post.likeCount}
+                                            comments={post.commentCount}
+                                            views={post.viewCount}
+                                        />
+                                    </Link>
+                                ))
+                            )}
+                        </div>
+                        {totalPages > 1 && (
+                            <Pagination
+                                page={page}
+                                limit={limit}
+                                total={total}
+                                limitOptions={LIMIT_OPTIONS}
+                                onLimitChange={handleLimitChange}
+                                onPageChange={handlePageChange}
+                                isLoading={isLoading}
+                                maxPageButtons={MAX_PAGE_BUTTONS}
+                            />
                         )}
                     </div>
-                    {totalPages > 1 && (
-                        <Pagination
-                            page={page}
-                            limit={limit}
-                            total={total}
-                            limitOptions={LIMIT_OPTIONS}
-                            onLimitChange={handleLimitChange}
-                            onPageChange={handlePageChange}
-                            isLoading={isLoading}
-                            maxPageButtons={MAX_PAGE_BUTTONS}
-                        />
-                    )}
-                </div>
+                ) : (
+                    <></>
+                )}
             </section>
         </PageLayout>
     )

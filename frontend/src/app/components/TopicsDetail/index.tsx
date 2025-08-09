@@ -9,7 +9,6 @@ import Link from 'next/link'
 import Pagination from '../Pagination'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { getClosestAllowedValue } from '@/utils/getClosestAllowedValue'
-import { CreatePostForm } from './CreatePostForm'
 
 interface TopicDetailProps {
     topicSlug: string
@@ -79,26 +78,62 @@ const TopicDetail = (props: TopicDetailProps) => {
         router.push(`?page=${newPage}&limit=${limit}`)
     }
 
+    const handleWriteButtonClick = () => {
+        router.push(`/topics/${props.topicSlug}/write`)
+    }
+
     return (
         <>
-            {isTopicLoading ? (
-                <div className='text-center text-gray-500 py-10'>로딩 중...</div>
-            ) : isTopicError || !topic ? (
-                <div className='text-center text-red-400 py-10'>토픽 정보를 불러오지 못했습니다.</div>
-            ) : (
-                <section className='max-w-5xl mx-auto px-2 md:px-4 py-4'>
-                    <h2 className='text-2xl font-bold mb-2 text-slate-700'>{topic.name}</h2>
-                    <p className='text-gray-700 mb-2'>{topic.description}</p>
-                    <div className='text-sm text-gray-500 flex gap-2'>
-                        <span>작성자: {topic.creator.nickname}</span>
-                        <span>·</span>
-                        <span>{formatDate(topic.createdAt)}</span>
-                    </div>
-                </section>
-            )}
             <section className='max-w-5xl mx-auto px-2 md:px-4 py-4'>
-                <CreatePostForm onSuccess={() => handlePageChange(1)} topicSlug={props.topicSlug} />
+                {isTopicLoading ? (
+                    <div className='text-center text-gray-500 py-10'>로딩 중...</div>
+                ) : isTopicError || !topic ? (
+                    <div className='text-center text-red-400 py-10'>토픽 정보를 불러오지 못했습니다.</div>
+                ) : (
+                    <>
+                        <div className='bg-white rounded-2xl border border-gray-200 shadow-sm px-6 py-6'>
+                            <div className='flex flex-col md:flex-row md:items-center mb-6'>
+                                <div className='w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center text-lg font-bold text-slate-500 shrink-0'>
+                                    {topic.name.charAt(0).toUpperCase()}
+                                </div>
+                                <div className='mt-4 md:mt-0 md:ml-4 flex flex-col'>
+                                    <h2 className='text-2xl font-bold text-slate-800'>{topic.name}</h2>
+                                    <p className='mt-2 text-gray-500 text-sm'>
+                                        제작자: {topic.creator.nickname} · {formatDate(topic.createdAt)}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p className='text-gray-700 mb-6 leading-relaxed'>
+                                {topic.description || <span className='text-gray-400'>설명이 없습니다.</span>}
+                            </p>
+
+                            <div className='grid grid-cols-1 md:grid-cols-[100px_1fr] gap-y-2 text-gray-700 text-sm mb-6'>
+                                <span className='text-gray-500'>작성자</span>
+                                <span>{topic.creator.nickname}</span>
+
+                                <span className='text-gray-500'>게시글 수</span>
+                                <span>{topic.postCount ?? 0}개</span>
+
+                                <span className='text-gray-500'>생성일</span>
+                                <span>{formatDate(topic.createdAt)}</span>
+
+                                <span className='text-gray-500'>Slug</span>
+                                <span>{topic.slug}</span>
+                            </div>
+                        </div>
+                        <div className='flex justify-end m-4'>
+                            <button
+                                onClick={handleWriteButtonClick}
+                                className='px-5 py-2 rounded-xl bg-slate-700 text-white font-semibold shadow hover:bg-slate-800 transition'
+                            >
+                                글 쓰기
+                            </button>
+                        </div>
+                    </>
+                )}
             </section>
+
             <section className='max-w-5xl mx-auto px-2 md:px-4 py-4'>
                 <h3 className='text-xl font-bold mb-4 text-gray-800'>게시글 목록</h3>
                 <div className='space-y-2 md:space-y-4 min-h-[300px]'>

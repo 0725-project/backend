@@ -23,7 +23,7 @@ const PostCard = (props: PostCardProps) => {
                         >
                             <span className='text-white text-xs font-bold'>{props.topic.charAt(0).toUpperCase()}</span>
                         </div>
-                        <span className='font-medium'>{props.topic}</span>
+                        <span className='font-medium'>Topic/{props.topic}</span>
                         <span className='text-gray-500'>•</span>
                         <span className='text-gray-500'>{props.createdAt}</span>
                         <span className='text-gray-500'>•</span>
