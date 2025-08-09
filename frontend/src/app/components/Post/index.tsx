@@ -13,6 +13,10 @@ interface PostProps {
 
 const PostPage = ({ post }: PostProps) => {
     useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
+    useEffect(() => {
         const incrementViewCount = async () => {
             try {
                 await incrementPostViewCount(post.id)

@@ -5,6 +5,7 @@ import { PostResponse } from '@/api/posts'
 import { formatDate } from '@/utils/dateFormatter'
 import { MessageCircleMore } from 'lucide-react'
 import Pagination from '../Pagination'
+import CreateCommentForm from './CreateCommentForm'
 
 const MAX_PAGE_BUTTONS = 5
 const LIMIT_OPTIONS = [5, 10, 15, 20]
@@ -39,16 +40,18 @@ const Comments = ({ post }: CommentsProps) => {
 
     const handlePageChange = (newPage: number) => {
         setPage(newPage)
+        window.location.hash = 'comments'
     }
 
     const handleCommentSuccess = () => {
         setShowForm(false)
         setPage(totalPages > 0 ? totalPages : 1)
         setRefreshKey((prev) => prev + 1)
+        window.location.hash = 'comments'
     }
 
     useEffect(() => {
-        if (!isLoading) {
+        if (!isLoading && window.location.hash === '#comments') {
             const el = document.getElementById('comments')
             if (el) {
                 el.scrollIntoView({ block: 'start' })
@@ -92,7 +95,12 @@ const Comments = ({ post }: CommentsProps) => {
                     <div className='mb-4 flex justify-end'>
                         <button
                             className='bg-slate-600 text-white px-4 py-2 rounded font-semibold hover:bg-slate-700 transition'
-                            onClick={() => setShowForm((prev) => !prev)}
+                            onClick={() => {
+                                setShowForm((prev) => !prev)
+                                if (!showForm) {
+                                    window.location.hash = 'comments'
+                                }
+                            }}
                         >
                             {showForm ? '댓글 작성 취소' : '댓글 작성'}
                         </button>
@@ -120,5 +128,4 @@ const Comments = ({ post }: CommentsProps) => {
     )
 }
 
-import CreateCommentForm from './CreateCommentForm'
 export default Comments

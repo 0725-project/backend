@@ -13,6 +13,12 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
     // const isMobile = useIsMobile(768)
     const { user, logout, loading } = useAuth()
     const [modal, setModal] = useState<'login' | 'register' | null>(null)
+    const [search, setSearch] = useState('')
+    const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && search.trim()) {
+            window.location.href = `/search?query=${encodeURIComponent(search.trim())}`
+        }
+    }
 
     return (
         <>
@@ -45,6 +51,9 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                             <input
                                 placeholder='검색...'
                                 className='pl-10 bg-gray-100 border border-gray-200 rounded-full w-full py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-200'
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                onKeyDown={handleSearch}
                             />
                         </div>
                     </div>
