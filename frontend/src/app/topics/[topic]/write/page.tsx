@@ -11,6 +11,7 @@ const TopicWritePage = () => {
 
     const handleSuccess = () => {
         router.push(`/topics/${topic}?page=1`)
+        router.refresh()
     }
 
     return (

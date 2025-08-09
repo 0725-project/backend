@@ -15,7 +15,11 @@ const CommentItem = (props: CommentItemProps) => {
                 <span className='text-xs text-gray-400'>{formatDate(comment.createdAt)}</span>
             </div>
             <div className='text-sm text-gray-700 truncate'>{comment.content}</div>
-            <div className='text-xs text-gray-500 mt-3'>{comment.post?.title ?? '게시글'}</div>
+            <div className='text-xs text-gray-500 mt-3'>
+                {comment.post?.topic.name}
+                <span className='text-gray-400'> | </span>
+                {comment.post?.title}
+            </div>
         </div>
     )
 }

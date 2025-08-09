@@ -5,6 +5,7 @@ import { formatDate } from '@/utils/dateFormatter'
 import { useEffect } from 'react'
 import Comments from './Comments'
 import Link from 'next/link'
+import Markdown from '../Markdown'
 
 interface PostProps {
     post: PostResponse
@@ -57,7 +58,8 @@ const PostPage = ({ post }: PostProps) => {
                     </div>
                 </header>
                 <div className='prose max-w-none text-gray-900 min-h-[200px]'>
-                    <p>{post.content}</p>
+                    {/* <p>{post.content}</p> */}
+                    <Markdown content={post.content} />
                 </div>
                 <Comments post={post} />
             </article>
