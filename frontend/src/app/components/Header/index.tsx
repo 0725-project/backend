@@ -9,11 +9,15 @@ import RegisterForm from '../Auth/RegisterForm'
 
 import UserMenu from './UserMenu'
 
-export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
-    // const isMobile = useIsMobile(768)
+interface HeaderProps {
+    onMenuClick?: () => void
+    searchQuery?: string
+}
+
+export function Header(props: HeaderProps) {
     const { user, logout, loading } = useAuth()
     const [modal, setModal] = useState<'login' | 'register' | null>(null)
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useState(props.searchQuery ?? '')
     const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && search.trim()) {
             window.location.href = `/search?query=${encodeURIComponent(search.trim())}`
@@ -25,11 +29,11 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             <header className='bg-white border-b border-gray-200 sticky top-0 z-50 w-full px-0 lg:px-4'>
                 <div className='flex items-center justify-between px-2 md:px-4 py-2 gap-2'>
                     <div className='flex items-center gap-2 min-w-0'>
-                        {onMenuClick && (
+                        {props.onMenuClick && (
                             <button
                                 className='p-2 rounded-full hover:bg-gray-100 md:hidden flex items-center justify-center'
                                 aria-label='Open menu'
-                                onClick={onMenuClick}
+                                onClick={props.onMenuClick}
                             >
                                 <Menu className='w-6 h-6 text-gray-700' />
                             </button>

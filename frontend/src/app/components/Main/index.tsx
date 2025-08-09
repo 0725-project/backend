@@ -18,7 +18,7 @@ const MainPage = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder='/? 를 입력하여 자세히 알아보기'
-                    className='w-full h-20 px-6 py-4 rounded-2xl border border-gray-300 shadow focus:outline-none focus:ring-2 focus:ring-slate-400 hover:scale-102 transition-transform duration-200'
+                    className='w-full h-20 px-6 py-4 rounded-2xl border border-gray-300 shadow focus:outline-none hover:scale-101 transition-transform duration-200'
                 />
             </div>
 

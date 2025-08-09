@@ -56,7 +56,7 @@ export default function SearchPage() {
     }
 
     return (
-        <PageLayout>
+        <PageLayout searchQuery={query}>
             <div className='max-w-5xl mx-auto p-5'>
                 <h1 className='text-2xl font-bold mb-4'>검색 결과</h1>
                 <p className='mb-6 text-gray-500'>"{query}"에 대한 검색 결과입니다.</p>

@@ -9,9 +9,10 @@ import { useSidebar } from '../context/SidebarContext'
 interface PageLayoutProps {
     children: ReactNode
     currentItem?: string
+    searchQuery?: string
 }
 
-export const PageLayout = ({ children, currentItem }: PageLayoutProps) => {
+export const PageLayout = (props: PageLayoutProps) => {
     const [isMobile, setIsMobile] = useState(false)
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
@@ -34,7 +35,7 @@ export const PageLayout = ({ children, currentItem }: PageLayoutProps) => {
 
     return (
         <div className='min-h-screen'>
-            <Header onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
+            <Header onMenuClick={() => setIsSidebarOpen((prev) => !prev)} searchQuery={props.searchQuery} />
             <div className='flex'>
                 {isMobile && isSidebarOpen && (
                     <div className='fixed inset-0 z-40 bg-black/40' onClick={() => setIsSidebarOpen(false)} />
@@ -51,9 +52,9 @@ export const PageLayout = ({ children, currentItem }: PageLayoutProps) => {
                     isMobile={isMobile}
                     isSidebarOpen={isSidebarOpen}
                     closeSidebar={() => setIsSidebarOpen(false)}
-                    currentItem={currentItem}
+                    currentItem={props.currentItem}
                 />
-                <main className='flex-1 min-h-[calc(100vh-4rem)] overflow-y-auto'>{children}</main>
+                <main className='flex-1 min-h-[calc(100vh-4rem)] overflow-y-auto'>{props.children}</main>
                 <RightSidebar />
             </div>
         </div>
