@@ -1,4 +1,4 @@
-import { Body, Controller, Post, BadRequestException, Res, Req, UnauthorizedException, UseGuards } from '@nestjs/common'
+import { Body, Controller, Post, BadRequestException, Res, Req, UnauthorizedException, UseGuards, Get } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import {
     ApiOperation,
@@ -39,7 +39,7 @@ export class AuthController {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-            maxAge: REFRESH_TOKEN_EXPIRES_IN_SECONDS,
+            maxAge: REFRESH_TOKEN_EXPIRES_IN_SECONDS * 1000,
         })
 
         return { id: result.user_id, accessToken: result.access_token }
@@ -80,11 +80,15 @@ export class AuthController {
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
-    @Post('me')
+    @Get('me')
     @ApiOperation({ summary: 'Get current user information' })
     @ApiResponse({ status: 200, description: 'Returns current user information.', type: RegisterResponseDto })
     @ApiUnauthorizedResponse({ description: 'User is not authenticated.' })
     async getMe(@Req() req: AuthenticatedRequest): Promise<GetMeResponseDto> {
+        if (!req.cookies?.refresh_token) {
+            throw new BadRequestException('Refresh token is required')
+        }
+
         return this.authService.getMe(req.user.userId)
     }
 
