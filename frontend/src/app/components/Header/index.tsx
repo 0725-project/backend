@@ -1,12 +1,11 @@
 'use client'
 
-import { Search, Plus, Menu, LogIn, KeyRound } from 'lucide-react'
-import { useIsMobile } from '../hooks/useIsMobile'
+import { Search, Plus, Menu, LogIn } from 'lucide-react'
 import { useAuth } from '@/app/context/AuthContext'
 import { useState } from 'react'
-import AuthModal from './Auth/AuthModal'
-import LoginForm from './Auth/LoginForm'
-import RegisterForm from './Auth/RegisterForm'
+import AuthModal from '../Auth/AuthModal'
+import LoginForm from '../Auth/LoginForm'
+import RegisterForm from '../Auth/RegisterForm'
 
 import UserMenu from './UserMenu'
 

@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { PostCarousel } from './PostCarousel'
 import { CalendarArrowUp, ChartNoAxesCombined } from 'lucide-react'
-import UserCard from './UserCard'
 
 type Tab = 'popular' | 'latest'
 
@@ -21,10 +20,6 @@ const MainPage = () => {
                     placeholder='/? 를 입력하여 자세히 알아보기'
                     className='w-full h-20 px-6 py-4 rounded-2xl border border-gray-300 shadow focus:outline-none focus:ring-2 focus:ring-slate-400 hover:scale-102 transition-transform duration-200'
                 />
-            </div>
-
-            <div className='w-full flex flex-col items-center mb-10'>
-                <UserCard />
             </div>
 
             <div className='relative w-full max-w-6xl mb-10'>

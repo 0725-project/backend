@@ -1,6 +1,6 @@
 'use client'
 
-import { Home, Compass, Info, ChevronsRight, ChevronsDown, ListTree } from 'lucide-react'
+import { Home, Compass, Info, ChevronsRight, ChevronsDown, ListTree, User } from 'lucide-react'
 import { SidebarItem } from './LeftSidebarItems'
 import { SidebarSection } from './SidebarSection'
 
@@ -56,6 +56,13 @@ const LeftSidebar = (props: LeftSidebarProps) => {
                             label='홈'
                             url='/'
                             isActive={props.currentItem === 'home'}
+                            isCollapsed={props.isCollapsed}
+                        />
+                        <SidebarItem
+                            icon={User}
+                            label='내 정보'
+                            url='/profile'
+                            isActive={props.currentItem === 'profile'}
                             isCollapsed={props.isCollapsed}
                         />
                         <SidebarItem

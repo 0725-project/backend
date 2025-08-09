@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useAuth } from '@/app/context/AuthContext'
-import AuthModal from '../Auth/AuthModal'
-import LoginForm from '../Auth/LoginForm'
-import RegisterForm from '../Auth/RegisterForm'
+import AuthModal from '../components/Auth/AuthModal'
+import LoginForm from '../components/Auth/LoginForm'
+import RegisterForm from '../components/Auth/RegisterForm'
 import { formatDate } from '@/utils/dateFormatter'
 
 const UserCard = () => {
