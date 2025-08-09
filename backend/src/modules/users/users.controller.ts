@@ -1,6 +1,13 @@
 import { Body, Controller, Get, Param, Put, Req, Request, UseGuards } from '@nestjs/common'
 import { UsersService } from './users.service'
-import { ApiOperation, ApiResponse, ApiTags, ApiNotFoundResponse, ApiBearerAuth, ApiForbiddenResponse } from '@nestjs/swagger'
+import {
+    ApiOperation,
+    ApiResponse,
+    ApiTags,
+    ApiNotFoundResponse,
+    ApiBearerAuth,
+    ApiForbiddenResponse,
+} from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard'
 
 import { UsernameDto, UserResponseDto } from './dto'

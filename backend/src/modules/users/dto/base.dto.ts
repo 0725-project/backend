@@ -60,7 +60,7 @@ export class UserDescriptionDto {
 
 export class ProfileImageDto {
     @ApiProperty({
-        description: 'The path to the user\'s profile image.',
+        description: "The path to the user's profile image.",
         example: 'uploads/profile/1/profile.png',
     })
     @IsString()

@@ -54,7 +54,13 @@ export class UsersService {
             throw new ForbiddenException('You are not allowed to update this user')
         }
 
-        Object.assign(user, updateUserDto)
+        const trimmedNickname = updateUserDto.nickname?.trim()
+        const trimmedDescription = updateUserDto.description?.trim()
+
+        Object.assign(user, {
+            nickname: trimmedNickname === '' ? null : trimmedNickname,
+            description: trimmedDescription === '' ? null : trimmedDescription,
+        })
 
         return await this.userRepo.save(user)
     }
