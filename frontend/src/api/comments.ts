@@ -1,5 +1,6 @@
 import { client } from './client'
 import { PostBriefResponse } from './posts'
+import { withAuthRetry } from './token'
 import { PaginationResponse } from './types'
 import { UserBriefResponse } from './users'
 
@@ -38,10 +39,16 @@ export interface AllCommentsResponse extends PaginationResponse {
 }
 
 export const createComment = async (postId: number, content: string) => {
-    const response = await client.post<CreateCommentResponse>(`/posts/${postId}/comments`, {
-        content,
+    return withAuthRetry(async (header) => {
+        const response = await client.post<CreateCommentResponse>(
+            `/posts/${postId}/comments`,
+            {
+                content,
+            },
+            header,
+        )
+        return response.data
     })
-    return response.data
 }
 
 export const getPostComments = async (postId: number, page?: number, limit: number = 10) => {
@@ -52,14 +59,23 @@ export const getPostComments = async (postId: number, page?: number, limit: numb
 }
 
 export const updateComment = async (commentId: number, content: string) => {
-    const response = await client.put<UpdateCommentResponse>(`/comments/${commentId}`, {
-        content,
+    return withAuthRetry(async (header) => {
+        const response = await client.put<UpdateCommentResponse>(
+            `/comments/${commentId}`,
+            {
+                content,
+            },
+            header,
+        )
+        return response.data
     })
-    return response.data
 }
 
 export const deleteComment = async (commentId: number) => {
-    await client.delete(`/comments/${commentId}`)
+    return withAuthRetry(async (header) => {
+        const response = await client.delete(`/comments/${commentId}`, header)
+        return response.data
+    })
 }
 
 export const getAllComments = async (page?: number, limit: number = 10) => {

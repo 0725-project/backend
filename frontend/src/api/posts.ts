@@ -29,7 +29,7 @@ export interface PostBriefResponse extends Omit<PostResponse, 'content'> {}
 const POSTS_API_PREFIX = 'posts'
 
 export const createPost = async (title: string, content: string, topicSlug: string) => {
-    return withAuthRetry(async (accessToken) => {
+    return withAuthRetry(async (header) => {
         const response = await client.post<CreatePostResponse>(
             `/${POSTS_API_PREFIX}`,
             {
@@ -37,11 +37,7 @@ export const createPost = async (title: string, content: string, topicSlug: stri
                 content,
                 topicSlug,
             },
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            },
+            header,
         )
         return response.data
     })
@@ -72,15 +68,23 @@ export const getPost = async (postId: number) => {
 }
 
 export const updatePost = async (postId: number, title: string, content: string) => {
-    const response = await client.put<PostResponse>(`/${POSTS_API_PREFIX}/${postId}`, {
-        title,
-        content,
+    return withAuthRetry(async (header) => {
+        const response = await client.put<PostResponse>(
+            `/${POSTS_API_PREFIX}/${postId}`,
+            {
+                title,
+                content,
+            },
+            header,
+        )
+        return response.data
     })
-    return response.data
 }
 
 export const deletePost = async (postId: number) => {
-    await client.delete<DeletePostResponse>(`/${POSTS_API_PREFIX}/${postId}`)
+    return withAuthRetry(async (header) => {
+        await client.delete<DeletePostResponse>(`/${POSTS_API_PREFIX}/${postId}`, header)
+    })
 }
 
 export const incrementPostViewCount = async (postId: number) => {

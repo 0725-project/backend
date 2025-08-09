@@ -1,7 +1,6 @@
 'use client'
 
-import { getMe } from '@/api/auth'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useAuth } from '@/app/context/AuthContext'
 
 interface UserInfo {

@@ -1,4 +1,5 @@
 import { client } from './client'
+import { withAuthRetry } from './token'
 
 export enum UserRole {
     ADMIN = 0,
@@ -36,7 +37,9 @@ export const getUserByUsername = async (username: string) => {
 
 export type UserUpdateRequest = Partial<Pick<UserResponse, 'nickname' | 'description' | 'profileImage'>>
 
-export const updateUser = async (username: string, data: UserUpdateRequest) => {
-    const response = await client.put<UserResponse>(`/${USERS_API_PREFIX}/${username}`, data)
-    return response.data
+export const updateUser = async (username: string, payload: UserUpdateRequest) => {
+    return withAuthRetry(async (header) => {
+        const response = await client.put<UserResponse>(`/${USERS_API_PREFIX}/${username}`, payload, header)
+        return response.data
+    })
 }

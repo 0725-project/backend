@@ -12,14 +12,21 @@ export const clearAccessToken = () => {
     localStorage.removeItem('accessToken')
 }
 
-export const withAuthRetry = async <T>(fn: (accessToken: string) => Promise<T>): Promise<T> => {
+interface AuthHeader {
+    headers: {
+        Authorization: string
+    }
+}
+
+export const withAuthRetry = async <T>(fn: (authHeader: AuthHeader, accessToken: string) => Promise<T>): Promise<T> => {
     try {
-        return await fn(getAccessToken())
+        const accessToken = getAccessToken()
+        return await fn({ headers: { Authorization: `Bearer ${accessToken}` } }, accessToken)
     } catch (error: any) {
         if (error?.response?.status === 401 && getAccessToken()) {
             const newAccessToken = await refreshToken()
             setAccessToken(newAccessToken)
-            return await fn(newAccessToken)
+            return await fn({ headers: { Authorization: `Bearer ${newAccessToken}` } }, newAccessToken)
         }
         throw error
     }

@@ -1,8 +1,8 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react'
-import { getMe, loginUser, logout, refreshToken, registerUser } from '@/api/auth'
-import { clearAccessToken, getAccessToken, setAccessToken, withAuthRetry } from '@/api/token'
+import { getMe, loginUser, logout, registerUser } from '@/api/auth'
+import { clearAccessToken, getAccessToken, setAccessToken } from '@/api/token'
 import { UserResponse } from '@/api/users'
 
 interface AuthContextProps {
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const fetchMe = async () => {
         try {
-            const me = await withAuthRetry(getMe)
+            const me = await getMe()
             setUser(me)
         } catch {
             setUser(null)

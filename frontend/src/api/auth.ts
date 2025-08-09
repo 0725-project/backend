@@ -1,4 +1,5 @@
 import { client } from './client'
+import { withAuthRetry } from './token'
 import { UserResponse } from './users'
 
 export interface RegisterResponse {
@@ -49,15 +50,9 @@ export const logout = async () => {
     await client.post<LogoutResponse>(`/${AUTH_API_PREFIX}/logout`)
 }
 
-export const getMe = async (accessToken: string) => {
-    const response = await client.post<UserResponse>(
-        `/${AUTH_API_PREFIX}/me`,
-        {},
-        {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        },
-    )
-    return response.data
+export const getMe = async () => {
+    return withAuthRetry(async (header) => {
+        const response = await client.get<UserResponse>(`/${AUTH_API_PREFIX}/me`, header)
+        return response.data
+    })
 }

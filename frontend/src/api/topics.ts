@@ -1,5 +1,6 @@
 import { client } from './client'
 import { PostResponse } from './posts'
+import { withAuthRetry } from './token'
 import { PaginationResponse } from './types'
 import { UserBriefResponse } from './users'
 
@@ -33,11 +34,17 @@ export interface TopicPostsResponse extends PaginationResponse {
 const TOPICS_API_PREFIX = 'topics'
 
 export const createTopic = async (topicSlug: string, description: string) => {
-    const response = await client.post<CreateTopicResponse>(`/${TOPICS_API_PREFIX}`, {
-        topicSlug,
-        description,
+    return withAuthRetry(async (header) => {
+        const response = await client.post<CreateTopicResponse>(
+            `/${TOPICS_API_PREFIX}`,
+            {
+                topicSlug,
+                description,
+            },
+            header,
+        )
+        return response.data
     })
-    return response.data
 }
 
 export const getTopics = async (page?: number, limit = 10) => {
