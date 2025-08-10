@@ -144,7 +144,9 @@
 │   │   │   ├── AuthModal.tsx
 │   │   │   ├── LoginForm.tsx
 │   │   │   └── RegisterForm.tsx
-│   │   ├── Header.tsx
+│   │   ├── Header
+│   │   │   ├── index.tsx
+│   │   │   └── UserMenu.tsx
 │   │   ├── LeftSidebar
 │   │   │   ├── index.tsx
 │   │   │   ├── LeftSidebarItems.tsx
@@ -153,23 +155,25 @@
 │   │   │   ├── index.tsx
 │   │   │   ├── PostCard.tsx
 │   │   │   ├── PostCarousel.tsx
-│   │   │   └── UserCard.tsx
+│   │   │   └── Search.tsx
+│   │   ├── Markdown.tsx
 │   │   ├── PageLayout.tsx
 │   │   ├── Pagination
 │   │   │   └── index.tsx
 │   │   ├── Post
 │   │   │   ├── Comments.tsx
-│   │   │   └── index.tsx
+│   │   │   ├── CreateCommentForm.tsx
+│   │   │   ├── index.tsx
+│   │   │   └── LikeButton.tsx
 │   │   ├── RightSidebar
 │   │   │   ├── CommentItem.tsx
 │   │   │   └── index.tsx
 │   │   ├── Topics
 │   │   │   └── index.tsx
-│   │   ├── TopicsDetail
-│   │   │   ├── CreatePostForm.tsx
-│   │   │   ├── index.tsx
-│   │   │   └── TopicPostCard.tsx
-│   │   └── UserMenu.tsx
+│   │   └── TopicsDetail
+│   │       ├── CreatePostForm.tsx
+│   │       ├── index.tsx
+│   │       └── TopicPostCard.tsx
 │   ├── context
 │   │   ├── AuthContext.tsx
 │   │   └── SidebarContext.tsx
@@ -184,16 +188,23 @@
 │   ├── posts
 │   │   └── page.tsx
 │   ├── profile
-│   │   └── page.tsx
+│   │   ├── page.tsx
+│   │   └── UserCard.tsx
 │   ├── ReactQueryProvider.tsx
+│   ├── search
+│   │   └── page.tsx
 │   └── topics
 │       ├── [topic]
 │       │   ├── [topiclocalid]
 │       │   │   └── page.tsx
-│       │   └── page.tsx
+│       │   ├── page.tsx
+│       │   └── write
+│       │       └── page.tsx
 │       └── page.tsx
 └── utils
     ├── dateFormatter.ts
     ├── getAnchorHref.ts
     └── getClosestAllowedValue.ts
+
+52 directories, 139 files
 ```
