@@ -85,7 +85,7 @@ const LeftSidebar = (props: LeftSidebarProps) => {
                         </div>
 
                         {!props.isCollapsed && user && user.favoriteTopics && (
-                            <SidebarSection title='토픽 즐겨찾기'>
+                            <SidebarSection title={`토픽 즐겨찾기 (${user.favoriteTopics.length})`}>
                                 {user.favoriteTopics.length > 0 ? (
                                     user.favoriteTopics.map((topic) => (
                                         <SidebarItem

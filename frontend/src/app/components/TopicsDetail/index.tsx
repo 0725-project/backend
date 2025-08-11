@@ -65,6 +65,10 @@ const TopicDetail = (props: TopicDetailProps) => {
                 removeFavoriteTopic(props.topicSlug)
                 setIsFavorite(false)
             } else {
+                if (user!.favoriteTopics.length >= 20) {
+                    alert('즐겨찾기 토픽은 20개까지만 추가할 수 있습니다.')
+                    return
+                }
                 addFavoriteTopic(props.topicSlug)
                 setIsFavorite(true)
             }
