@@ -1,8 +1,9 @@
 'use client'
 
-import { Home, Compass, Info, ChevronsRight, ChevronsDown, ListTree, User } from 'lucide-react'
+import { Home, Compass, Info, ChevronsRight, ChevronsDown, ListTree, User, Star } from 'lucide-react'
 import { SidebarItem } from './LeftSidebarItems'
 import { SidebarSection } from './SidebarSection'
+import { useAuth } from '../../context/AuthContext'
 
 interface LeftSidebarProps {
     isCollapsed: boolean
@@ -14,6 +15,7 @@ interface LeftSidebarProps {
 }
 
 const LeftSidebar = (props: LeftSidebarProps) => {
+    const { user } = useAuth()
     return (
         <div className='relative'>
             <nav
@@ -80,6 +82,19 @@ const LeftSidebar = (props: LeftSidebarProps) => {
                             isCollapsed={props.isCollapsed}
                         />
                     </div>
+                    {!props.isCollapsed && user && user.favoriteTopics && user.favoriteTopics.length > 0 && (
+                        <SidebarSection title='즐겨찾기 토픽'>
+                            {user.favoriteTopics.map((topic) => (
+                                <SidebarItem
+                                    key={topic.id}
+                                    icon={Star}
+                                    label={topic.name}
+                                    url={`/topics/${topic.slug}`}
+                                    isCollapsed={props.isCollapsed}
+                                />
+                            ))}
+                        </SidebarSection>
+                    )}
                     {!props.isCollapsed && (
                         <div className='mt-6 flex-shrink-0'>
                             <SidebarSection title='정보'>

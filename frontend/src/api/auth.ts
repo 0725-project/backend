@@ -57,7 +57,7 @@ export const logout = async () => {
 
 export const getMe = async () => {
     return withAuthRetry(async (header) => {
-        const response = await client.get<UserResponse>(`/${AUTH_API_PREFIX}/me`, header)
+        const response = await client.get<GetMeResponse>(`/${AUTH_API_PREFIX}/me`, header)
         return response.data
     })
 }
