@@ -63,4 +63,12 @@ export class TopicsService {
             limit: pdto.limit!,
         }
     }
+
+    async increment(topicId: number, field: keyof Topic, value: number) {
+        await this.topicRepo.increment({ id: topicId }, field, value)
+    }
+
+    async decrement(topicId: number, field: keyof Topic, value: number) {
+        await this.topicRepo.decrement({ id: topicId }, field, value)
+    }
 }

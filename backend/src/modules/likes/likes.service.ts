@@ -23,8 +23,8 @@ export class LikesService {
         const like = this.likeRepo.create({ post, user })
         await this.likeRepo.save(like)
 
-        await this.postsService.incrementLikeCount(postId)
-        await this.usersService.incrementPoints(post.author.id, USER_POINT_PER_POST_LIKE)
+        await this.postsService.increment(postId, 'likeCount', 1)
+        await this.usersService.increment(user.id, 'points', USER_POINT_PER_POST_LIKE)
     }
 
     async unlikePost(postId: number, userId: number) {
@@ -40,8 +40,8 @@ export class LikesService {
 
         await this.likeRepo.remove(like)
 
-        await this.postsService.decrementLikeCount(postId)
-        await this.usersService.decrementPoints(like.post.author.id, USER_POINT_PER_POST_LIKE)
+        await this.postsService.decrement(postId, 'likeCount', 1)
+        await this.usersService.decrement(like.post.author.id, 'points', USER_POINT_PER_POST_LIKE)
     }
 
     async getLikesForPost(postId: number, pdto: PaginationDto) {

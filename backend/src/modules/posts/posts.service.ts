@@ -1,25 +1,25 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Post } from './posts.entity'
-import { Topic } from 'src/modules/topics/topics.entity'
-import { User } from '../users/users.entity'
 import { Repository } from 'typeorm'
 import { RedisService } from 'src/common/redis/redis.service'
 import { selectUserBriefColumns, selectTopicBriefColumns, USER_POINT_PER_POST } from 'src/common/constants'
 
 import { CreatePostDto, GetPostsQueryDto, UpdatePostDto } from './dto'
+import { UsersService } from '../users/users.service'
+import { TopicsService } from '../topics/topics.service'
 
 @Injectable()
 export class PostsService {
     constructor(
-        @InjectRepository(Post) private postRepo: Repository<Post>,
-        @InjectRepository(Topic) private topicRepo: Repository<Topic>,
-        @InjectRepository(User) private userRepo: Repository<User>,
         private redisService: RedisService,
+        @InjectRepository(Post) private postRepo: Repository<Post>,
+        private usersService: UsersService,
+        private topicsService: TopicsService,
     ) {}
 
     async create(createPostDto: CreatePostDto, userId: number, ip: string) {
-        const topic = await this.topicRepo.findOne({ where: { slug: createPostDto.topicSlug } })
+        const topic = await this.topicsService.findBySlug(createPostDto.topicSlug)
         if (!topic) throw new NotFoundException('Topic not found')
 
         const count = await this.postRepo.count({ where: { topic: { id: topic.id } } })
@@ -35,10 +35,9 @@ export class PostsService {
             ip,
         })
 
-        await this.topicRepo.increment({ id: topic.id }, 'postCount', 1)
-
-        await this.userRepo.increment({ id: userId }, 'postCount', 1)
-        await this.userRepo.increment({ id: userId }, 'points', USER_POINT_PER_POST)
+        await this.topicsService.increment(topic.id, 'postCount', 1)
+        await this.usersService.increment(userId, 'postCount', 1)
+        await this.usersService.increment(userId, 'points', USER_POINT_PER_POST)
 
         const { id, title, content, createdAt, topicLocalId, viewCount, commentCount, likeCount } =
             await this.postRepo.save(post)
@@ -153,10 +152,9 @@ export class PostsService {
 
         await this.postRepo.remove(post)
 
-        await this.topicRepo.decrement({ id: post.topic.id }, 'postCount', 1)
-
-        await this.userRepo.decrement({ id: userId }, 'postCount', 1)
-        await this.userRepo.decrement({ id: userId }, 'points', USER_POINT_PER_POST)
+        await this.topicsService.decrement(post.topic.id, 'postCount', 1)
+        await this.usersService.decrement(userId, 'postCount', 1)
+        await this.usersService.decrement(userId, 'points', USER_POINT_PER_POST)
     }
 
     async incrementViewCount(postId: number, ip: string) {
@@ -168,11 +166,11 @@ export class PostsService {
         }
     }
 
-    async incrementLikeCount(postId: number) {
-        await this.postRepo.increment({ id: postId }, 'likeCount', 1)
+    async increment(postId: number, column: string, value: number) {
+        await this.postRepo.increment({ id: postId }, column, value)
     }
 
-    async decrementLikeCount(postId: number) {
-        await this.postRepo.decrement({ id: postId }, 'likeCount', 1)
+    async decrement(postId: number, column: string, value: number) {
+        await this.postRepo.decrement({ id: postId }, column, value)
     }
 }

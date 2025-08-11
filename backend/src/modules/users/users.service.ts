@@ -79,11 +79,11 @@ export class UsersService {
         return await this.userRepo.save(user)
     }
 
-    async incrementPoints(userId: number, points: number) {
-        await this.userRepo.increment({ id: userId }, 'points', points)
+    async increment(userId: number, field: keyof User, value: number) {
+        await this.userRepo.increment({ id: userId }, field, value)
     }
 
-    async decrementPoints(userId: number, points: number) {
-        await this.userRepo.decrement({ id: userId }, 'points', points)
+    async decrement(userId: number, field: keyof User, value: number) {
+        await this.userRepo.decrement({ id: userId }, field, value)
     }
 }

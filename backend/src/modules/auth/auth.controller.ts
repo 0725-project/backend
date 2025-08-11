@@ -92,7 +92,7 @@ export class AuthController {
     @ApiBearerAuth()
     @Get('me')
     @ApiOperation({ summary: 'Get current user information' })
-    @ApiResponse({ status: 200, description: 'Returns current user information.', type: RegisterResponseDto })
+    @ApiResponse({ status: 200, description: 'Returns current user information.', type: GetMeResponseDto })
     @ApiUnauthorizedResponse({ description: 'User is not authenticated.' })
     async getMe(@Req() req: AuthenticatedRequest): Promise<GetMeResponseDto> {
         if (!req.cookies?.refresh_token) {

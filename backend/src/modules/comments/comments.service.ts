@@ -8,8 +8,8 @@ import {
     USER_POINT_PER_COMMENT,
 } from 'src/common/constants'
 import { Comment } from './comments.entity'
-import { Post } from '../posts/posts.entity'
-import { User } from '../users/users.entity'
+import { PostsService } from '../posts/posts.service'
+import { UsersService } from '../users/users.service'
 
 import { PaginationDto } from 'src/common/dto'
 import { CreateCommentDto, GetPostCommentsDto, UpdateCommentDto } from './dto'
@@ -19,10 +19,8 @@ export class CommentsService {
     constructor(
         @InjectRepository(Comment)
         private readonly commentRepo: Repository<Comment>,
-        @InjectRepository(Post)
-        private readonly postRepo: Repository<Post>,
-        @InjectRepository(User)
-        private readonly userRepo: Repository<User>,
+        private readonly postsService: PostsService,
+        private readonly usersService: UsersService,
     ) {}
 
     async create(postId: number, createCommentDto: CreateCommentDto, userId: number) {
@@ -34,10 +32,9 @@ export class CommentsService {
 
         const { id, content, createdAt } = await this.commentRepo.save(comment)
 
-        await this.postRepo.increment({ id: postId }, 'commentCount', 1)
-
-        await this.userRepo.increment({ id: userId }, 'commentCount', 1)
-        await this.userRepo.increment({ id: userId }, 'points', USER_POINT_PER_COMMENT)
+        await this.postsService.increment(postId, 'commentCount', 1)
+        await this.usersService.increment(userId, 'commentCount', 1)
+        await this.usersService.increment(userId, 'points', USER_POINT_PER_COMMENT)
 
         return { id, content, createdAt }
     }
@@ -94,10 +91,9 @@ export class CommentsService {
 
         await this.commentRepo.remove(comment)
 
-        await this.postRepo.decrement({ id: comment.post.id }, 'commentCount', 1)
-
-        await this.userRepo.decrement({ id: userId }, 'commentCount', 1)
-        await this.userRepo.decrement({ id: userId }, 'points', USER_POINT_PER_COMMENT)
+        await this.postsService.decrement(comment.post.id, 'commentCount', 1)
+        await this.usersService.decrement(userId, 'commentCount', 1)
+        await this.usersService.decrement(userId, 'points', USER_POINT_PER_COMMENT)
     }
 
     async getAllComments(pdto: PaginationDto) {

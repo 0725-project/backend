@@ -8,7 +8,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 @Injectable()
 export class FavoriteTopicsService {
     constructor(
-        @InjectRepository(FavoriteTopic) private favoriteTopicsRepository: Repository<FavoriteTopic>,
+        @InjectRepository(FavoriteTopic)
+        private favoriteTopicsRepository: Repository<FavoriteTopic>,
         private usersService: UsersService,
         private topicsService: TopicsService,
     ) {}

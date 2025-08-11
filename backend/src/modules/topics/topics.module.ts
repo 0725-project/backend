@@ -7,7 +7,7 @@ import { TopicsController } from './topics.controller'
 import { PostsModule } from 'src/modules/posts/posts.module'
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Post, Topic]), forwardRef(() => PostsModule)],
+    imports: [TypeOrmModule.forFeature([Topic]), forwardRef(() => PostsModule)],
     providers: [TopicsService],
     controllers: [TopicsController],
     exports: [TopicsService],
