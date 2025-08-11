@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Post, Query, Req, UseGuards } from '@nestjs/common'
+import { Controller, Delete, Post, Param, Req, UseGuards } from '@nestjs/common'
 import {
     ApiBadRequestResponse,
     ApiBearerAuth,
@@ -29,7 +29,7 @@ export class FavoriteTopicsController {
     @ApiNotFoundResponse({ description: 'Topic not found.' })
     @ApiBadRequestResponse({ description: 'Invalid topic slug.' })
     @ApiConflictResponse({ description: 'Topic already in favorites.' })
-    async addFavoriteTopic(@Query() { topicSlug }: TopicSlugDto, @Req() req: AuthenticatedRequest) {
+    async addFavoriteTopic(@Param() { topicSlug }: TopicSlugDto, @Req() req: AuthenticatedRequest) {
         await this.favoriteTopicsService.addFavoriteTopic(req.user.userId, topicSlug)
     }
 
@@ -42,7 +42,7 @@ export class FavoriteTopicsController {
     @ApiNotFoundResponse({ description: 'Topic not found.' })
     @ApiBadRequestResponse({ description: 'Invalid topic slug.' })
     @ApiConflictResponse({ description: 'Topic not in favorites.' })
-    async removeFavoriteTopic(@Query() { topicSlug }: TopicSlugDto, @Req() req: AuthenticatedRequest) {
+    async removeFavoriteTopic(@Param() { topicSlug }: TopicSlugDto, @Req() req: AuthenticatedRequest) {
         await this.favoriteTopicsService.removeFavoriteTopic(req.user.userId, topicSlug)
     }
 }
