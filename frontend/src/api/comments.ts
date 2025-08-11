@@ -15,12 +15,6 @@ export interface PostCommentsResponse extends PaginationResponse {
     comments: CommentResponse[]
 }
 
-export interface CreateCommentResponse {
-    id: number
-    content: string
-    createdAt: string
-}
-
 export interface UpdateCommentResponse {
     id: number
     content: string
@@ -40,14 +34,13 @@ export interface AllCommentsResponse extends PaginationResponse {
 
 export const createComment = async (postId: number, content: string) => {
     return withAuthRetry(async (header) => {
-        const response = await client.post<CreateCommentResponse>(
+        await client.post(
             `/posts/${postId}/comments`,
             {
                 content,
             },
             header,
         )
-        return response.data
     })
 }
 

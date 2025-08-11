@@ -21,7 +21,6 @@ export interface PostsResponse extends PaginationResponse {
     posts: PostResponse[]
 }
 
-export interface CreatePostResponse extends Omit<PostResponse, 'author' | 'topic'> {}
 export interface DeletePostResponse {}
 
 export interface PostBriefResponse extends Omit<PostResponse, 'content'> {}
@@ -30,7 +29,7 @@ const POSTS_API_PREFIX = 'posts'
 
 export const createPost = async (title: string, content: string, topicSlug: string) => {
     return withAuthRetry(async (header) => {
-        const response = await client.post<CreatePostResponse>(
+        await client.post(
             `/${POSTS_API_PREFIX}`,
             {
                 title,
@@ -39,7 +38,6 @@ export const createPost = async (title: string, content: string, topicSlug: stri
             },
             header,
         )
-        return response.data
     })
 }
 
