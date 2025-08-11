@@ -1,5 +1,6 @@
 import { client } from './client'
 import { withAuthRetry } from './token'
+import { TopicBriefResponse } from './topics'
 import { UserResponse } from './users'
 
 export interface RegisterResponse {
@@ -20,6 +21,10 @@ export interface RefreshResponse {
 }
 
 export interface LogoutResponse {}
+
+export interface GetMeResponse extends UserResponse {
+    favoriteTopics: TopicBriefResponse[]
+}
 
 const AUTH_API_PREFIX = 'auth'
 
