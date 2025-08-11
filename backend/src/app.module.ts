@@ -12,11 +12,10 @@ import { TopicModule } from './modules/topic/topic.module'
 import { TopicsModule } from './modules/topics/topics.module'
 import { CommentsModule } from './modules/comments/comments.module'
 import { UploadModule } from './modules/upload/upload.module'
-
 import { AppController } from './app.controller'
-
 import { RabbitMQModule } from './common/rabbitmq/rabbitmq.module'
-import { RabbitMQConsumerModule } from './consumers/rabbitmq.module'
+import { RabbitMQConsumerModule } from './consumers/rabbitmq.consumer.module'
+
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),

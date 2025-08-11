@@ -35,17 +35,31 @@ const bootstrap = async () => {
         setupSwagger(app)
     }
 
-    app.connectMicroservice({
+    await app.listen(PORT)
+
+    const searchIndexer = await NestFactory.createMicroservice(AppModule, {
         transport: Transport.RMQ,
         options: {
             urls: [process.env.RABBITMQ_URL || 'amqp://localhost:5672'],
-            queue: process.env.RABBITMQ_QUEUE || 'main_queue',
-            queueOptions: { durable: false },
+            queue: 'search_indexing_queue',
+            queueOptions: { durable: true },
+            exchange: 'posts_exchange',
+            exchangeType: 'topic',
         },
     })
+    searchIndexer.listen()
 
-    await app.startAllMicroservices()
-    await app.listen(PORT)
+    const notificationService = await NestFactory.createMicroservice(AppModule, {
+        transport: Transport.RMQ,
+        options: {
+            urls: [process.env.RABBITMQ_URL || 'amqp://localhost:5672'],
+            queue: 'notification_queue',
+            queueOptions: { durable: true },
+            exchange: 'posts_exchange',
+            exchangeType: 'topic',
+        },
+    })
+    notificationService.listen()
 
     logger.log(`Application is running on: ${await app.getUrl()}`)
 

@@ -1,16 +1,28 @@
-import { Injectable, Inject } from '@nestjs/common'
-import { ClientProxy } from '@nestjs/microservices'
-import { lastValueFrom } from 'rxjs'
+import { Injectable, OnModuleInit } from '@nestjs/common'
+import { Channel, connect } from 'amqplib'
 
 @Injectable()
-export class RabbitMQService {
-    constructor(@Inject('RABBITMQ_SERVICE') private readonly client: ClientProxy) {}
+export class RabbitMQService implements OnModuleInit {
+    private channel: Channel
+    private readonly exchange = 'posts_exchange'
+    private readonly notificationQueue = 'notification_queue'
+    private readonly searchIndexQueue = 'searchindex_queue'
+    private readonly routingKey = 'post.created'
 
-    async send(pattern: string, data: any) {
-        return lastValueFrom(this.client.send(pattern, data))
+    async onModuleInit() {
+        const connection = await connect(process.env.RABBITMQ_URL || 'amqp://localhost:5672')
+        this.channel = await connection.createChannel()
+        await this.channel.assertExchange(this.exchange, 'topic', { durable: true })
+
+        await this.channel.assertQueue(this.notificationQueue, { durable: true })
+        await this.channel.assertQueue(this.searchIndexQueue, { durable: true })
+
+        await this.channel.bindQueue(this.notificationQueue, this.exchange, this.routingKey)
+        await this.channel.bindQueue(this.searchIndexQueue, this.exchange, this.routingKey)
     }
 
-    async emit(pattern: string, data: any) {
-        return lastValueFrom(this.client.emit(pattern, data))
+    async publishPostCreated(data: any) {
+        if (!this.channel) throw new Error('RabbitMQ channel not initialized')
+        this.channel.publish(this.exchange, this.routingKey, Buffer.from(JSON.stringify(data)), { persistent: true })
     }
 }

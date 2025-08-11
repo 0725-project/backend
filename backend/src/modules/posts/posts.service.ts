@@ -43,7 +43,7 @@ export class PostsService {
 
         const saved = await this.postRepo.save(post)
 
-        this.rabbitMQService.emit('post_created', {
+        this.rabbitMQService.publishPostCreated({
             postId: saved.id,
             title: saved.title,
             authorId: userId,
