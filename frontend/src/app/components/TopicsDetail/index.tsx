@@ -70,6 +70,8 @@ const TopicDetail = (props: TopicDetailProps) => {
             }
         } catch (error) {
             console.error('Error toggling favorite topic:', error)
+        } finally {
+            if (window) window.location.reload()
         }
     }
 

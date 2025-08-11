@@ -52,9 +52,7 @@ const LeftSidebar = (props: LeftSidebarProps) => {
                     </div>
                 )}
                 <div className={`flex flex-col h-full ${props.isCollapsed ? 'p-2' : 'p-4'}`}>
-                    {/* 스크롤 가능한 본문 영역 */}
                     <div className='flex-1 overflow-y-auto space-y-4'>
-                        {/* 기본 메뉴 */}
                         <div className='space-y-1'>
                             <SidebarItem
                                 icon={Home}
@@ -86,9 +84,8 @@ const LeftSidebar = (props: LeftSidebarProps) => {
                             />
                         </div>
 
-                        {/* 즐겨찾기 토픽 */}
                         {!props.isCollapsed && user && user.favoriteTopics && (
-                            <SidebarSection title='즐겨찾기 토픽'>
+                            <SidebarSection title='토픽 즐겨찾기'>
                                 {user.favoriteTopics.length > 0 ? (
                                     user.favoriteTopics.map((topic) => (
                                         <SidebarItem
@@ -105,7 +102,6 @@ const LeftSidebar = (props: LeftSidebarProps) => {
                             </SidebarSection>
                         )}
 
-                        {/* 정보 섹션 */}
                         {!props.isCollapsed && (
                             <SidebarSection title='정보'>
                                 <SidebarItem

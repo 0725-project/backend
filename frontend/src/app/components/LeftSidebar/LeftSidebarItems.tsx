@@ -18,8 +18,12 @@ const SidebarItem = (props: LeftSidebarItemProps) => {
                 ${props.isActive ? 'bg-gray-100' : 'hover:bg-gray-100 transition-colors duration-200'}
             `}
         >
-            {props.icon && <props.icon className='w-4 h-4' />}
-            {!props.isCollapsed && <span className='ml-2'>{props.label}</span>}
+            {props.icon && (
+                <span className='flex-shrink-0 w-4 h-4'>
+                    <props.icon className='w-4 h-4' />
+                </span>
+            )}
+            {!props.isCollapsed && <span className='ml-2 flex-1 truncate'>{props.label}</span>}
         </Link>
     )
 }
