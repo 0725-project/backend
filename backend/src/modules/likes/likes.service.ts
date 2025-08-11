@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Like } from './likes.entity'
-import { Post } from '../posts/posts.entity'
-import { User } from '../users/users.entity'
+import { PostsService } from 'src/modules/posts/posts.service'
+import { UsersService } from 'src/modules/users/users.service'
 import { selectUserBriefColumns, USER_POINT_PER_POST_LIKE } from 'src/common/constants'
 
 import { PaginationDto } from 'src/common/dto'
@@ -12,38 +12,36 @@ import { PaginationDto } from 'src/common/dto'
 export class LikesService {
     constructor(
         @InjectRepository(Like) private likeRepo: Repository<Like>,
-        @InjectRepository(Post) private postRepo: Repository<Post>,
-        @InjectRepository(User) private userRepo: Repository<User>,
+        @Inject(PostsService) private postsService: PostsService,
+        @Inject(UsersService) private usersService: UsersService,
     ) {}
 
     async likePost(postId: number, userId: number) {
-        const post = await this.postRepo.findOne({ where: { id: postId }, relations: ['author'] })
-        if (!post) {
-            throw new NotFoundException('Post not found')
-        }
-
-        const user = await this.userRepo.findOne({ where: { id: userId } })
-        if (!user) {
-            throw new NotFoundException('User not found')
-        }
+        const post = await this.postsService.findOne(postId)
+        const user = await this.usersService.findById(userId)
 
         const like = this.likeRepo.create({ post, user })
         await this.likeRepo.save(like)
 
-        await this.postRepo.increment({ id: postId }, 'likeCount', 1)
-        await this.userRepo.increment({ id: post.author.id }, 'points', USER_POINT_PER_POST_LIKE)
+        await this.postsService.incrementLikeCount(postId)
+        await this.usersService.incrementPoints(post.author.id, USER_POINT_PER_POST_LIKE)
     }
 
     async unlikePost(postId: number, userId: number) {
-        const like = await this.likeRepo.findOne({ where: { post: { id: postId }, user: { id: userId } } })
+        const like = await this.likeRepo
+            .createQueryBuilder('like')
+            .where('like.post.id = :postId', { postId })
+            .andWhere('like.user.id = :userId', { userId })
+            .getOne()
+
         if (!like) {
             throw new NotFoundException('Like not found')
         }
 
         await this.likeRepo.remove(like)
 
-        await this.postRepo.decrement({ id: postId }, 'likeCount', 1)
-        await this.userRepo.decrement({ id: like.user.id }, 'points', USER_POINT_PER_POST_LIKE)
+        await this.postsService.decrementLikeCount(postId)
+        await this.usersService.decrementPoints(like.post.author.id, USER_POINT_PER_POST_LIKE)
     }
 
     async getLikesForPost(postId: number, pdto: PaginationDto) {

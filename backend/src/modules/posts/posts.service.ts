@@ -167,4 +167,12 @@ export class PostsService {
             await this.postRepo.increment({ id: postId }, 'viewCount', 1)
         }
     }
+
+    async incrementLikeCount(postId: number) {
+        await this.postRepo.increment({ id: postId }, 'likeCount', 1)
+    }
+
+    async decrementLikeCount(postId: number) {
+        await this.postRepo.decrement({ id: postId }, 'likeCount', 1)
+    }
 }

@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn } from 'typeorm'
 import { User } from 'src/modules/users/users.entity'
 import { Post } from 'src/modules/posts/posts.entity'
+import { FavoriteTopic } from 'src/modules/favorite/topics/favtopics.entity'
 
 @Entity('topics')
 export class Topic {
@@ -27,4 +28,7 @@ export class Topic {
 
     @OneToMany(() => Post, (post) => post.topic)
     posts: Post[]
+
+    @OneToMany(() => FavoriteTopic, (favoriteTopic) => favoriteTopic.topic)
+    favoritedBy: FavoriteTopic[]
 }

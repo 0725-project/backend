@@ -10,5 +10,6 @@ import { PostsModule } from 'src/modules/posts/posts.module'
     imports: [TypeOrmModule.forFeature([Post, Topic]), forwardRef(() => PostsModule)],
     providers: [TopicsService],
     controllers: [TopicsController],
+    exports: [TopicsService],
 })
 export class TopicsModule {}

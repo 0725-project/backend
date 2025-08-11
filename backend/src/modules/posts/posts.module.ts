@@ -12,5 +12,6 @@ import { RedisModule } from 'src/common/redis/redis.module'
     imports: [TypeOrmModule.forFeature([Post, Topic, User]), TopicsModule, RedisModule],
     providers: [PostsService],
     controllers: [PostsController],
+    exports: [PostsService],
 })
 export class PostsModule {}

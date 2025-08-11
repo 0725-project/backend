@@ -10,7 +10,8 @@ import { RedisService } from 'src/common/redis/redis.service'
 import { User } from 'src/modules/users/users.entity'
 import * as bcrypt from 'bcrypt'
 
-import { LoginDto, RegisterDto } from './dto'
+import { GetMeResponseDto, LoginDto, RegisterDto } from './dto'
+import { TopicBriefResponseDto } from '../topics/dto'
 
 @Injectable()
 export class AuthService {
@@ -59,11 +60,25 @@ export class AuthService {
         await this.redisService.del(`user:${userId}:refresh`)
     }
 
-    async getMe(userId: number): Promise<User> {
-        const user = await this.usersService.findById(userId)
+    async getMe(userId: number): Promise<GetMeResponseDto> {
+        const user = await this.usersService.findByIdWithFavoriteTopics(userId)
         if (!user) {
             throw new UnauthorizedException('User not found')
         }
-        return user
+
+        const favoriteTopics = (user.favoriteTopics ?? []).map((fav) => {
+            const topic = fav.topic
+            return {
+                id: topic.id,
+                slug: topic.slug,
+                name: topic.name,
+                description: topic.description,
+            } as TopicBriefResponseDto
+        })
+
+        return {
+            ...user,
+            favoriteTopics,
+        }
     }
 }
