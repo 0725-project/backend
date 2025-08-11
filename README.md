@@ -14,6 +14,8 @@
 # Source Code Tree
 
 ```
+> tree ./backend/src ./frontend/src
+
 ./backend/src
 ├── app.controller.ts
 ├── app.module.ts
@@ -30,14 +32,20 @@
 │   │   └── jwt-auth.guard.ts
 │   ├── interceptors
 │   │   └── transform.interceptor.ts
+│   ├── rabbitmq
+│   │   ├── rabbitmq.module.ts
+│   │   └── rabbitmq.service.ts
 │   ├── redis
-│   │   ├── index.ts
 │   │   ├── redis.module.ts
 │   │   └── redis.service.ts
 │   ├── types
 │   │   └── express-request.interface.ts
 │   └── utils
 │       └── setupSwagger.ts
+├── consumers
+│   ├── notification.consumer.ts
+│   ├── rabbitmq.consumer.module.ts
+│   └── searchindex.consumer.ts
 ├── main.ts
 ├── migrations
 │   ├── 1754101626596-Init.ts
@@ -47,7 +55,8 @@
 │   ├── 1754545150879-Init.ts
 │   ├── 1754631773474-Init.ts
 │   ├── 1754633357220-Init.ts
-│   └── 1754656698333-Init.ts
+│   ├── 1754656698333-Init.ts
+│   └── 1754880078359-Init.ts
 └── modules
     ├── auth
     │   ├── auth.controller.ts
@@ -69,6 +78,15 @@
     │       ├── index.ts
     │       ├── request.dto.ts
     │       └── response.dto.ts
+    ├── favorite
+    │   └── topics
+    │       ├── dto
+    │       │   ├── base.dto.ts
+    │       │   └── index.ts
+    │       ├── favtopics.controller.ts
+    │       ├── favtopics.entity.ts
+    │       ├── favtopics.module.ts
+    │       └── favtopics.service.ts
     ├── likes
     │   ├── dto
     │   │   ├── index.ts
@@ -128,6 +146,7 @@
 │   ├── auth.ts
 │   ├── client.ts
 │   ├── comments.ts
+│   ├── favtopics.ts
 │   ├── likes.ts
 │   ├── posts.ts
 │   ├── token.ts
@@ -206,5 +225,5 @@
     ├── getAnchorHref.ts
     └── getClosestAllowedValue.ts
 
-52 directories, 139 files
+57 directories, 151 files
 ```
