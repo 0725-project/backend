@@ -3,6 +3,7 @@ import { User } from 'src/modules/users/users.entity'
 import { Topic } from 'src/modules/topics/topics.entity'
 import { Comment } from 'src/modules/comments/comments.entity'
 import { Exclude } from 'class-transformer'
+import { Like } from '../likes/likes.entity'
 
 @Entity('posts')
 @Index(['topic', 'id'])
@@ -43,4 +44,7 @@ export class Post {
 
     @OneToMany(() => Comment, (comment) => comment.post)
     comments: Comment[]
+
+    @ManyToOne(() => Like, (like) => like.post)
+    likes: Like[]
 }

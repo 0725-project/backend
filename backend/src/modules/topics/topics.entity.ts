@@ -19,11 +19,11 @@ export class Topic {
     @Column({ type: 'int', default: 0 })
     postCount: number
 
-    @ManyToOne(() => User, (user) => user.topics)
-    creator: User
-
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date
+
+    @ManyToOne(() => User, (user) => user.topics)
+    creator: User
 
     @OneToMany(() => Post, (post) => post.topic)
     posts: Post[]

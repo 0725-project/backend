@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinTable } from 'typeorm'
 import { Exclude } from 'class-transformer'
 import { Post } from 'src/modules/posts/posts.entity'
 import { Topic } from 'src/modules/topics/topics.entity'
 import { Comment } from 'src/modules/comments/comments.entity'
+import { Like } from '../likes/likes.entity'
 
 export enum UserRole {
     ADMIN = 0,
@@ -56,4 +57,7 @@ export class User {
 
     @OneToMany(() => Comment, (comment) => comment.user)
     comments: Comment[]
+
+    @OneToMany(() => Like, (like) => like.user)
+    likes: Like[]
 }
