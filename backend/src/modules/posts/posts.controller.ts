@@ -13,7 +13,7 @@ import {
 } from '@nestjs/swagger'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
-import { IdDto, PaginationDto } from 'src/common/dto'
+import { IdDto } from 'src/common/dto'
 import {
     CreatePostDto,
     UpdatePostDto,
@@ -32,14 +32,14 @@ export class PostsController {
     @ApiBearerAuth()
     @Post()
     @ApiOperation({ summary: 'Create a new post' })
-    @ApiResponse({ status: 201, description: 'The post has been successfully created.', type: CreatePostResponseDto })
+    @ApiResponse({ status: 201, description: 'The post has been successfully created.' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
     create(
         @Body() createPostDto: CreatePostDto,
         @Request() req: AuthenticatedRequest,
         @Ip() ip: string,
-    ): Promise<CreatePostResponseDto> {
+    ): Promise<void> {
         return this.postsService.create(createPostDto, req.user.userId, ip)
     }
 

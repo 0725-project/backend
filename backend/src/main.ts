@@ -5,6 +5,7 @@ import { Logger, ValidationPipe } from '@nestjs/common'
 import { TransformInterceptor } from './common/interceptors/transform.interceptor'
 import { TypeOrmExceptionFilter } from './common/filters/typeorm-exception.filter'
 import * as cookieParser from 'cookie-parser'
+import { Transport } from '@nestjs/microservices'
 
 const PORT = process.env.PORT ?? 3000
 const IS_PRODUCTION = process.env.NODE_ENV === 'production'
@@ -34,6 +35,16 @@ const bootstrap = async () => {
         setupSwagger(app)
     }
 
+    app.connectMicroservice({
+        transport: Transport.RMQ,
+        options: {
+            urls: [process.env.RABBITMQ_URL || 'amqp://localhost:5672'],
+            queue: process.env.RABBITMQ_QUEUE || 'main_queue',
+            queueOptions: { durable: false },
+        },
+    })
+
+    await app.startAllMicroservices()
     await app.listen(PORT)
 
     logger.log(`Application is running on: ${await app.getUrl()}`)

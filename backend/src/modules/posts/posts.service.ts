@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common'
+import { Injectable, NotFoundException, ForbiddenException, Inject, forwardRef } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Post } from './posts.entity'
 import { Repository } from 'typeorm'
 import { RedisService } from 'src/common/redis/redis.service'
 import { selectUserBriefColumns, selectTopicBriefColumns, USER_POINT_PER_POST } from 'src/common/constants'
+import { RabbitMQService } from 'src/common/rabbitmq/rabbitmq.service'
 
 import { CreatePostDto, GetPostsQueryDto, UpdatePostDto } from './dto'
 import { UsersService } from '../users/users.service'
@@ -16,6 +17,7 @@ export class PostsService {
         @InjectRepository(Post) private postRepo: Repository<Post>,
         private usersService: UsersService,
         private topicsService: TopicsService,
+        private rabbitMQService: RabbitMQService,
     ) {}
 
     async create(createPostDto: CreatePostDto, userId: number, ip: string) {
@@ -39,18 +41,14 @@ export class PostsService {
         await this.usersService.increment(userId, 'postCount', 1)
         await this.usersService.increment(userId, 'points', USER_POINT_PER_POST)
 
-        const { id, title, content, createdAt, topicLocalId, viewCount, commentCount, likeCount } =
-            await this.postRepo.save(post)
-        return {
-            id,
-            title,
-            content,
-            createdAt,
-            topicLocalId,
-            viewCount,
-            commentCount,
-            likeCount,
-        }
+        const saved = await this.postRepo.save(post)
+
+        this.rabbitMQService.emit('post_created', {
+            postId: saved.id,
+            title: saved.title,
+            authorId: userId,
+            topicId: topic.id,
+        })
     }
 
     async findAll(dto: GetPostsQueryDto) {

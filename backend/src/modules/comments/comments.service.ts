@@ -30,13 +30,11 @@ export class CommentsService {
             user: { id: userId },
         })
 
-        const { id, content, createdAt } = await this.commentRepo.save(comment)
+        await this.commentRepo.save(comment)
 
         await this.postsService.increment(postId, 'commentCount', 1)
         await this.usersService.increment(userId, 'commentCount', 1)
         await this.usersService.increment(userId, 'points', USER_POINT_PER_COMMENT)
-
-        return { id, content, createdAt }
     }
 
     async getComments(postId: number, dto: GetPostCommentsDto) {

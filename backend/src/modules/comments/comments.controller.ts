@@ -17,7 +17,6 @@ import { IdDto, PaginationDto } from 'src/common/dto'
 import {
     CommentResponseDto,
     CommentsResponseDto,
-    CreateCommentResponseDto,
     CreateCommentDto,
     UpdateCommentDto,
     CommentsWithDetailsResponseDto,
@@ -37,7 +36,6 @@ export class CommentsController {
     @ApiResponse({
         status: 201,
         description: 'The comment has been successfully created.',
-        type: CreateCommentResponseDto,
     })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
@@ -46,7 +44,7 @@ export class CommentsController {
         @Param() { postId }: PostIdDto,
         @Body() dto: CreateCommentDto,
         @Req() req: AuthenticatedRequest,
-    ): Promise<CreateCommentResponseDto> {
+    ): Promise<void> {
         return this.commentsService.create(postId, dto, req.user.userId)
     }
 

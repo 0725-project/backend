@@ -15,6 +15,8 @@ import { UploadModule } from './modules/upload/upload.module'
 
 import { AppController } from './app.controller'
 
+import { RabbitMQModule } from './common/rabbitmq/rabbitmq.module'
+import { RabbitMQConsumerModule } from './consumers/rabbitmq.module'
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
@@ -28,6 +30,8 @@ import { AppController } from './app.controller'
             autoLoadEntities: true,
         }),
         RedisModule,
+        RabbitMQModule,
+        RabbitMQConsumerModule,
         AuthModule,
         UsersModule,
         PostsModule,
