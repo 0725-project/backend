@@ -51,52 +51,62 @@ const LeftSidebar = (props: LeftSidebarProps) => {
                         </button>
                     </div>
                 )}
-                <div className={`flex flex-col h-full ${props.isCollapsed ? 'p-2' : 'p-4'} overflow-y-auto`}>
-                    <div className='space-y-1 flex-shrink-0'>
-                        <SidebarItem
-                            icon={Home}
-                            label='홈'
-                            url='/'
-                            isActive={props.currentItem === 'home'}
-                            isCollapsed={props.isCollapsed}
-                        />
-                        <SidebarItem
-                            icon={User}
-                            label='내 정보'
-                            url='/profile'
-                            isActive={props.currentItem === 'profile'}
-                            isCollapsed={props.isCollapsed}
-                        />
-                        <SidebarItem
-                            icon={ListTree}
-                            label='전체 게시글'
-                            url='/posts'
-                            isActive={props.currentItem === 'posts'}
-                            isCollapsed={props.isCollapsed}
-                        />
-                        <SidebarItem
-                            icon={Compass}
-                            label='토픽 탐색'
-                            url='/topics'
-                            isActive={props.currentItem === 'topics'}
-                            isCollapsed={props.isCollapsed}
-                        />
-                    </div>
-                    {!props.isCollapsed && user && user.favoriteTopics && user.favoriteTopics.length > 0 && (
-                        <SidebarSection title='즐겨찾기 토픽'>
-                            {user.favoriteTopics.map((topic) => (
-                                <SidebarItem
-                                    key={topic.id}
-                                    icon={Star}
-                                    label={topic.name}
-                                    url={`/topics/${topic.slug}`}
-                                    isCollapsed={props.isCollapsed}
-                                />
-                            ))}
-                        </SidebarSection>
-                    )}
-                    {!props.isCollapsed && (
-                        <div className='mt-6 flex-shrink-0'>
+                <div className={`flex flex-col h-full ${props.isCollapsed ? 'p-2' : 'p-4'}`}>
+                    {/* 스크롤 가능한 본문 영역 */}
+                    <div className='flex-1 overflow-y-auto space-y-4'>
+                        {/* 기본 메뉴 */}
+                        <div className='space-y-1'>
+                            <SidebarItem
+                                icon={Home}
+                                label='홈'
+                                url='/'
+                                isActive={props.currentItem === 'home'}
+                                isCollapsed={props.isCollapsed}
+                            />
+                            <SidebarItem
+                                icon={User}
+                                label='내 정보'
+                                url='/profile'
+                                isActive={props.currentItem === 'profile'}
+                                isCollapsed={props.isCollapsed}
+                            />
+                            <SidebarItem
+                                icon={ListTree}
+                                label='전체 게시글'
+                                url='/posts'
+                                isActive={props.currentItem === 'posts'}
+                                isCollapsed={props.isCollapsed}
+                            />
+                            <SidebarItem
+                                icon={Compass}
+                                label='토픽 탐색'
+                                url='/topics'
+                                isActive={props.currentItem === 'topics'}
+                                isCollapsed={props.isCollapsed}
+                            />
+                        </div>
+
+                        {/* 즐겨찾기 토픽 */}
+                        {!props.isCollapsed && user && user.favoriteTopics && (
+                            <SidebarSection title='즐겨찾기 토픽'>
+                                {user.favoriteTopics.length > 0 ? (
+                                    user.favoriteTopics.map((topic) => (
+                                        <SidebarItem
+                                            key={topic.id}
+                                            icon={Star}
+                                            label={topic.name}
+                                            url={`/topics/${topic.slug}`}
+                                            isCollapsed={props.isCollapsed}
+                                        />
+                                    ))
+                                ) : (
+                                    <div className='text-gray-400 px-2 py-1 text-sm'>즐겨찾기 없음</div>
+                                )}
+                            </SidebarSection>
+                        )}
+
+                        {/* 정보 섹션 */}
+                        {!props.isCollapsed && (
                             <SidebarSection title='정보'>
                                 <SidebarItem
                                     icon={Info}
@@ -105,8 +115,8 @@ const LeftSidebar = (props: LeftSidebarProps) => {
                                     isCollapsed={props.isCollapsed}
                                 />
                             </SidebarSection>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
                 {!props.isMobile && (
                     <button

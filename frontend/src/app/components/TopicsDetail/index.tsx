@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { addFavoriteTopic, removeFavoriteTopic } from '@/api/favtopics'
+import { useAuth } from '../../context/AuthContext'
 import { useQuery } from '@tanstack/react-query'
 import { getTopic, getTopicPosts, TopicResponse, TopicPostsResponse } from '@/api/topics'
 import TopicPostCard from '../../components/TopicsDetail/TopicPostCard'
@@ -9,6 +11,7 @@ import Link from 'next/link'
 import Pagination from '../Pagination'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { getClosestAllowedValue } from '@/utils/getClosestAllowedValue'
+import { Star } from 'lucide-react'
 
 interface TopicDetailProps {
     topicSlug: string
@@ -48,6 +51,27 @@ const TopicDetail = (props: TopicDetailProps) => {
         refetchOnWindowFocus: false,
         retry: 1,
     })
+
+    const { user } = useAuth()
+    const [isFavorite, setIsFavorite] = useState(false)
+
+    useEffect(() => {
+        setIsFavorite(user?.favoriteTopics?.some((t) => t.slug === props.topicSlug) ?? false)
+    }, [user, props.topicSlug])
+
+    const handleFavoriteToggle = () => {
+        try {
+            if (isFavorite) {
+                removeFavoriteTopic(props.topicSlug)
+                setIsFavorite(false)
+            } else {
+                addFavoriteTopic(props.topicSlug)
+                setIsFavorite(true)
+            }
+        } catch (error) {
+            console.error('Error toggling favorite topic:', error)
+        }
+    }
 
     const {
         data: postsData,
@@ -102,6 +126,19 @@ const TopicDetail = (props: TopicDetailProps) => {
                                         제작자: {topic.creator.nickname} · {formatDate(topic.createdAt)}
                                     </p>
                                 </div>
+                                {user && (
+                                    <button
+                                        onClick={handleFavoriteToggle}
+                                        className='ml-auto p-2 transition rounded-full hover:bg-gray-100 disabled:opacity-50'
+                                        title={isFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}
+                                    >
+                                        <Star
+                                            size={24}
+                                            fill={isFavorite ? '#facc15' : 'none'}
+                                            stroke={isFavorite ? '#facc15' : '#6b7280'}
+                                        />
+                                    </button>
+                                )}
                             </div>
 
                             <p className='text-gray-700 mb-6 leading-relaxed'>
