@@ -13,7 +13,7 @@ export class FavoriteTopicsService {
         private topicsService: TopicsService,
     ) {}
 
-    async addFavoriteTopic(userId: number, topicSlug: string): Promise<FavoriteTopic> {
+    async addFavoriteTopic(userId: number, topicSlug: string): Promise<void> {
         const user = await this.usersService.findById(userId)
         const topic = await this.topicsService.findBySlug(topicSlug)
 
@@ -23,7 +23,7 @@ export class FavoriteTopicsService {
         }
 
         const favoriteTopic = this.favoriteTopicsRepository.create({ user, topic })
-        return this.favoriteTopicsRepository.save(favoriteTopic)
+        await this.favoriteTopicsRepository.save(favoriteTopic)
     }
 
     async removeFavoriteTopic(userId: number, topicSlug: string): Promise<void> {

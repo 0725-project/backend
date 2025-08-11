@@ -30,7 +30,7 @@ export class FavoriteTopicsController {
     @ApiBadRequestResponse({ description: 'Invalid topic slug.' })
     @ApiConflictResponse({ description: 'Topic already in favorites.' })
     async addFavoriteTopic(@Query() { topicSlug }: TopicSlugDto, @Req() req: AuthenticatedRequest) {
-        return await this.favoriteTopicsService.addFavoriteTopic(req.user.userId, topicSlug)
+        await this.favoriteTopicsService.addFavoriteTopic(req.user.userId, topicSlug)
     }
 
     @UseGuards(JwtAuthGuard)
@@ -43,6 +43,6 @@ export class FavoriteTopicsController {
     @ApiBadRequestResponse({ description: 'Invalid topic slug.' })
     @ApiConflictResponse({ description: 'Topic not in favorites.' })
     async removeFavoriteTopic(@Query() { topicSlug }: TopicSlugDto, @Req() req: AuthenticatedRequest) {
-        return await this.favoriteTopicsService.removeFavoriteTopic(req.user.userId, topicSlug)
+        await this.favoriteTopicsService.removeFavoriteTopic(req.user.userId, topicSlug)
     }
 }
