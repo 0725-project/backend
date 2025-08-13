@@ -1,21 +1,15 @@
-import { Injectable, OnModuleInit } from '@nestjs/common'
-import { connect } from 'amqplib'
+import { Injectable } from '@nestjs/common'
+import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq'
 
 @Injectable()
-export class SearchIndexingConsumer implements OnModuleInit {
-    private readonly queue = 'searchindex_queue'
-
-    async onModuleInit() {
-        const connection = await connect(process.env.RABBITMQ_URL || 'amqp://localhost:5672')
-        const channel = await connection.createChannel()
-        await channel.assertQueue(this.queue, { durable: true })
-        channel.consume(this.queue, (msg) => {
-            if (msg) {
-                const data = JSON.parse(msg.content.toString())
-                console.log('Search Indexing - Post Created:', data)
-
-                channel.ack(msg)
-            }
-        })
+export class SearchIndexConsumer {
+    @RabbitSubscribe({
+        exchange: 'posts_exchange',
+        routingKey: 'posts.created',
+        queue: 'searchindex_queue',
+        queueOptions: { durable: true },
+    })
+    async onPostCreated(msg: any) {
+        console.log('Search Index - Post Created:', msg)
     }
 }
