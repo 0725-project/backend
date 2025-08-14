@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./backend/.env
+source ./.env
 
 echo "Resetting database: $DATABASE_NAME"
 echo "This will drop and recreate the database. Press enter to continue or Ctrl+C to cancel."
