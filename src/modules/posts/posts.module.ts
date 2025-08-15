@@ -7,9 +7,17 @@ import { TopicsModule } from 'src/modules/topics/topics.module'
 import { UsersModule } from '../users/users.module'
 import { RedisModule } from 'src/common/redis/redis.module'
 import { RabbitMQModule } from 'src/common/rabbitmq/rabbitmq.module'
+import { ElasticsearchModule } from 'src/common/elasticsearch/elasticsearch.module'
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Post]), UsersModule, TopicsModule, RedisModule, RabbitMQModule],
+    imports: [
+        TypeOrmModule.forFeature([Post]),
+        UsersModule,
+        TopicsModule,
+        RedisModule,
+        RabbitMQModule,
+        ElasticsearchModule,
+    ],
     providers: [PostsService],
     controllers: [PostsController],
     exports: [PostsService],

@@ -41,5 +41,3 @@ export class PostsResponseDto extends IntersectionType(PaginationResponseDto) {
     })
     posts: PostResponseDto[]
 }
-
-export class CreatePostResponseDto extends IntersectionType(OmitType(PostResponseDto, ['author', 'topic'])) {}

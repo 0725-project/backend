@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, ForbiddenException, Inject, forwardRef } from '@nestjs/common'
+import { ElasticsearchService } from 'src/common/elasticsearch/elasticsearch.service'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Post } from './posts.entity'
 import { Repository } from 'typeorm'
@@ -6,23 +7,27 @@ import { RedisService } from 'src/common/redis/redis.service'
 import { selectUserBriefColumns, selectTopicBriefColumns, USER_POINT_PER_POST } from 'src/common/constants'
 import { RabbitMQService } from 'src/common/rabbitmq/rabbitmq.service'
 
-import { CreatePostDto, GetPostsQueryDto, UpdatePostDto } from './dto'
+import { CreatePostDto, GetPostsQueryDto, PostResponseDto, PostsResponseDto, UpdatePostDto } from './dto'
 import { UsersService } from '../users/users.service'
 import { TopicsService } from '../topics/topics.service'
+import { PostDocument } from 'src/common/elasticsearch/elasticsearch.schema'
 
 @Injectable()
 export class PostsService {
+    private readonly ES_INDEX = 'posts'
+
     constructor(
-        private redisService: RedisService,
         @InjectRepository(Post) private postRepo: Repository<Post>,
         private usersService: UsersService,
         private topicsService: TopicsService,
+        private redisService: RedisService,
         private rabbitMQService: RabbitMQService,
+        private elasticsearchService: ElasticsearchService,
     ) {}
 
-    async create(createPostDto: CreatePostDto, userId: number, ip: string) {
+    async create(createPostDto: CreatePostDto, userId: number): Promise<PostResponseDto> {
         const topic = await this.topicsService.findBySlug(createPostDto.topicSlug)
-        if (!topic) throw new NotFoundException('Topic not found')
+        const author = await this.usersService.findById(userId)
 
         const count = await this.postRepo.count({ where: { topic: { id: topic.id } } })
 
@@ -34,7 +39,6 @@ export class PostsService {
             viewCount: 0,
             commentCount: 0,
             likeCount: 0,
-            ip,
         })
 
         await this.topicsService.increment(topic.id, 'postCount', 1)
@@ -43,57 +47,66 @@ export class PostsService {
 
         const saved = await this.postRepo.save(post)
 
-        this.rabbitMQService.publishPostCreated({
-            postId: saved.id,
+        await this.elasticsearchService.indexDocument<PostDocument>(this.ES_INDEX, saved.id.toString(), {
+            id: saved.id,
             title: saved.title,
-            authorId: userId,
-            topicId: topic.id,
+            content: saved.content,
+            author: {
+                id: author.id,
+                username: author.username,
+                nickname: author.nickname,
+            },
+            topic: {
+                id: topic.id,
+                slug: topic.slug,
+                name: topic.name,
+            },
+            createdAt: saved.createdAt,
         })
+
+        this.rabbitMQService.publishPostCreated({
+            ...saved,
+            author,
+            topic,
+        })
+
+        return { ...saved, author, topic }
     }
 
-    async findAll(dto: GetPostsQueryDto) {
-        const query = this.postRepo
-            .createQueryBuilder('post')
-            .leftJoinAndSelect('post.author', 'author')
-            .leftJoinAndSelect('post.topic', 'topic')
-            .select(['post', ...selectUserBriefColumns('author'), ...selectTopicBriefColumns('topic')])
+    async findAll(dto: GetPostsQueryDto): Promise<PostsResponseDto> {
+        const page = dto.page ?? 1
+        const limit = dto.limit ?? 10
+        const from = (page - 1) * limit
 
-        const sortBy = (dto.sortBy ?? 'postId') === 'postId' ? 'id' : dto.sortBy
-        const order = (dto.order ?? 'DESC').toUpperCase() as 'ASC' | 'DESC'
-        query.orderBy(`post.${sortBy}`, order)
-
-        query.skip((dto.page! - 1) * dto.limit!)
-        query.take(dto.limit!)
-
+        let esQuery: any = { query: { match_all: {} } }
         if (dto.q) {
-            query.andWhere('(post.title ILIKE :q OR post.content ILIKE :q)', { q: `%${dto.q}%` })
+            esQuery = {
+                query: {
+                    multi_match: {
+                        query: dto.q,
+                        fields: ['title', 'content'],
+                    },
+                },
+            }
         }
 
-        if (dto.author) {
-            query.andWhere('author.username ILIKE :author', { author: `%${dto.author}%` })
-        }
+        const result = await this.elasticsearchService.search(this.ES_INDEX, esQuery, from, limit)
+        const ids: number[] = result.hits.hits.map((hit: any) => Number(hit._source.id))
 
-        if (dto.topicSlug) {
-            query.andWhere('topic.slug ILIKE :topicSlug', { topicSlug: `%${dto.topicSlug}%` })
-        }
+        const posts: PostResponseDto[] = []
+        for (const id of ids) posts.push(await this.findOne(id))
 
-        if (dto.startDate) {
-            query.andWhere('post.createdAt >= :startDate', { startDate: new Date(dto.startDate) })
-        }
-
-        if (dto.endDate) {
-            const endDateObj = new Date(dto.endDate)
-            endDateObj.setSeconds(endDateObj.getSeconds() + 1)
-            query.andWhere('post.createdAt <= :endDate', { endDate: endDateObj })
-        }
-
-        const [posts, total] = await query.getManyAndCount()
+        const total = result.hits.total
+            ? typeof result.hits.total === 'number'
+                ? result.hits.total
+                : result.hits.total.value
+            : 0
 
         return {
             posts,
             total,
-            page: dto.page!,
-            limit: dto.limit!,
+            page,
+            limit,
         }
     }
 
@@ -129,7 +142,18 @@ export class PostsService {
         }
 
         Object.assign(post, updatePostDto)
-        return this.postRepo.save(post)
+        const updated = await this.postRepo.save(post)
+
+        await this.elasticsearchService.updateDocument<PostDocument>(this.ES_INDEX, id.toString(), {
+            id: updated.id,
+            title: updated.title,
+            content: updated.content,
+            author: updated.author,
+            topic: updated.topic,
+            createdAt: updated.createdAt,
+        })
+
+        return updated
     }
 
     async delete(id: number, userId: number) {
@@ -149,6 +173,8 @@ export class PostsService {
         }
 
         await this.postRepo.remove(post)
+
+        await this.elasticsearchService.deleteDocument(this.ES_INDEX, id.toString())
 
         await this.topicsService.decrement(post.topic.id, 'postCount', 1)
         await this.usersService.decrement(userId, 'postCount', 1)

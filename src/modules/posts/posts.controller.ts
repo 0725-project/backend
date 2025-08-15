@@ -14,14 +14,7 @@ import {
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 
 import { IdDto } from 'src/common/dto'
-import {
-    CreatePostDto,
-    UpdatePostDto,
-    CreatePostResponseDto,
-    PostResponseDto,
-    PostsResponseDto,
-    GetPostsQueryDto,
-} from './dto'
+import { CreatePostDto, UpdatePostDto, PostResponseDto, PostsResponseDto, GetPostsQueryDto } from './dto'
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -35,12 +28,8 @@ export class PostsController {
     @ApiResponse({ status: 201, description: 'The post has been successfully created.' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
-    create(
-        @Body() createPostDto: CreatePostDto,
-        @Request() req: AuthenticatedRequest,
-        @Ip() ip: string,
-    ): Promise<void> {
-        return this.postsService.create(createPostDto, req.user.userId, ip)
+    create(@Body() createPostDto: CreatePostDto, @Request() req: AuthenticatedRequest): Promise<PostResponseDto> {
+        return this.postsService.create(createPostDto, req.user.userId)
     }
 
     @Get()
