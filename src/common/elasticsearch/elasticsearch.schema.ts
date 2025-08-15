@@ -23,7 +23,7 @@ export type ElasticSearchIndexSchemaPropertyValue =
     | { type: 'object' | 'nested'; properties: ElasticSearchIndexSchemaProperty }
 
 export const schemas: ElasticsearchIndexSchema = {
-    post: {
+    posts: {
         mappings: {
             properties: {
                 id: { type: 'integer' },
