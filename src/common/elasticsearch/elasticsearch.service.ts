@@ -7,13 +7,13 @@ export class ElasticsearchService {
     private client: Client
 
     constructor(private readonly configService: ConfigService) {
-        this.client = new Client({ 
+        this.client = new Client({
             node: this.configService.get<string>('ELASTICSEARCH_URL'),
             auth: {
                 username: this.configService.get<string>('ELASTICSEARCH_USERNAME')!,
                 password: this.configService.get<string>('ELASTICSEARCH_PASSWORD')!,
             },
-         })
+        })
     }
 
     async indexExists(index: string): Promise<boolean> {
