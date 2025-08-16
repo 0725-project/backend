@@ -36,6 +36,7 @@ export class CommentsController {
     @ApiResponse({
         status: 201,
         description: 'The comment has been successfully created.',
+        type: IdDto,
     })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
@@ -44,7 +45,7 @@ export class CommentsController {
         @Param() { postId }: PostIdDto,
         @Body() dto: CreateCommentDto,
         @Req() req: AuthenticatedRequest,
-    ): Promise<void> {
+    ): Promise<IdDto> {
         return this.commentsService.create(postId, dto, req.user.userId)
     }
 

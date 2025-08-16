@@ -5,7 +5,7 @@ import { Topic } from './topics.entity'
 
 import { CreateTopicDto } from './dto'
 import { selectUserBriefColumns } from 'src/common/constants'
-import { PaginationDto } from 'src/common/dto'
+import { IdDto, PaginationDto } from 'src/common/dto'
 
 @Injectable()
 export class TopicsService {
@@ -14,7 +14,7 @@ export class TopicsService {
         private readonly topicRepo: Repository<Topic>,
     ) {}
 
-    async create(createTopicDto: CreateTopicDto, creatorId: number) {
+    async create(createTopicDto: CreateTopicDto, creatorId: number): Promise<IdDto> {
         const topic = this.topicRepo.create({
             ...createTopicDto,
             slug: createTopicDto.topicSlug,
@@ -23,14 +23,8 @@ export class TopicsService {
             creator: { id: creatorId },
         })
 
-        const { id, slug, name, description, createdAt } = await this.topicRepo.save(topic)
-        return {
-            id,
-            slug,
-            name,
-            description,
-            createdAt,
-        }
+        const saved = await this.topicRepo.save(topic)
+        return { id: saved.id }
     }
 
     async findBySlug(slug: string) {

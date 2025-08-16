@@ -11,7 +11,7 @@ import { Comment } from './comments.entity'
 import { PostsService } from '../posts/posts.service'
 import { UsersService } from '../users/users.service'
 
-import { PaginationDto } from 'src/common/dto'
+import { IdDto, PaginationDto } from 'src/common/dto'
 import { CreateCommentDto, GetPostCommentsDto, UpdateCommentDto } from './dto'
 
 @Injectable()
@@ -23,18 +23,20 @@ export class CommentsService {
         private readonly usersService: UsersService,
     ) {}
 
-    async create(postId: number, createCommentDto: CreateCommentDto, userId: number) {
+    async create(postId: number, createCommentDto: CreateCommentDto, userId: number): Promise<IdDto> {
         const comment = this.commentRepo.create({
             content: createCommentDto.content,
             post: { id: postId },
             user: { id: userId },
         })
 
-        await this.commentRepo.save(comment)
+        const saved = await this.commentRepo.save(comment)
 
         await this.postsService.increment(postId, 'commentCount', 1)
         await this.usersService.increment(userId, 'commentCount', 1)
         await this.usersService.increment(userId, 'points', USER_POINT_PER_COMMENT)
+
+        return { id: saved.id }
     }
 
     async getComments(postId: number, dto: GetPostCommentsDto) {

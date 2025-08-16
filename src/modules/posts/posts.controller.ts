@@ -25,10 +25,10 @@ export class PostsController {
     @ApiBearerAuth()
     @Post()
     @ApiOperation({ summary: 'Create a new post' })
-    @ApiResponse({ status: 201, description: 'The post has been successfully created.' })
+    @ApiResponse({ status: 201, description: 'The post has been successfully created.', type: IdDto })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiBadRequestResponse({ description: 'Invalid payload.' })
-    create(@Body() createPostDto: CreatePostDto, @Request() req: AuthenticatedRequest): Promise<PostResponseDto> {
+    create(@Body() createPostDto: CreatePostDto, @Request() req: AuthenticatedRequest): Promise<IdDto> {
         return this.postsService.create(createPostDto, req.user.userId)
     }
 

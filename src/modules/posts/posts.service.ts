@@ -6,11 +6,12 @@ import { Repository } from 'typeorm'
 import { RedisService } from 'src/common/redis/redis.service'
 import { selectUserBriefColumns, selectTopicBriefColumns, USER_POINT_PER_POST } from 'src/common/constants'
 import { RabbitMQService } from 'src/common/rabbitmq/rabbitmq.service'
-
-import { CreatePostDto, GetPostsQueryDto, PostResponseDto, PostsResponseDto, UpdatePostDto } from './dto'
 import { UsersService } from '../users/users.service'
 import { TopicsService } from '../topics/topics.service'
 import { PostDocument } from 'src/common/elasticsearch/elasticsearch.schema'
+
+import { CreatePostDto, GetPostsQueryDto, PostResponseDto, PostsResponseDto, UpdatePostDto } from './dto'
+import { IdDto } from 'src/common/dto'
 
 @Injectable()
 export class PostsService {
@@ -25,7 +26,7 @@ export class PostsService {
         private elasticsearchService: ElasticsearchService,
     ) {}
 
-    async create(createPostDto: CreatePostDto, userId: number): Promise<PostResponseDto> {
+    async create(createPostDto: CreatePostDto, userId: number): Promise<IdDto> {
         const topic = await this.topicsService.findBySlug(createPostDto.topicSlug)
         const author = await this.usersService.findById(userId)
 
@@ -70,7 +71,7 @@ export class PostsService {
             topic,
         })
 
-        return { ...saved, author, topic }
+        return { id: saved.id }
     }
 
     async findAll(dto: GetPostsQueryDto): Promise<PostsResponseDto> {

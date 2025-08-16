@@ -12,8 +12,8 @@ import {
     ApiNotFoundResponse,
 } from '@nestjs/swagger'
 
-import { PaginationDto } from 'src/common/dto'
-import { CreateTopicResponseDto, TopicResponseDto, TopicsResponseDto, CreateTopicDto, TopicSlugDto } from './dto'
+import { IdDto, PaginationDto } from 'src/common/dto'
+import { TopicResponseDto, TopicsResponseDto, CreateTopicDto, TopicSlugDto } from './dto'
 
 @ApiTags('Topics')
 @Controller('topics')
@@ -24,10 +24,10 @@ export class TopicsController {
     @ApiBearerAuth()
     @Post()
     @ApiOperation({ summary: 'Create a new topic' })
-    @ApiResponse({ status: 201, description: 'Topic created successfully', type: CreateTopicResponseDto })
+    @ApiResponse({ status: 201, description: 'Topic created successfully', type: IdDto })
     @ApiBadRequestResponse({ description: 'Invalid request' })
     @ApiConflictResponse({ description: 'Topic already exists' })
-    create(@Body() dto: CreateTopicDto, @Request() req: AuthenticatedRequest): Promise<CreateTopicResponseDto> {
+    create(@Body() dto: CreateTopicDto, @Request() req: AuthenticatedRequest): Promise<IdDto> {
         return this.topicService.create(dto, req.user.userId)
     }
 

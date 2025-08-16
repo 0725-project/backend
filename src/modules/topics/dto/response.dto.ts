@@ -63,4 +63,3 @@ export class TopicBriefResponseDto extends IntersectionType(
     TopicNameResponseDto,
     TopicDescriptionDto,
 ) {}
-export class CreateTopicResponseDto extends IntersectionType(OmitType(TopicResponseDto, ['creator', 'postCount'])) {}
