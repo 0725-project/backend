@@ -23,7 +23,7 @@ export class SubscriptionController {
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
-    @Post('follow/:userId')
+    @Post('follow/:username')
     @ApiOperation({ summary: 'Follow a user' })
     @ApiResponse({ status: 201, description: 'Followed successfully.', type: IdDto })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
@@ -36,7 +36,7 @@ export class SubscriptionController {
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
-    @Delete('follow/:userId')
+    @Delete('follow/:username')
     @ApiOperation({ summary: 'Unfollow a user' })
     @ApiResponse({ status: 200, description: 'Unfollowed successfully.' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
@@ -46,7 +46,7 @@ export class SubscriptionController {
         return this.subscriptionService.unfollow(req.user.userId, username)
     }
 
-    @Get('followers/:userId')
+    @Get('followers/:username')
     @ApiOperation({ summary: 'Get followers of a user' })
     @ApiResponse({ status: 200, description: 'Return followers list.', type: FollowerListResponseDto })
     @ApiNotFoundResponse({ description: 'User not found.' })
@@ -58,7 +58,7 @@ export class SubscriptionController {
         return this.subscriptionService.getFollowers(username, query)
     }
 
-    @Get('following/:userId')
+    @Get('following/:username')
     @ApiOperation({ summary: 'Get following list of a user' })
     @ApiResponse({ status: 200, description: 'Return following list.', type: FollowingListResponseDto })
     @ApiNotFoundResponse({ description: 'User not found.' })
