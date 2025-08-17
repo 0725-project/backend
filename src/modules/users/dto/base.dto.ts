@@ -108,3 +108,21 @@ export class CommentCountDto {
     @IsNotEmpty()
     commentCount: number
 }
+
+export class FollowCountDto {
+    @ApiProperty({
+        description: 'The number of followers the user has.',
+        example: 20,
+    })
+    @IsInt()
+    @IsNotEmpty()
+    followersCount: number
+
+    @ApiProperty({
+        description: 'The number of users the user is following.',
+        example: 15,
+    })
+    @IsInt()
+    @IsNotEmpty()
+    followingCount: number
+}

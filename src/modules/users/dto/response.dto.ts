@@ -10,6 +10,7 @@ import {
     CommentCountDto,
     UserDescriptionDto,
     ProfileImageDto,
+    FollowCountDto,
 } from '.'
 
 export class UserResponseDto extends IntersectionType(
@@ -24,6 +25,7 @@ export class UserResponseDto extends IntersectionType(
     PointsDto,
     PostCountDto,
     CommentCountDto,
+    FollowCountDto,
 ) {}
 
 export class UserBriefResponseDto extends IntersectionType(
@@ -32,4 +34,7 @@ export class UserBriefResponseDto extends IntersectionType(
     NicknameDto,
     UserDescriptionDto,
     ProfileImageDto,
+    RoleDto,
+    PointsDto,
+    FollowCountDto,
 ) {}

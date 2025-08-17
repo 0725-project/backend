@@ -5,6 +5,7 @@ import { Topic } from 'src/modules/topics/topics.entity'
 import { Comment } from 'src/modules/comments/comments.entity'
 import { Like } from 'src/modules/likes/likes.entity'
 import { FavoriteTopic } from 'src/modules/favorite/topics/favtopics.entity'
+import { Subscription } from '../subscription/subscriptions.entity'
 
 export enum UserRole {
     ADMIN = 0,
@@ -47,6 +48,12 @@ export class User {
     @Column({ type: 'int', default: 0 })
     commentCount: number
 
+    @Column({ type: 'int', default: 0 })
+    followersCount: number
+
+    @Column({ type: 'int', default: 0 })
+    followingCount: number
+
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date
 
@@ -64,4 +71,10 @@ export class User {
 
     @OneToMany(() => FavoriteTopic, (favoriteTopic) => favoriteTopic.user)
     favoriteTopics: FavoriteTopic[]
+
+    @OneToMany(() => Subscription, (subscription) => subscription.follower)
+    followers: Subscription[]
+
+    @OneToMany(() => Subscription, (subscription) => subscription.following)
+    following: Subscription[]
 }
