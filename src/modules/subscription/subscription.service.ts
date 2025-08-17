@@ -48,8 +48,9 @@ export class SubscriptionService {
         const query = this.subscriptionRepo
             .createQueryBuilder('subscription')
             .leftJoinAndSelect('subscription.follower', 'follower')
+            .leftJoinAndSelect('subscription.following', 'following')
             .select(['subscription', ...selectUserBriefColumns('follower')])
-            .where('subscription.following.username = :username', { username })
+            .where('following.username = :username', { username })
             .orderBy('subscription.id', 'DESC')
             .skip((pdto.page! - 1) * pdto.limit!)
             .take(pdto.limit!)
@@ -67,9 +68,10 @@ export class SubscriptionService {
     async getFollowing(username: string, pdto: PaginationDto): Promise<FollowingListResponseDto> {
         const query = this.subscriptionRepo
             .createQueryBuilder('subscription')
+            .leftJoinAndSelect('subscription.follower', 'follower')
             .leftJoinAndSelect('subscription.following', 'following')
             .select(['subscription', ...selectUserBriefColumns('following')])
-            .where('subscription.follower.username = :username', { username })
+            .where('follower.username = :username', { username })
             .orderBy('subscription.id', 'DESC')
             .skip((pdto.page! - 1) * pdto.limit!)
             .take(pdto.limit!)
