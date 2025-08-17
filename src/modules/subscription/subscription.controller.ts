@@ -14,6 +14,7 @@ import {
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
 import { IdDto, PaginationDto } from 'src/common/dto'
 import { FollowerListResponseDto, FollowingListResponseDto } from './dto'
+import { UsernameDto } from '../users/dto'
 
 @ApiTags('Subscription')
 @Controller('subscription')
@@ -29,8 +30,8 @@ export class SubscriptionController {
     @ApiNotFoundResponse({ description: 'User not found.' })
     @ApiConflictResponse({ description: 'Already following.' })
     @ApiBadRequestResponse({ description: 'Invalid user ID.' })
-    async follow(@Param('userId') userId: number, @Request() req: AuthenticatedRequest) {
-        return this.subscriptionService.follow(req.user.userId, userId)
+    async follow(@Param() { username }: UsernameDto, @Request() req: AuthenticatedRequest) {
+        return this.subscriptionService.follow(req.user.userId, username)
     }
 
     @UseGuards(JwtAuthGuard)
@@ -41,8 +42,8 @@ export class SubscriptionController {
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiNotFoundResponse({ description: 'Subscription not found.' })
     @ApiBadRequestResponse({ description: 'Invalid user ID.' })
-    async unfollow(@Param('userId') userId: number, @Request() req: AuthenticatedRequest) {
-        return this.subscriptionService.unfollow(req.user.userId, userId)
+    async unfollow(@Param() { username }: UsernameDto, @Request() req: AuthenticatedRequest) {
+        return this.subscriptionService.unfollow(req.user.userId, username)
     }
 
     @Get('followers/:userId')
@@ -51,10 +52,10 @@ export class SubscriptionController {
     @ApiNotFoundResponse({ description: 'User not found.' })
     @ApiBadRequestResponse({ description: 'Invalid user ID.' })
     async getFollowers(
-        @Param('userId') userId: number,
+        @Param() { username }: UsernameDto,
         @Query() query: PaginationDto,
     ): Promise<FollowerListResponseDto> {
-        return this.subscriptionService.getFollowers(userId, query)
+        return this.subscriptionService.getFollowers(username, query)
     }
 
     @Get('following/:userId')
@@ -63,9 +64,9 @@ export class SubscriptionController {
     @ApiNotFoundResponse({ description: 'User not found.' })
     @ApiBadRequestResponse({ description: 'Invalid user ID.' })
     async getFollowing(
-        @Param('userId') userId: number,
+        @Param() { username }: UsernameDto,
         @Query() query: PaginationDto,
     ): Promise<FollowingListResponseDto> {
-        return this.subscriptionService.getFollowing(userId, query)
+        return this.subscriptionService.getFollowing(username, query)
     }
 }

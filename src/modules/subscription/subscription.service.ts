@@ -14,24 +14,24 @@ export class SubscriptionService {
         private readonly usersService: UsersService,
     ) {}
 
-    async follow(followerId: number, followingId: number) {
-        if (followerId === followingId) {
+    async follow(followerId: number, followingName: string) {
+        const following = await this.usersService.findByUsername(followingName)
+        if (following.id === followerId) {
             throw new ConflictException('Cannot follow yourself.')
         }
 
         const follower = await this.usersService.findById(followerId)
-        const following = await this.usersService.findById(followingId)
 
         const subscription = this.subscriptionRepo.create({ follower, following })
         await this.subscriptionRepo.save(subscription)
 
         await this.usersService.increment(followerId, 'followingCount', 1)
-        await this.usersService.increment(followingId, 'followersCount', 1)
+        await this.usersService.increment(following.id, 'followersCount', 1)
     }
 
-    async unfollow(followerId: number, followingId: number) {
+    async unfollow(followerId: number, followingName: string) {
         const follower = await this.usersService.findById(followerId)
-        const following = await this.usersService.findById(followingId)
+        const following = await this.usersService.findByUsername(followingName)
 
         const subscription = await this.subscriptionRepo.findOne({ where: { follower, following } })
         if (!subscription) {
@@ -41,15 +41,15 @@ export class SubscriptionService {
         await this.subscriptionRepo.remove(subscription)
 
         await this.usersService.decrement(followerId, 'followingCount', 1)
-        await this.usersService.decrement(followingId, 'followersCount', 1)
+        await this.usersService.decrement(following.id, 'followersCount', 1)
     }
 
-    async getFollowers(userId: number, pdto: PaginationDto): Promise<FollowerListResponseDto> {
+    async getFollowers(username: string, pdto: PaginationDto): Promise<FollowerListResponseDto> {
         const query = this.subscriptionRepo
             .createQueryBuilder('subscription')
             .leftJoinAndSelect('subscription.follower', 'follower')
             .select(['subscription', ...selectUserBriefColumns('follower')])
-            .where('subscription.following.id = :userId', { userId })
+            .where('subscription.following.username = :username', { username })
             .orderBy('subscription.id', 'DESC')
             .skip((pdto.page! - 1) * pdto.limit!)
             .take(pdto.limit!)
@@ -64,12 +64,12 @@ export class SubscriptionService {
         }
     }
 
-    async getFollowing(userId: number, pdto: PaginationDto): Promise<FollowingListResponseDto> {
+    async getFollowing(username: string, pdto: PaginationDto): Promise<FollowingListResponseDto> {
         const query = this.subscriptionRepo
             .createQueryBuilder('subscription')
             .leftJoinAndSelect('subscription.following', 'following')
             .select(['subscription', ...selectUserBriefColumns('following')])
-            .where('subscription.follower.id = :userId', { userId })
+            .where('subscription.follower.username = :username', { username })
             .orderBy('subscription.id', 'DESC')
             .skip((pdto.page! - 1) * pdto.limit!)
             .take(pdto.limit!)
