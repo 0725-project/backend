@@ -5,7 +5,7 @@ import { Repository } from 'typeorm'
 import * as bcrypt from 'bcrypt'
 
 import { RegisterDto } from 'src/modules/auth/dto'
-import { UserUpdateRequestDto } from './dto/request.dto'
+import { UserResponseDto, UserUpdateRequestDto } from './dto'
 
 @Injectable()
 export class UsersService {
@@ -17,13 +17,28 @@ export class UsersService {
         return await this.userRepo.save(user)
     }
 
-    async findByUsername(username: string) {
-        const user = await this.userRepo.findOne({ where: { username } })
-        if (!user) {
-            throw new NotFoundException('User not found')
+    async findByUsername(username: string, meId?: number): Promise<UserResponseDto> {
+        const query = this.userRepo.createQueryBuilder('user').where('user.username = :username', { username })
+
+        if (meId) {
+            query
+                .addSelect(
+                    'EXISTS (SELECT 1 FROM subscriptions WHERE "followerId" = :meId AND "followingId" = user.id)',
+                    'isFollowing',
+                )
+                .addSelect(
+                    'EXISTS (SELECT 1 FROM subscriptions WHERE "followingId" = :meId AND "followerId" = user.id)',
+                    'isFollowsMe',
+                )
+                .setParameter('meId', meId)
         }
 
-        return user
+        const rows = await query.getRawAndEntities()
+        return {
+            ...rows.entities[0],
+            isFollowing: rows.raw[0].isFollowing,
+            isFollowsMe: rows.raw[0].isFollowsMe,
+        }
     }
 
     async findById(id: number) {

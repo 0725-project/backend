@@ -16,7 +16,7 @@ export const selectUserBriefColumns = (userColumn: string) => [
     `${userColumn}.role`,
     `${userColumn}.points`,
     `${userColumn}.followersCount`,
-    `${userColumn}.followingCount`
+    `${userColumn}.followingCount`,
 ]
 
 export const selectTopicBriefColumns = (topicColumn: string) => [
@@ -33,5 +33,5 @@ export const selectPostBriefColumns = (postColumn: string) => [
     `${postColumn}.topicLocalId`,
     `${postColumn}.viewCount`,
     `${postColumn}.commentCount`,
-    `${postColumn}.likeCount`
+    `${postColumn}.likeCount`,
 ]

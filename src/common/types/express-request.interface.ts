@@ -5,3 +5,9 @@ export interface AuthenticatedRequest extends Request {
         userId: number
     }
 }
+
+export interface MaybeAuthenticatedRequest extends Request {
+    user?: {
+        userId: number
+    }
+}

@@ -11,6 +11,7 @@ import {
     UserDescriptionDto,
     ProfileImageDto,
     FollowCountDto,
+    IsFollowResponseOnlyDto,
 } from '.'
 
 export class UserResponseDto extends IntersectionType(
@@ -26,6 +27,7 @@ export class UserResponseDto extends IntersectionType(
     PostCountDto,
     CommentCountDto,
     FollowCountDto,
+    IsFollowResponseOnlyDto,
 ) {}
 
 export class UserBriefResponseDto extends IntersectionType(

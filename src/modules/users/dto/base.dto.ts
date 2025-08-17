@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsNotEmpty, MaxLength, Matches, IsOptional, IsInt } from 'class-validator'
+import { IsString, IsNotEmpty, MaxLength, Matches, IsOptional, IsInt, IsBoolean } from 'class-validator'
 
 export class UsernameDto {
     @ApiProperty({
@@ -125,4 +125,22 @@ export class FollowCountDto {
     @IsInt()
     @IsNotEmpty()
     followingCount: number
+}
+
+export class IsFollowResponseOnlyDto {
+    @ApiProperty({
+        description: 'Indicates whether the authenticated user is following the target user.',
+        example: true,
+    })
+    @IsBoolean()
+    @IsOptional()
+    isFollowing?: boolean
+
+    @ApiProperty({
+        description: 'Indicates whether the target user is following the authenticated user.',
+        example: false,
+    })
+    @IsBoolean()
+    @IsOptional()
+    isFollowsMe?: boolean
 }

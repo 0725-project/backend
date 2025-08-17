@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, Req, Request, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Param, Put, Request, UseGuards } from '@nestjs/common'
 import { UsersService } from './users.service'
 import {
     ApiOperation,
@@ -12,19 +12,25 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard'
 
 import { UsernameDto, UserResponseDto } from './dto'
 import { UserUpdateRequestDto } from './dto/request.dto'
-import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
+import { AuthenticatedRequest, MaybeAuthenticatedRequest } from 'src/common/types/express-request.interface'
+import { JwtOptionalAuthGuard } from 'src/common/guards/jwt-optional-auth.guard'
 
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
     constructor(private usersService: UsersService) {}
 
+    @UseGuards(JwtOptionalAuthGuard)
+    @ApiBearerAuth()
     @Get(':username')
     @ApiOperation({ summary: 'Get a user by username' })
     @ApiResponse({ status: 200, description: 'Return a user by username.', type: UserResponseDto })
     @ApiNotFoundResponse({ description: 'User not found.' })
-    findByUsername(@Param() { username }: UsernameDto): Promise<UserResponseDto> {
-        return this.usersService.findByUsername(username)
+    findByUsername(
+        @Param() { username }: UsernameDto,
+        @Request() req: MaybeAuthenticatedRequest,
+    ): Promise<UserResponseDto> {
+        return this.usersService.findByUsername(username, req.user?.userId)
     }
 
     @UseGuards(JwtAuthGuard)
