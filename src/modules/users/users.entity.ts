@@ -1,11 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinTable } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
 import { Exclude } from 'class-transformer'
 import { Post } from 'src/modules/posts/posts.entity'
 import { Topic } from 'src/modules/topics/topics.entity'
 import { Comment } from 'src/modules/comments/comments.entity'
 import { Like } from 'src/modules/likes/likes.entity'
 import { FavoriteTopic } from 'src/modules/favorite/topics/favtopics.entity'
-import { Subscription } from '../subscription/subscriptions.entity'
+import { Subscription } from '../subscription/subscription.entity'
 
 export enum UserRole {
     ADMIN = 0,

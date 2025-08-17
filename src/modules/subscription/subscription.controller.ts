@@ -22,7 +22,7 @@ export class SubscriptionController {
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
-    @Post(':userId')
+    @Post('follow/:userId')
     @ApiOperation({ summary: 'Follow a user' })
     @ApiResponse({ status: 201, description: 'Followed successfully.', type: IdDto })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
@@ -35,7 +35,7 @@ export class SubscriptionController {
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
-    @Delete(':userId')
+    @Delete('follow/:userId')
     @ApiOperation({ summary: 'Unfollow a user' })
     @ApiResponse({ status: 200, description: 'Unfollowed successfully.' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })

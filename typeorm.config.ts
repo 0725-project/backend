@@ -5,7 +5,7 @@ import { Topic } from 'src/modules/topics/topics.entity'
 import { Comment } from 'src/modules/comments/comments.entity'
 import { Like } from 'src/modules/likes/likes.entity'
 import { FavoriteTopic } from 'src/modules/favorite/topics/favtopics.entity'
-import { Subscription } from 'src/modules/subscription/subscriptions.entity'
+import { Subscription } from 'src/modules/subscription/subscription.entity'
 
 import * as dotenv from 'dotenv'
 dotenv.config()

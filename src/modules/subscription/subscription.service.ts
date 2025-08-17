@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { Subscription } from './subscriptions.entity'
+import { Subscription } from './subscription.entity'
 import { UsersService } from '../users/users.service'
 import { IdDto, PaginationDto } from 'src/common/dto'
 import { selectUserBriefColumns } from 'src/common/constants'

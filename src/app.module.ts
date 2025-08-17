@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule } from '@nestjs/config'
 import { RedisModule } from './common/redis/redis.module'
+import { RabbitMQModule } from './common/rabbitmq/rabbitmq.module'
 
 import { UsersModule } from './modules/users/users.module'
 import { AuthModule } from './modules/auth/auth.module'
@@ -12,8 +13,9 @@ import { TopicModule } from './modules/topic/topic.module'
 import { TopicsModule } from './modules/topics/topics.module'
 import { CommentsModule } from './modules/comments/comments.module'
 import { UploadModule } from './modules/upload/upload.module'
+import { SubscriptionModule } from './modules/subscription/subscription.module'
+
 import { AppController } from './app.controller'
-import { RabbitMQModule } from './common/rabbitmq/rabbitmq.module'
 
 @Module({
     imports: [
@@ -38,6 +40,7 @@ import { RabbitMQModule } from './common/rabbitmq/rabbitmq.module'
         TopicsModule,
         CommentsModule,
         UploadModule,
+        SubscriptionModule,
     ],
     controllers: [AppController],
 })
