@@ -17,6 +17,7 @@
         "migration:revert": "npm run typeorm -- migration:revert --dataSource=typeorm.config.ts",
         "migration:rm": "rm -rf src/migrations/*",
         "migration:init": "npm run migration:rm && npm run migration:generate && npm run migration:run",
+        "migration:reset": "npm run migration:revert && npm run migration:init",
         "prettier": "prettier --write \"src/**/*.ts\""
     },
     "dependencies": {
