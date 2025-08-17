@@ -33,4 +33,5 @@ export const selectPostBriefColumns = (postColumn: string) => [
     `${postColumn}.topicLocalId`,
     `${postColumn}.viewCount`,
     `${postColumn}.commentCount`,
+    `${postColumn}.likeCount`
 ]
