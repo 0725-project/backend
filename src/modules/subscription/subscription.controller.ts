@@ -25,7 +25,7 @@ export class SubscriptionController {
     @ApiBearerAuth()
     @Post('follow/:username')
     @ApiOperation({ summary: 'Follow a user' })
-    @ApiResponse({ status: 201, description: 'Followed successfully.', type: IdDto })
+    @ApiResponse({ status: 201, description: 'Followed successfully.' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
     @ApiNotFoundResponse({ description: 'User not found.' })
     @ApiConflictResponse({ description: 'Already following.' })
