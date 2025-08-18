@@ -14,6 +14,7 @@ import { TopicsModule } from './modules/topics/topics.module'
 import { CommentsModule } from './modules/comments/comments.module'
 import { UploadModule } from './modules/upload/upload.module'
 import { SubscriptionModule } from './modules/subscription/subscription.module'
+import { ChatModule } from './modules/chat/chat.module'
 
 import { AppController } from './app.controller'
 
@@ -41,6 +42,7 @@ import { AppController } from './app.controller'
         CommentsModule,
         UploadModule,
         SubscriptionModule,
+        ChatModule,
     ],
     controllers: [AppController],
 })

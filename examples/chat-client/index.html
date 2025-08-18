@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>1:1 Chat Test Client</title>
+        <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
+        <style>
+            body {
+                font-family:
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    Segoe UI,
+                    Roboto,
+                    sans-serif;
+                margin: 20px;
+            }
+            .row {
+                margin-bottom: 8px;
+            }
+            label {
+                display: inline-block;
+                min-width: 110px;
+                font-weight: 600;
+            }
+            input,
+            textarea {
+                width: 420px;
+                padding: 6px 8px;
+            }
+            textarea {
+                height: 70px;
+                resize: vertical;
+            }
+            button {
+                padding: 6px 12px;
+                margin-right: 8px;
+            }
+            .log {
+                border: 1px solid #ccc;
+                padding: 10px;
+                height: 300px;
+                overflow: auto;
+                white-space: pre-wrap;
+                background: #fafafa;
+            }
+            .inline {
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>웹소켓 1:1 채팅 테스트</h2>
+
+        <div class="row">
+            <label>서버 URL</label>
+            <input id="serverUrl" value="http://localhost:3000" />
+        </div>
+        <div class="row">
+            <label>JWT 토큰</label>
+            <input id="token" placeholder="Bearer 없이 토큰만 입력" />
+        </div>
+        <div class="row">
+            <button id="connectBtn">연결</button>
+            <button id="disconnectBtn" disabled>연결해제</button>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <label>받는 유저 ID</label>
+            <input id="recipientId" type="number" min="1" placeholder="예: 2" />
+        </div>
+        <div class="row">
+            <label>메시지</label>
+            <textarea id="message" placeholder="보낼 내용을 입력"></textarea>
+        </div>
+        <div class="row">
+            <button id="sendBtn" disabled>보내기</button>
+        </div>
+
+        <h3>이벤트 로그</h3>
+        <div id="log" class="log"></div>
+
+        <script>
+            let socket
+            const $ = (id) => document.getElementById(id)
+            const logEl = $('log')
+            function log(...args) {
+                const line = args.map((a) => (typeof a === 'string' ? a : JSON.stringify(a))).join(' ')
+                const time = new Date().toLocaleTimeString()
+                logEl.textContent += `[${time}] ${line}\n`
+                logEl.scrollTop = logEl.scrollHeight
+            }
+
+            function setConnectedState(connected) {
+                $('connectBtn').disabled = connected
+                $('disconnectBtn').disabled = !connected
+                $('sendBtn').disabled = !connected
+            }
+
+            $('connectBtn').addEventListener('click', () => {
+                const base = $('serverUrl').value.trim().replace(/\/$/, '')
+                const token = $('token').value.trim()
+                if (!token) return alert('JWT 토큰을 입력하세요.')
+                const url = `${base}/chat?token=${encodeURIComponent(token)}`
+
+                try {
+                    socket = io(url, { transports: ['websocket'] })
+                } catch (e) {
+                    log('소켓 생성 실패:', e.message || e)
+                    return
+                }
+
+                socket.on('connect', () => log('소켓 연결됨:', socket.id))
+                socket.on('disconnect', (reason) => log('소켓 연결해제:', reason))
+                socket.on('connect_error', (err) => log('연결 오류:', err.message))
+
+                socket.on('connected', (payload) => log('connected', payload))
+                socket.on('error', (msg) => log('error', msg))
+                socket.on('message:new', (msg) => log('message:new', msg))
+                socket.on('message:sent', (msg) => log('message:sent', msg))
+
+                setConnectedState(true)
+            })
+
+            $('disconnectBtn').addEventListener('click', () => {
+                if (socket) socket.disconnect()
+                setConnectedState(false)
+            })
+
+            $('sendBtn').addEventListener('click', () => {
+                if (!socket || !socket.connected) return alert('먼저 연결하세요.')
+                const recipientId = parseInt($('recipientId').value, 10)
+                const content = $('message').value.trim()
+                if (!recipientId || recipientId < 1) return alert('받는 유저 ID를 입력하세요.')
+                if (!content) return alert('메시지를 입력하세요.')
+                socket.emit('message:send', { recipientId, content })
+            })
+        </script>
+    </body>
+</html>

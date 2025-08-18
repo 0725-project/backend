@@ -1,7 +1,7 @@
 import { User } from 'src/modules/users/users.entity'
 import { SelectQueryBuilder } from 'typeorm'
 
-export const isFollowingSelect = (qb: SelectQueryBuilder<User>, userId?: number | null, ) => {
+export const isFollowingSelect = (qb: SelectQueryBuilder<User>, userId?: number | null) => {
     if (userId) {
         qb.addSelect(
             'EXISTS (SELECT 1 FROM subscriptions WHERE "followerId" = :userId AND "followingId" = user.id)',
