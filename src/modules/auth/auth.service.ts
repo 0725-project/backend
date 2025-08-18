@@ -37,6 +37,7 @@ export class AuthService {
             access_token: accessToken,
             refresh_token: refreshToken,
             user_id: user.id,
+            max_age: JWT_EXPIRES_IN_SECONDS,
         }
     }
 

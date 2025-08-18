@@ -52,7 +52,7 @@ export class AuthController {
             maxAge: REFRESH_TOKEN_EXPIRES_IN_SECONDS * 1000,
         })
 
-        return { id: result.user_id, accessToken: result.access_token }
+        return { id: result.user_id, accessToken: result.access_token, maxAgeSeconds: result.max_age }
     }
 
     @Post('register')
