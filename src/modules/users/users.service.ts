@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt'
 
 import { RegisterDto } from 'src/modules/auth/dto'
 import { UserResponseDto, UserUpdateRequestDto } from './dto'
+import { isFollowingSelect } from 'src/common/utils/IsFollowingSelect'
 
 @Injectable()
 export class UsersService {
@@ -19,19 +20,7 @@ export class UsersService {
 
     async findByUsername(username: string, meId?: number): Promise<UserResponseDto> {
         const query = this.userRepo.createQueryBuilder('user').where('user.username = :username', { username })
-
-        if (meId) {
-            query
-                .addSelect(
-                    'EXISTS (SELECT 1 FROM subscriptions WHERE "followerId" = :meId AND "followingId" = user.id)',
-                    'isFollowing',
-                )
-                .addSelect(
-                    'EXISTS (SELECT 1 FROM subscriptions WHERE "followingId" = :meId AND "followerId" = user.id)',
-                    'isFollowsMe',
-                )
-                .setParameter('meId', meId)
-        }
+        isFollowingSelect(query, meId)
 
         const rows = await query.getRawAndEntities()
         if (!rows || rows.raw.length === 0) {
