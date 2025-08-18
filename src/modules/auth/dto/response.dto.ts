@@ -10,7 +10,7 @@ export class LoginResponseDto extends IntersectionType(IdDto, AccessTokenDto) {
         description: 'The expiration time of the access token in seconds',
         example: 3600,
     })
-    maxAgeSeconds: number;
+    maxAgeSeconds: number
 }
 export class RegisterResponseDto extends IntersectionType(UserResponseDto) {}
 export class GetMeResponseDto extends IntersectionType(UserResponseDto, FavoriteTopicListDto) {}

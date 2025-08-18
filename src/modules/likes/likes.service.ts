@@ -4,7 +4,8 @@ import { Repository } from 'typeorm'
 import { Like } from './likes.entity'
 import { PostsService } from 'src/modules/posts/posts.service'
 import { UsersService } from 'src/modules/users/users.service'
-import { selectUserBriefColumns, USER_POINT_PER_POST_LIKE } from 'src/common/constants'
+import { USER_POINT_PER_POST_LIKE } from 'src/common/constants'
+import { selectUserBriefColumns } from 'src/common/utils'
 
 import { PaginationDto } from 'src/common/dto'
 

@@ -4,7 +4,7 @@ import { Repository } from 'typeorm'
 import { Topic } from './topics.entity'
 
 import { CreateTopicDto } from './dto'
-import { selectUserBriefColumns } from 'src/common/constants'
+import { selectUserBriefColumns } from 'src/common/utils'
 import { IdDto, PaginationDto } from 'src/common/dto'
 
 @Injectable()

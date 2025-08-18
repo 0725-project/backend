@@ -1,12 +1,8 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import {
-    selectPostBriefColumns,
-    selectTopicBriefColumns,
-    selectUserBriefColumns,
-    USER_POINT_PER_COMMENT,
-} from 'src/common/constants'
+import { USER_POINT_PER_COMMENT } from 'src/common/constants'
+import { selectPostBriefColumns, selectTopicBriefColumns, selectUserBriefColumns } from 'src/common/utils'
 import { Comment } from './comments.entity'
 import { PostsService } from '../posts/posts.service'
 import { UsersService } from '../users/users.service'

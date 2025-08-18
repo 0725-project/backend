@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { selectTopicBriefColumns, selectUserBriefColumns } from 'src/common/constants'
+import { selectTopicBriefColumns, selectUserBriefColumns } from 'src/common/utils'
 import { Post } from 'src/modules/posts/posts.entity'
 import { Topic } from 'src/modules/topics/topics.entity'
 import { Repository } from 'typeorm'
