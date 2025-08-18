@@ -30,15 +30,14 @@ export class SubscriptionService {
     }
 
     async unfollow(followerId: number, followingName: string) {
-        const follower = await this.usersService.findById(followerId)
         const following = await this.usersService.findByUsername(followingName)
 
-        const subscription = await this.subscriptionRepo.findOne({ where: { follower, following } })
-        if (!subscription) {
-            throw new NotFoundException('Subscription not found.')
-        }
+        const query = this.subscriptionRepo
+            .createQueryBuilder('subscriptions')
+            .where('subscriptions."followerId" = :followerId', { followerId })
+            .andWhere('subscriptions."followingId" = :followingId', { followingId: following.id })
 
-        await this.subscriptionRepo.remove(subscription)
+        await query.delete().execute()
 
         await this.usersService.decrement(followerId, 'followingCount', 1)
         await this.usersService.decrement(following.id, 'followersCount', 1)

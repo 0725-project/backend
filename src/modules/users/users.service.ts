@@ -34,6 +34,10 @@ export class UsersService {
         }
 
         const rows = await query.getRawAndEntities()
+        if (!rows || rows.raw.length === 0) {
+            throw new NotFoundException('User not found')
+        }
+
         return {
             ...rows.entities[0],
             isFollowing: rows.raw[0].isFollowing,
