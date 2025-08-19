@@ -11,8 +11,9 @@ import {
 import { Server, Socket } from 'socket.io'
 import { JwtService } from '@nestjs/jwt'
 import { ConfigService } from '@nestjs/config'
-import { ValidationPipe, Logger, UnauthorizedException } from '@nestjs/common'
+import { UnauthorizedException } from '@nestjs/common'
 import { ChatService } from './chat.service'
+
 import { SendMessageDto } from './dto'
 
 export interface AuthenticatedSocket extends Socket {

@@ -23,8 +23,9 @@ const bootstrap = async () => {
     app.useGlobalFilters(new TypeOrmExceptionFilter())
     app.use(cookieParser())
 
+    const devHosts = [4000, 5500].map((port) => `http://localhost:${port}`)
     app.enableCors({
-        origin: IS_PRODUCTION ? process.env.FRONTEND_URL : 'http://localhost:4000',
+        origin: IS_PRODUCTION ? process.env.FRONTEND_URL : devHosts,
         credentials: true,
     })
 

@@ -4,7 +4,6 @@ import { ChatService } from './chat.service'
 import { MessagesResponseDto } from './dto'
 import { ApiBadRequestResponse, ApiBearerAuth, ApiProperty, ApiUnauthorizedResponse } from '@nestjs/swagger'
 import { AuthenticatedRequest } from 'src/common/types/express-request.interface'
-import { UsernameDto } from '../users/dto'
 import { IdDto, PaginationDto } from 'src/common/dto'
 
 @Controller('chat')
