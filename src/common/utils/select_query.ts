@@ -1,3 +1,5 @@
+import { UserBriefResponseDto, UserResponseDto } from 'src/modules/users/dto'
+
 export const selectUserBriefColumns = (userColumn: string) => [
     `${userColumn}.id`,
     `${userColumn}.username`,

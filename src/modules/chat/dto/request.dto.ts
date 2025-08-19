@@ -1,12 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsInt, IsNotEmpty, IsString, MaxLength, Min } from 'class-validator'
+import { ApiProperty, IntersectionType } from '@nestjs/swagger'
+import { IsNotEmpty, IsString, MaxLength, Min } from 'class-validator'
+import { IdDto } from 'src/common/dto'
 
-export class SendMessageDto {
-    @ApiProperty({ example: 2, description: 'Recipient user ID' })
-    @IsInt()
-    @Min(1)
-    recipientId: number
-
+export class SendMessageDto extends IntersectionType(IdDto) {
     @ApiProperty({ example: 'Hello!', description: 'Message content' })
     @IsString()
     @IsNotEmpty()

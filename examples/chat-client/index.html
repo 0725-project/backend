@@ -68,8 +68,9 @@
         <hr />
 
         <div class="row">
-            <label>받는 유저 ID</label>
-            <input id="recipientId" type="number" min="1" placeholder="예: 2" />
+            <label>받는 유저 이름</label>
+            <input id="recipientId" placeholder="예: foo" />
+            <button id="loadHistoryBtn" style="margin-left: 8px">채팅내역 불러오기</button>
         </div>
         <div class="row">
             <label>메시지</label>
@@ -87,26 +88,45 @@
             const $ = (id) => document.getElementById(id)
             const logEl = $('log')
             function log(...args) {
+                console.log(...args)
                 const line = args.map((a) => (typeof a === 'string' ? a : JSON.stringify(a))).join(' ')
                 const time = new Date().toLocaleTimeString()
                 logEl.textContent += `[${time}] ${line}\n`
                 logEl.scrollTop = logEl.scrollHeight
             }
 
+            function logHistory(messages) {
+                if (!messages || !messages.length) {
+                    log('채팅 내역 없음')
+                    return
+                }
+                log(`=== 채팅 내역 (${messages.length}건) ===`)
+                messages
+                    .slice()
+                    .reverse()
+                    .forEach((msg) => {
+                        log(`${msg.sender?.id} → ${msg.recipient?.id}: ${msg.content}`)
+                    })
+            }
+
             function setConnectedState(connected) {
                 $('connectBtn').disabled = connected
                 $('disconnectBtn').disabled = !connected
                 $('sendBtn').disabled = !connected
+                $('loadHistoryBtn').disabled = !connected
             }
 
             $('connectBtn').addEventListener('click', () => {
                 const base = $('serverUrl').value.trim().replace(/\/$/, '')
                 const token = $('token').value.trim()
                 if (!token) return alert('JWT 토큰을 입력하세요.')
-                const url = `${base}/chat?token=${encodeURIComponent(token)}`
+                const url = `${base}/chat`
 
                 try {
-                    socket = io(url, { transports: ['websocket'] })
+                    socket = io(url, {
+                        transports: ['websocket'],
+                        auth: { token },
+                    })
                 } catch (e) {
                     log('소켓 생성 실패:', e.message || e)
                     return
@@ -131,11 +151,34 @@
 
             $('sendBtn').addEventListener('click', () => {
                 if (!socket || !socket.connected) return alert('먼저 연결하세요.')
-                const recipientId = parseInt($('recipientId').value, 10)
+                const recipientId = $('recipientId').value.trim()
                 const content = $('message').value.trim()
-                if (!recipientId || recipientId < 1) return alert('받는 유저 ID를 입력하세요.')
+                if (!recipientId) return alert('받는 유저 ID를 입력하세요.')
                 if (!content) return alert('메시지를 입력하세요.')
-                socket.emit('message:send', { recipientId, content })
+                socket.emit('message:send', { id: recipientId, content })
+            })
+
+            // 채팅 내역 불러오기 버튼
+            $('loadHistoryBtn').addEventListener('click', async () => {
+                if (!socket || !socket.connected) return alert('먼저 연결하세요.')
+                const recipientName = $('recipientId').value.trim()
+                if (!recipientName) return alert('받는 유저 이름을 입력하세요.')
+                const base = $('serverUrl').value.trim().replace(/\/$/, '')
+                const token = $('token').value.trim()
+                const url = `${base}/chat/messages/${recipientName}?page=1&limit=50`
+                try {
+                    const res = await fetch(url, {
+                        headers: { Authorization: `Bearer ${token}` },
+                    })
+                    if (!res.ok) {
+                        log('채팅 내역 불러오기 실패:', res.status, await res.text())
+                        return
+                    }
+                    const data = await res.json()
+                    logHistory(data.items)
+                } catch (e) {
+                    log('채팅 내역 요청 오류:', e.message || e)
+                }
             })
         </script>
     </body>

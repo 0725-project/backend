@@ -6,21 +6,9 @@ export const setupSwagger = (app: INestApplication) => {
         .setTitle('NestJS API Docs')
         .setDescription('NestJS API description')
         .setVersion('1.0.0')
-        .addBearerAuth(
-            {
-                type: 'http',
-                scheme: 'bearer',
-                bearerFormat: 'JWT',
-                in: 'header',
-            },
-            'access-token',
-        )
+        .addBearerAuth()
         .build()
 
     const document = SwaggerModule.createDocument(app, options)
-    SwaggerModule.setup('api-docs', app, document, {
-        swaggerOptions: {
-            persistAuthorization: true,
-        },
-    })
+    SwaggerModule.setup('api-docs', app, document)
 }

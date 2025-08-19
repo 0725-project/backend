@@ -1,9 +1,11 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Message } from './message.entity'
 import { UsersService } from '../users/users.service'
-import { MessageResponseDto } from './dto'
+import { MessageResponseDto, MessagesResponseDto } from './dto'
+import { IdDto, PaginationDto } from 'src/common/dto'
+import { selectUserBriefColumns } from 'src/common/utils'
 
 @Injectable()
 export class ChatService {
@@ -16,21 +18,38 @@ export class ChatService {
     async createMessage(senderId: number, recipientId: number, content: string): Promise<MessageResponseDto> {
         const trimmed = (content ?? '').trim()
         if (!trimmed) throw new BadRequestException('Message content is required')
-        if (trimmed.length > 1000) throw new BadRequestException('Message exceeds 1000 characters')
+
+        const recipient = await this.usersService.findById(recipientId)
 
         const message = this.messageRepo.create({
             sender: { id: senderId },
-            recipient: { id: recipientId },
+            recipient: { id: recipient.id },
             content: trimmed,
         })
 
-        const saved = await this.messageRepo.save(message)
+        return this.messageRepo.save(message)
+    }
+
+    async getPrivateMessages(recipientId: number, userId: number, pdto: PaginationDto): Promise<MessagesResponseDto> {
+        const query = this.messageRepo
+            .createQueryBuilder('message')
+            .leftJoinAndSelect('message.sender', 'sender')
+            .leftJoinAndSelect('message.recipient', 'recipient')
+            .where('sender.id = :senderId AND recipient.id = :recipientId', {
+                senderId: userId,
+                recipientId,
+            })
+            .select(['message', ...selectUserBriefColumns('sender'), ...selectUserBriefColumns('recipient')])
+            .orderBy('message.createdAt', 'DESC')
+            .skip((pdto.page! - 1) * pdto.limit!)
+            .take(pdto.limit!)
+
+        const [items, total] = await query.getManyAndCount()
         return {
-            id: saved.id,
-            senderId,
-            recipientId,
-            content: trimmed,
-            createdAt: saved.createdAt,
+            items,
+            total,
+            page: pdto.page!,
+            limit: pdto.limit!,
         }
     }
 

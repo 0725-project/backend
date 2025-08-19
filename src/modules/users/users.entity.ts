@@ -6,6 +6,7 @@ import { Comment } from 'src/modules/comments/comments.entity'
 import { Like } from 'src/modules/likes/likes.entity'
 import { FavoriteTopic } from 'src/modules/favorite/topics/favtopics.entity'
 import { Subscription } from '../subscription/subscription.entity'
+import { UserBriefResponseDto } from './dto'
 
 export enum UserRole {
     ADMIN = 0,

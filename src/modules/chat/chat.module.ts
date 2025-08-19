@@ -6,6 +6,7 @@ import { Message } from './message.entity'
 import { UsersModule } from '../users/users.module'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ChatController } from './chat.controller'
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
         }),
     ],
     providers: [ChatGateway, ChatService],
+    controllers: [ChatController],
     exports: [ChatService],
 })
 export class ChatModule {}
