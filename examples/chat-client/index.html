@@ -165,7 +165,7 @@
                 if (!recipientName) return alert('받는 유저 이름을 입력하세요.')
                 const base = $('serverUrl').value.trim().replace(/\/$/, '')
                 const token = $('token').value.trim()
-                const url = `${base}/chat/messages/${recipientName}?page=1&limit=50`
+                const url = `${base}/api/chat/messages/${recipientName}`
                 try {
                     const res = await fetch(url, {
                         headers: { Authorization: `Bearer ${token}` },
