@@ -35,10 +35,13 @@ export class ChatService {
             .createQueryBuilder('message')
             .leftJoinAndSelect('message.sender', 'sender')
             .leftJoinAndSelect('message.recipient', 'recipient')
-            .where('sender.id = :senderId AND recipient.id = :recipientId', {
-                senderId: userId,
-                recipientId,
-            })
+            .where(
+                '(sender.id = :senderId AND recipient.id = :recipientId) OR (sender.id = :recipientId AND recipient.id = :senderId)',
+                {
+                    senderId: userId,
+                    recipientId,
+                },
+            )
             .select(['message', ...selectUserBriefColumns('sender'), ...selectUserBriefColumns('recipient')])
             .orderBy('message.createdAt', 'DESC')
             .skip((pdto.page! - 1) * pdto.limit!)
